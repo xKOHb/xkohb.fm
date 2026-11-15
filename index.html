@@ -7,14 +7,14 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23111'/%3E%3Ccircle cx='50' cy='50' r='34' fill='none' stroke='%23333' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23ff3341'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23111'/%3E%3C/svg%3E">
 <meta name="description" content="KOHbツ.FM — панель ведущего радио-стрима: очередь заявок, оценки и плейлист вечера.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://bldthrllfm.vercel.app/">
+<meta property="og:url" content="https://xkohbfm.vercel.app/">
 <meta property="og:title" content="KOHbツ.FM">
 <meta property="og:description" content="Панель ведущего радио-стрима: очередь заявок, оценки и плейлист вечера.">
-<meta property="og:image" content="https://bldthrllfm.vercel.app/og.png?v=2">
+<meta property="og:image" content="https://xkohbfm.vercel.app/og.png?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bldthrllfm.vercel.app/og.png?v=2">
+<meta name="twitter:image" content="https://xkohbfm.vercel.app/og.png?v=2">
 <style>
 :root{color-scheme:dark;--bg:#17120f;--card:rgba(36,28,23,.72);--tx:#f5ece4;--mut:#a39284;--ac:#ff8a3d;--ac2:#ffc46b;--ln:rgba(255,255,255,.09);--in:rgba(0,0,0,.28)}
 [data-theme=neon]{--bg:#0d0221;--card:rgba(28,10,60,.7);--tx:#f3e9ff;--mut:#a58fd0;--ac:#ff2bd6;--ac2:#00e5ff}
@@ -264,12 +264,17 @@ input[type=range]::-moz-range-thumb{width:16px;height:16px;border:0;border-radiu
 .tags .tg.qp{opacity:.85}
 .item[draggable=true]{cursor:grab}.item.drag{opacity:.4}.item.over{box-shadow:inset 0 2px 0 var(--ac)}
 #brk.on{background:var(--ac);color:#111}
+/* лёгкий режим (слабые устройства): без анимаций, размытия, теней и фоновых эффектов */
+html[data-lite=on] *,html[data-lite=on] *::before,html[data-lite=on] *::after{animation:none!important;transition:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;text-shadow:none!important}
+html[data-lite=on] .bg::before,html[data-lite=on] .bg::after,html[data-lite=on] .ambient,html[data-lite=on] .vhs{display:none!important}
+html[data-lite=on] .bg{background:var(--bg)!important}
+html[data-lite=on] .card,html[data-lite=on] .modal{box-shadow:none!important}
 html[data-compact=on] main{grid-template-columns:1fr;max-width:520px;padding:10px;gap:10px}
 html[data-compact=on] .kbd,html[data-compact=on] .ambient{display:none}
 html[data-compact=on] header{padding:8px 12px}
 html[data-compact=on] .card{padding:12px}
 .spark{margin:6px 0 2px}
-#soon.on{background:var(--ac);color:#111}
+#soon.on,#fin.on{background:var(--ac);color:#111}
 .tags{display:flex;flex-direction:column;gap:10px;margin:12px 0}
 .tgr{display:flex;align-items:center;gap:12px}
 .tgl{flex:none;width:88px;font-size:11px;letter-spacing:1.2px;text-transform:uppercase;color:var(--mut);line-height:1.2}
@@ -291,7 +296,7 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
 <header>
   <div class="logo"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>KOHbツ<b>.FM</b></div>
   <div class="stats" id="stats"></div>
-  <div class="hr"><span class="air" id="bl" style="display:none">🕶 СЛЕПОЕ</span><span class="air" id="air">● ON AIR</span><button id="brk" class="ghost" title="Перерыв (K)">☕</button><button id="soon" class="ghost" title="Скоро начнём (L)">⏳</button><button id="sum" class="ghost">🏆 Итоги</button><button id="exp" class="ghost">📋 Плейлист</button><button id="gear" class="ghost" title="Настройки" aria-label="Настройки">⚙️</button></div>
+  <div class="hr"><span class="air" id="bl" style="display:none">🕶 СЛЕПОЕ</span><span class="air" id="air">● ON AIR</span><button id="brk" class="ghost" title="Перерыв (K)">☕</button><button id="soon" class="ghost" title="Скоро начнём (L)">⏳</button><button id="fin" class="ghost" title="Конец стрима: итоги вечера в оверлее (E)">🏁</button><button id="sum" class="ghost">🏆 Итоги</button><button id="exp" class="ghost">📋 Плейлист</button><button id="gear" class="ghost" title="Настройки" aria-label="Настройки">⚙️</button></div>
 </header>
 <main>
   <section class="col">
@@ -324,7 +329,7 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
     <div class="card"><h2>Очередь <span id="qc"></span></h2><div id="queue"></div></div>
     <div class="card" id="lstat"><h2>Статистика эфира</h2><div id="lsb"></div></div>
     <div class="card"><h2>История эфира</h2><div class="hist" id="hist"></div></div>
-    <div class="kbd"><kbd>N</kbd> следующий · <kbd>Пробел</kbd> пауза · <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> оценка (0 = 10) · <kbd>P</kbd> плейлист · <kbd>S</kbd> пропуск · <kbd>O</kbd> открыть · <kbd>↑</kbd><kbd>↓</kbd> громкость · <kbd>M</kbd> звук · <kbd>B</kbd> слепой режим · <kbd>T</kbd> тема</div>
+    <div class="kbd"><kbd>N</kbd> следующий · <kbd>Пробел</kbd> пауза · <kbd>1</kbd>–<kbd>9</kbd>, <kbd>0</kbd> оценка (0 = 10) · <kbd>P</kbd> плейлист · <kbd>S</kbd> пропуск · <kbd>O</kbd> открыть · <kbd>↑</kbd><kbd>↓</kbd> громкость · <kbd>M</kbd> звук · <kbd>B</kbd> слепой режим · <kbd>T</kbd> тема · <kbd>E</kbd> конец стрима</div>
   </section>
 </main>
 <div class="modal" id="modal"><div class="sheet">
@@ -346,6 +351,9 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
   <div class="fld"><label for="c-maxmin">Лимит длины трека, мин<small>0 — без лимита; проверяется для YouTube, у остальных длина неизвестна</small></label><input type="number" id="c-maxmin" min="0" max="120"></div>
   <div class="fld"><label for="c-lenskip">Пропускать треки длиннее лимита<small>выключено — только предупреждение</small></label><input type="checkbox" id="c-lenskip"></div>
       <div class="fld"><label for="c-compact">Компактная панель<small>одна колонка, без подсказок и подсветки: удобно для маленького окна</small></label><input type="checkbox" id="c-compact"></div>
+      <div class="fld"><label for="c-lite">Лёгкий режим<small>для слабых устройств: без анимаций, размытия и фоновых эффектов, показ вкладки в 720p, оверлей без конфетти</small></label><input type="checkbox" id="c-lite"></div>
+      <div class="fld"><label for="c-ovchat">Чат в оверлее<small>внешний чат chat.eblo.id, канал xk0hb</small></label><input type="checkbox" id="c-ovchat"></div>
+      <div class="fld"><label for="c-scrw">Ширина окна показа вкладки, px<small>по умолчанию 880, от 400 до 1700</small></label><input type="number" id="c-scrw" min="400" max="1700" step="20"></div>
   <div class="fld"><label for="c-mode">Тема оформления<small>тёмная, светлая или как в системе · клавиша D</small></label><select id="c-mode"><option value="dark">Тёмная</option><option value="light">Светлая</option><option value="auto">Как в системе</option></select></div>
   <div class="hint"><span class="dot" id="tw-dot"></span><span id="tw-st">выключено</span> · читает чат анонимно, отвечать не умеет. Пример: <b>!заказ Artist - Song</b></div>
   <div class="hint" id="tw-last"></div>
@@ -486,7 +494,7 @@ function next(){if(S.queue.length)start(S.queue.shift());else toast("Очере�
 function skip(){if(!S.current)return;finish(true);save();show()}
 function rate(n){const c=S.current;if(!c)return;c.rating=n;save();renderNow(false);renderLists();if(n===10){snd("horn");snd("applause")}else if(n===9)snd("applause");else if(n===1)snd("fail");
   const b=document.querySelector(`#rate [data-r="${n}"]`);b.classList.remove("pop");void b.offsetWidth;b.classList.add("pop");
-  if((n>=9||n===1)&&cfg.fxBurst)for(let i=0;i<12;i++){const s=document.createElement("span");s.className="burst";s.textContent=n==10?"✨":n==1?"💀":"🔥";s.style.left=Math.random()*90+"%";s.style.animationDelay=Math.random()*.4+"s";$("sw").appendChild(s);setTimeout(()=>s.remove(),1800)}}
+  if((n>=9||n===1)&&cfg.fxBurst&&!cfg.lite)for(let i=0;i<12;i++){const s=document.createElement("span");s.className="burst";s.textContent=n==10?"✨":n==1?"💀":"🔥";s.style.left=Math.random()*90+"%";s.style.animationDelay=Math.random()*.4+"s";$("sw").appendChild(s);setTimeout(()=>s.remove(),1800)}}
 function toPl(){const c=S.current;if(!c)return;c.pl=!c.pl;save();renderNow(false);toast(c.pl?"Добавлено в плейлист ♥":"Убрано из плейлиста")}
 function openTrack(){const c=S.current;if(!c)return;window.open(isUrl(c.text)?c.text:"https://www.youtube.com/results?search_query="+encodeURIComponent(c.text),"_blank","noopener")}
 document.addEventListener("click",e=>{
@@ -508,7 +516,7 @@ document.addEventListener("keydown",e=>{
   else if(k==="m")$("mute").click();
   else if(k==="arrowup"){e.preventDefault();setVol(vol+5)}else if(k==="arrowdown"){e.preventDefault();setVol(vol-5)}
   else if(k==="b"){cfg.blind=!cfg.blind;cfgSave();$("c-blind").checked=cfg.blind;applyCfg();renderNow(false);renderLists();toast(cfg.blind?"Слепой режим: вкл":"Слепой режим: выкл")}
-  else if(k==="k")brkToggle("break");else if(k==="l")brkToggle("soon");else if(k==="v")scrToggle();else if(k==="d"){cfg.mode=cfg.mode==="light"?"dark":"light";cfgSave();$("c-mode").value=cfg.mode;applyCfg();toast(cfg.mode==="light"?"Светлая тема":"Тёмная тема")}else if(k==="t")setTheme(THEMES[(THEMES.findIndex(t=>t[0]===theme)+1)%THEMES.length][0]);
+  else if(k==="k")brkToggle("break");else if(k==="l")brkToggle("soon");else if(k==="e")brkToggle("end");else if(k==="v")scrToggle();else if(k==="d"){cfg.mode=cfg.mode==="light"?"dark":"light";cfgSave();$("c-mode").value=cfg.mode;applyCfg();toast(cfg.mode==="light"?"Светлая тема":"Тёмная тема")}else if(k==="t")setTheme(THEMES[(THEMES.findIndex(t=>t[0]===theme)+1)%THEMES.length][0]);
   else if(/^[1-9]$/.test(k))rate(+k);else if(k==="0")rate(10);
 });
 $("add").onclick=add;$("nx").onclick=next;$("sk").onclick=skip;$("pl").onclick=toPl;$("op").onclick=openTrack;
@@ -525,12 +533,12 @@ function clearAll(){
   S=fixS();save();show();toast("Всё очищено ✓");return true}
 $("clr-all").onclick=()=>{if(clearAll())$("modal").classList.remove("open")};
 const CFGK="kohb_cfg";
-let cfg={chan:"",bot:false,cmds:"!заказ,!sr,!order",maxq:2,cd:30,clean:true,copy:"names",fxBg:true,fxBurst:true,ovq:true,snd:"panel",blind:false,banNicks:"",banWords:"",conf:true,sndVol:25,room:"",maxMin:8,lenSkip:true,compact:false,scrAudio:false,mode:"dark"};
+let cfg={chan:"",bot:false,cmds:"!заказ,!sr,!order",maxq:2,cd:30,clean:true,copy:"names",fxBg:true,fxBurst:true,ovq:true,snd:"panel",blind:false,banNicks:"",banWords:"",conf:true,sndVol:25,room:"",maxMin:8,lenSkip:true,compact:false,scrAudio:false,scrW:880,ovChat:true,lite:false,mode:"dark"};
 try{Object.assign(cfg,JSON.parse(ls.get(CFGK)||"{}"))}catch(e){}
 const cfgSave=()=>ls.set(CFGK,JSON.stringify(cfg));
 function chanName(v){v=String(v||"").trim().toLowerCase();const m=v.match(/twitch\.tv\/(?:popout\/)?([a-z0-9_]+)/);if(m)v=m[1];return v.replace(/^[#@]/,"").replace(/[^a-z0-9_]/g,"")}
 cfg.chan=chanName(cfg.chan);if(!cfg.room){cfg.room=Math.random().toString(36).slice(2,12);cfgSave()}
-function applyCfg(){document.documentElement.dataset.mode=cfg.mode==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):cfg.mode==="light"?"light":"dark";document.documentElement.dataset.fx=cfg.fxBg?"on":"off";document.documentElement.dataset.compact=cfg.compact?"on":"off";$("bl").style.display=cfg.blind?"":"none"}
+function applyCfg(){document.documentElement.dataset.mode=cfg.mode==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):cfg.mode==="light"?"light":"dark";document.documentElement.dataset.fx=cfg.fxBg?"on":"off";document.documentElement.dataset.compact=cfg.compact?"on":"off";document.documentElement.dataset.lite=cfg.lite?"on":"off";$("bl").style.display=cfg.blind?"":"none"}
 /* clean names for playlist */
 function cleanTitle(t){
   t=String(t||"");if(!cfg.clean)return t.trim();
@@ -590,7 +598,7 @@ function onChat(tags,login,msg){
 /* settings UI */
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t)};
-[["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
+[["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
   const el=$(id);if(ty==="b")el.checked=!!cfg[k];else el.value=cfg[k];
   el.onchange=()=>{cfg[k]=ty==="b"?el.checked:ty==="n"?+el.value:el.value.trim();if(k==="chan"){cfg.chan=chanName(el.value);el.value=cfg.chan}cfgSave();applyCfg();bcast();
     if(k==="chan"||k==="bot")twConnect();if(k==="blind"){renderNow(false);renderLists()}
@@ -599,7 +607,7 @@ $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t
 $("gear").onclick=()=>$("modal").classList.add("open");
 $("mclose").onclick=()=>$("modal").classList.remove("open");
 $("modal").onclick=e=>{if(e.target===$("modal"))$("modal").classList.remove("open")};
-const ovQ=()=>"room="+cfg.room+(cfg.ovq?"":"&q=0");
+const ovQ=()=>"room="+cfg.room+(cfg.ovq?"":"&q=0")+(cfg.ovChat===false?"&chat=0":"")+(cfg.lite?"&lite=1":"")+"&sw="+Math.max(400,Math.min(1700,cfg.scrW||880));
 const ovLink=()=>location.origin+"/overlay.html?"+ovQ();
 $("ov-scr").onclick=scrToggle;
 $("ov-copy").onclick=async()=>{try{await navigator.clipboard.writeText(ovLink());toast("Ссылка скопирована ✓")}catch(e){toast(ovLink())}};
@@ -695,12 +703,13 @@ function openAll(days){
 }
 
 function updVotes(){const c=S.current;if(!c)return;const v=Object.values(votes);c.vn=v.length;c.vavg=v.length?+(v.reduce((a,x)=>a+x,0)/v.length).toFixed(1):null;save();renderNow(false)}
-function brkUi(){ls.set("kohb_brk",JSON.stringify(brk));$("brk").classList.toggle("on",brk.on&&brk.kind!=="soon");$("soon").classList.toggle("on",brk.on&&brk.kind==="soon")}
+function brkUi(){ls.set("kohb_brk",JSON.stringify(brk));$("brk").classList.toggle("on",brk.on&&brk.kind==="break");$("soon").classList.toggle("on",brk.on&&brk.kind==="soon");$("fin").classList.toggle("on",brk.on&&brk.kind==="end")}
 function brkToggle(kind){
   if(brk.on&&brk.kind===kind){brk={on:false,until:0};brkUi();bcast();toast("Заставка выключена");return}
+  if(kind==="end"){brk={on:true,until:0,kind:"end"};brkUi();bcast();toast("🏁 Конец стрима: итоги вечера в оверлее");return}
   const v=prompt(kind==="soon"?"Через сколько минут начнём? (пусто — без таймера)":"На сколько минут перерыв? (пусто — без таймера)","5");if(v===null)return;
   const m=parseFloat(String(v).replace(",","."));brk={on:true,until:m>0?Date.now()+m*60000:0,kind};brkUi();bcast();toast(kind==="soon"?"⏳ «Скоро начнём» в оверлее":"☕ Перерыв в оверлее")}
-$("brk").onclick=()=>brkToggle("break");$("soon").onclick=()=>brkToggle("soon");$("t-f").onclick=()=>window.SFX&&SFX.fail();matchMedia("(prefers-color-scheme: light)").addEventListener&&matchMedia("(prefers-color-scheme: light)").addEventListener("change",applyCfg);
+$("brk").onclick=()=>brkToggle("break");$("soon").onclick=()=>brkToggle("soon");$("fin").onclick=()=>brkToggle("end");$("t-f").onclick=()=>window.SFX&&SFX.fail();matchMedia("(prefers-color-scheme: light)").addEventListener&&matchMedia("(prefers-color-scheme: light)").addEventListener("change",applyCfg);
 document.addEventListener("click",e=>{
   const tg=e.target.closest("[data-tag]");if(tg&&S.current){const c=S.current,a=c.tags||(c.tags=[]),t=tg.dataset.tag,i=a.indexOf(t);if(i>-1)a.splice(i,1);else a.push(t);save();renderTags();return}
   const qp=e.target.closest("[data-qp]");if(qp&&S.current){const c=S.current;c.note=(c.note?c.note+", ":"")+qp.dataset.qp;$("note").value=c.note;save();return}
@@ -728,12 +737,15 @@ $("x-csv").onclick=()=>{const q=v=>'"'+String(v).replace(/"/g,'""')+'"',rows=[["
 /* показ вкладки браузера в оверлее: getDisplayMedia -> WebRTC call -> окно клипа (клавиша V) */
 let scrOn=false,scrStream=null,scrCalls=[];
 function scrUi(){const b=$("ov-scr");if(b){b.textContent=scrOn?"⏹ Остановить показ вкладки":"📺 Показать мою вкладку";b.classList.toggle("on",scrOn)}}
+/* поднимаем потолок битрейта в SDP, иначе браузер держит картинку мыльной */
+const scrSdp=sdp=>{try{const br=cfg.lite?2500:8000;return sdp.replace(/(m=video[^\r\n]*\r\n)((?:[^m][^\r\n]*\r\n)*)/,(a,h,b)=>h+(/^c=/m.test(b)?b.replace(/(c=[^\r\n]*\r\n)/,"$1b=AS:"+br+"\r\n"):"b=AS:"+br+"\r\n"+b))}catch(e){return sdp}};
 function scrCall(c){
   if(!scrOn||!scrStream||!peer||!c||!c.peer)return;
   try{
-    const m=peer.call(c.peer,scrStream);if(!m)return;scrCalls.push(m);
+    const m=peer.call(c.peer,scrStream,{sdpTransform:scrSdp});if(!m)return;scrCalls.push(m);
     m.on("close",()=>{scrCalls=scrCalls.filter(x=>x!==m)});m.on("error",()=>{});
-    setTimeout(()=>{try{m.peerConnection.getSenders().forEach(s=>{if(s.track&&s.track.kind==="video"){const p=s.getParameters();p.encodings=p.encodings&&p.encodings.length?p.encodings:[{}];p.encodings[0].maxBitrate=6e6;s.setParameters(p)}})}catch(e){}},1500);
+    const tune=()=>{try{m.peerConnection.getSenders().forEach(s=>{if(s.track&&s.track.kind==="video"){const p=s.getParameters();p.encodings=p.encodings&&p.encodings.length?p.encodings:[{}];p.encodings[0].maxBitrate=cfg.lite?2.5e6:8e6;p.encodings[0].maxFramerate=cfg.lite?20:30;p.encodings[0].scaleResolutionDownBy=1;p.degradationPreference="maintain-resolution";s.setParameters(p).catch(()=>{})}})}catch(e){}};
+    [1200,3500,8000].forEach(t=>setTimeout(tune,t));
   }catch(e){}
 }
 function scrStop(quiet){
@@ -744,14 +756,14 @@ function scrStop(quiet){
 async function scrStart(){
   if(!navigator.mediaDevices||!navigator.mediaDevices.getDisplayMedia){toast("Браузер не умеет показывать вкладку (нужен Chrome или Edge)");return}
   try{
-    const st=await navigator.mediaDevices.getDisplayMedia({video:{frameRate:{ideal:30},width:{max:1920},height:{max:1080}},audio:!!cfg.scrAudio,selfBrowserSurface:"exclude"});
+    const st=await navigator.mediaDevices.getDisplayMedia({video:cfg.lite?{frameRate:{ideal:20,max:24},width:{ideal:1280,max:1280},height:{ideal:720,max:720}}:{frameRate:{ideal:30,max:30},width:{ideal:1920,max:1920},height:{ideal:1080,max:1080}},audio:!!cfg.scrAudio,selfBrowserSurface:"exclude"});
     scrStream=st;scrOn=true;
-    const vt=st.getVideoTracks()[0];if(vt){try{vt.contentHint="motion"}catch(e){}vt.onended=()=>{if(scrOn)scrStop()}}
+    const vt=st.getVideoTracks()[0];if(vt){try{vt.contentHint="detail"}catch(e){}vt.onended=()=>{if(scrOn)scrStop()}}
     conns=conns.filter(c=>c.open);conns.forEach(scrCall);scrUi();bcast();toast("Вкладка показывается в оверлее ✓");
   }catch(e){toast("Показ вкладки отменён")}
 }
 function scrToggle(){return scrOn?scrStop():scrStart()}
-const pubState=()=>{const c=S.current;return{t:Date.now(),pos:(()=>{try{return player&&player.getCurrentTime&&c&&player.getVideoData().video_id===ytId(c.text)?player.getCurrentTime():0}catch(e){return 0}})(),play:!!playing,scr:!!scrOn,theme,blind:!!cfg.blind,dur:(()=>{try{return player&&c&&player.getVideoData().video_id===ytId(c.text)?(player.getDuration()||0):0}catch(e){return 0}})(),vote:c?{avg:c.vavg||null,n:c.vn||0,open:!c.rating}:null,brk:brk.on?{rem:brk.until?Math.max(0,brk.until-Date.now()):null,kind:brk.kind||"break"}:null,ev:(()=>{const r=[S.current,...S.history].filter(x=>x&&x.rating);return{cnt:r.length,avg:r.length?+(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):null}})(),hist:S.history.filter(x=>x.rating).slice(0,5).map(x=>({n:plName(x),r:x.rating})),snd:cfg.snd,sndVol:cfg.sndVol,current:c?{id:c.id,text:c.text,name:c.name,title:c.title,nick:c.nick,rating:c.rating||null,thumb:c.thumb||"",t0:c.t0||0,cover:c.cover||"",noemb:!!c.noemb}:null,queue:S.queue.slice(0,5).map(x=>({id:x.id,text:x.text,nick:x.nick}))}};
+const pubState=()=>{const c=S.current;return{t:Date.now(),pos:(()=>{try{return player&&player.getCurrentTime&&c&&player.getVideoData().video_id===ytId(c.text)?player.getCurrentTime():0}catch(e){return 0}})(),play:!!playing,scr:!!scrOn,theme,blind:!!cfg.blind,dur:(()=>{try{return player&&c&&player.getVideoData().video_id===ytId(c.text)?(player.getDuration()||0):0}catch(e){return 0}})(),vote:c?{avg:c.vavg||null,n:c.vn||0,open:!c.rating}:null,brk:brk.on?{rem:brk.until?Math.max(0,brk.until-Date.now()):null,kind:brk.kind||"break"}:null,ev:(()=>{const r=[S.current,...S.history].filter(x=>x&&x.rating);return{cnt:r.length,avg:r.length?+(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):null,pl:r.filter(x=>x.pl).length,top:[...r].sort((a,b)=>b.rating-a.rating).slice(0,5).map(x=>({n:plName(x),r:x.rating}))}})(),hist:S.history.filter(x=>x.rating).slice(0,5).map(x=>({n:plName(x),r:x.rating})),snd:cfg.snd,sndVol:cfg.sndVol,current:c?{id:c.id,text:c.text,name:c.name,title:c.title,nick:c.nick,rating:c.rating||null,thumb:c.thumb||"",t0:c.t0||0,cover:c.cover||"",noemb:!!c.noemb}:null,queue:S.queue.slice(0,5).map(x=>({id:x.id,text:x.text,nick:x.nick}))}};
 function bcast(){try{conns=conns.filter(c=>c.open);if(!conns.length)return;const m=pubState();conns.forEach(c=>c.send(m))}catch(e){}}
 function ovSt(){const n=conns.filter(c=>c.open).length,e=$("ov-st");if(!e)return;e.textContent=peerErr||(n?"оверлей подключён"+(n>1?" ("+n+")":""):"ждёт оверлей");$("ov-dot").className="dot"+(n&&!peerErr?" ok":"")}
 function peerStart(){
@@ -866,11 +878,11 @@ setTheme(theme);show();
     const dt=Math.min(.1,(ts-last)/1000||.033);last=ts;draw(ts/1000,dt);
   }
   function upd(){
-    const on=H.dataset.theme==="retro"&&H.dataset.mode!=="light"&&H.dataset.fx!=="off"&&!document.hidden&&!matchMedia("(prefers-reduced-motion:reduce)").matches;
+    const on=H.dataset.theme==="retro"&&H.dataset.mode!=="light"&&H.dataset.fx!=="off"&&H.dataset.lite!=="on"&&!document.hidden&&!matchMedia("(prefers-reduced-motion:reduce)").matches;
     if(on&&!raf){init();last=0;raf=requestAnimationFrame(loop)}
     else if(!on&&raf){cancelAnimationFrame(raf);raf=0;x.clearRect(0,0,cv.width,cv.height)}
   }
-  new MutationObserver(upd).observe(H,{attributes:true,attributeFilter:["data-theme","data-mode","data-fx"]});
+  new MutationObserver(upd).observe(H,{attributes:true,attributeFilter:["data-theme","data-mode","data-fx","data-lite"]});
   document.addEventListener("visibilitychange",upd);
   let rz;addEventListener("resize",()=>{clearTimeout(rz);rz=setTimeout(()=>{if(raf)init()},200)});
   upd();
