@@ -429,7 +429,7 @@ function stageMsg(h){const st=$("stage");st.classList.add("auto");st.innerHTML='
 const decHtml=s=>{const t=document.createElement("textarea");t.innerHTML=s;return t.value};
 function embedFail(){
   const c=S.current;
-  stageMsg('Автор запретил встраивать это видео.<br>Иногда помогает обновить плеер, или нажми <b>O</b> — трек откроется на YouTube.<div class="row" style="justify-content:center;margin-top:10px"><button data-retry="1">↻ Обновить плеер</button><button data-open="1">↗ Открыть в новой вкладке</button></div>');
+  stageMsg('Автор запретил встраивать это видео.<br>Иногда помогает обновить плеер, или нажми <b>O</b> — трек откроется на YouTube.<div class="row" style="justify-content:center;margin-top:10px"><button data-retry="1">↻ Обновить плеер</button><button data-open="1">↗ Открыть в новой вкладке</button><button data-scr="1">📺 Открыть и показать в оверлее</button></div>');
   if(c){c.noemb=true;save();coverFor(c,true)}
 }
 function grab(){try{const d=player.getVideoData(),c=S.current;if(!d||!c||!d.title)return;if(!c.title||(!c.author&&d.author)){c.title=c.title||d.title;c.author=c.author||d.author||"";c.name=plName(c);save();renderNow(false);renderLists()}}catch(e){}}
@@ -814,6 +814,7 @@ $("stage").addEventListener("click",e=>{
   const c=S.current;if(!c)return;
   if(e.target.closest("[data-retry]")){c.noemb=false;save();renderStage();return}
   if(e.target.closest("[data-open]"))openTrack();
+  if(e.target.closest("[data-scr]")){openTrack();if(!scrOn)scrStart();else toast("Вкладка уже показывается: выбери в Chrome нужную")}
 });
 applyCfg();twConnect();peerStart();
 setTheme(theme);show();
