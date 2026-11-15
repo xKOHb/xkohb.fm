@@ -176,10 +176,25 @@ addEventListener("resize",fit);fit();
 {const sw=parseInt(P.get("sw"),10);if(sw)STG.style.setProperty("--sw",Math.max(320,Math.min(1700,sw))+"px")}
 /* чат (по умолчанию внешний, включён): ?chatt=30 — сколько секунд живёт сообщение */
 const CHAT_URL="https://chat.eblo.id/chat/overlay/?channel=xk0hb&font=2&shadow=1&nick_name=display&nick_cut=off&smooth=10&fade=20&max_lines=10&chatterino_badges=true&ffz_badges=true&homies_badges=true&effects=false&link_urls=hide&gif_size=small&events=announcement%2Csub%2Cgift%2Craid%2Ccheer&collapse_spam=true&sv=3";
-/* чат по умолчанию ВКЛЮЧЁН: внешний chat.eblo.id (канал xk0hb) в рамке. ?chat=0 — выключить; ?chat=own — встроенный простой чат (через панель).
+/* ссылку на чат можно вставить в настройках панели (приходит по WebRTC), ?chaturl= сильнее её. Чат по умолчанию ВКЛЮЧЁН: внешний chat.eblo.id (канал xk0hb) в рамке. ?chat=0 — выключить; ?chat=own — встроенный простой чат (через панель).
    ?chath=560 — высота рамки чата, ?chaty=0 — сдвиг сверху в px (можно отрицательный); ?chan=имя — другой канал; ?chaturl=… — свой адрес чата целиком */
 const CM=P.get("chat"),XCHAT=(CM!=="0"&&CM!=="own")||!!P.get("chaturl");
-if(XCHAT){try{const u=new URL(P.get("chaturl")||CHAT_URL);if(P.get("chan"))u.searchParams.set("channel",P.get("chan"));const f=$("xchat");f.src=u.href;f.style.display="block";const ch=parseInt(P.get("chath"),10),cy=parseInt(P.get("chaty"),10);if(ch)f.style.height=Math.max(200,Math.min(1080,ch))+"px";if(!isNaN(cy))f.style.top=cy+"px"}catch(e){}}
+let xcK="";
+function chatBox(b){const f=$("xchat"),n=(v,d,lo,hi)=>{v=parseFloat(v);return isFinite(v)?Math.max(lo,Math.min(hi,v)):d};b=b||{};
+  const px=P.get("chatx"),py=P.get("chaty"),pw=P.get("chatw"),ph=P.get("chath");
+  f.style.left=n(px!=null?px:b.x,0,-2000,2000)+"px";f.style.top=n(py!=null?py:b.y,0,-2000,2000)+"px";
+  f.style.width=n(pw!=null?pw:b.w,520,200,1920)+"px";f.style.height=n(ph!=null?ph:b.h,560,150,1080)+"px"}
+const fxOff=()=>LITE||(typeof remote!=="undefined"&&remote?remote.ovFx===false:rc().ovFx===false);
+function applyChat(url,rev,on){
+  const f=$("xchat");
+  if(!XCHAT||on===false){if(xcK!=="off"){xcK="off";f.style.display="none";f.removeAttribute("src")}return}
+  const want=P.get("chaturl")||(/^https:\/\//i.test(url||"")?url:CHAT_URL),k=want+"|"+(rev||0);
+  if(k===xcK)return;const re=xcK!==""&&xcK!=="off"&&xcK.split("|")[0]===want;xcK=k;
+  try{const u=new URL(want);if(P.get("chan")&&!url)u.searchParams.set("channel",P.get("chan"));
+    f.style.display="block";const ch=parseInt(P.get("chath"),10),cy=parseInt(P.get("chaty"),10);    if(re){f.src="about:blank";setTimeout(()=>{f.src=u.href},80)}else f.src=u.href}catch(e){}
+}
+/* без WebRTC-связи сразу берём чат из настроек панели (localStorage), с ней ждём данные до 3 с, чтобы не грузить стандартный чат зря */
+setTimeout(()=>{if(!xcK){const c=(()=>{try{return JSON.parse(localStorage.getItem("kohb_cfg"))||{}}catch(e){return{}}})();applyChat(c.chatUrl,0,c.ovChat!==false);chatBox({x:c.chX,y:c.chY,w:c.chW,h:c.chH})}},P.get("room")?3000:0);
 const CHAT=CM==="own",CHT=Math.max(5,parseInt(P.get("chatt"),10)||30);
 if(!CHAT)$("chat").style.display="none";
 function addChat(d){
@@ -198,10 +213,11 @@ const col=n=>`hsl(${(n-1)*13} 85% 58%)`;
 let last={id:null,rating:null,nk:null,q:"",th:null},hideT=null,ready=false;
 let CF={};
 const snd=n=>{try{if(ready&&CF.snd==="overlay"&&window.SFX)SFX[n]()}catch(e){}};
-function confetti(){if(LITE)return;const cs=["#ff8a3d","#ffd23f","#fff","#ff2bd6","#00e5ff","#3ddc84"];
+function confetti(){if(fxOff())return;const cs=["#ff8a3d","#ffd23f","#fff","#ff2bd6","#00e5ff","#3ddc84"];
   for(let i=0;i<46;i++){const d=document.createElement("i");d.className="conf";d.style.left=Math.random()*100+"%";d.style.background=cs[i%cs.length];d.style.animationDuration=(2.4+Math.random()*2)+"s";d.style.animationDelay=Math.random()*.6+"s";STG.appendChild(d);setTimeout(()=>d.remove(),5500)}}
 function upd(){
-  const S=remote?{current:remote.current,queue:remote.queue}:rd(),c=S.current,cf=remote?{blind:remote.blind,snd:remote.snd}:rc();CF=cf;
+  const S=remote?{current:remote.current,queue:remote.queue}:rd(),c=S.current,cf=remote?{blind:remote.blind,snd:remote.snd}:rc();CF=cf;if(remote){applyChat(remote.chatUrl,remote.chatRev,remote.chatOn);chatBox(remote.chatBox)}
+  {const H=document.documentElement,ac=remote?remote.accent:rc().accent;if(/^#[0-9a-f]{6}$/i.test(ac||"")){H.style.setProperty("--ac",ac);H.style.setProperty("--ac2","color-mix(in srgb,"+ac+" 62%,#fff)")}else{H.style.removeProperty("--ac");H.style.removeProperty("--ac2")}}
   if(remote&&typeof remote.sndVol==="number")window.SFX_VOL=remote.sndVol;
   document.documentElement.dataset.theme=remote?remote.theme||"kohb":localStorage.getItem("kohb_theme")||"kohb";
   const card=$("card"),id=c?c.id:null,r=c&&c.rating,hide=!!(cf.blind&&c&&!r);
@@ -225,11 +241,11 @@ function upd(){
   if(r&&r!==last.rating){const e=$("rt");e.textContent=r;e.style.background=col(r);e.style.setProperty("--rc",col(r));e.className="rating";void e.offsetWidth;e.className="rating show"+(r>=9?" hot":"");
     if(ready){if(r===10){confetti();rain();flash();snd("horn");snd("applause")}else if(r===9)snd("applause");else if(r===1){skull();snd("fail")}}}
   if(!r)$("rt").className="rating";
-  const q=showQ?S.queue||[]:[],qs=JSON.stringify(q.slice(0,3).map(x=>x.id))+(cf.blind?"b":"");
+  const q=showQ?S.queue||[]:[],qs=JSON.stringify(q.slice(0,3).map(x=>x.id+(x.don?"d":"")))+(cf.blind?"b":"");
   if(qs!==last.q){
     const el=$("q"),l=$("ql");l.textContent="";
     if(q.length){q.slice(0,3).forEach((x,i)=>{const d=document.createElement("div");d.className="q";d.style.animationDelay=i*.12+"s";const sp=document.createElement("span");sp.textContent=i+1;d.appendChild(sp);
-      d.appendChild(document.createTextNode(/^https?:/i.test(x.text)?"ссылка от "+(cf.blind?"???":"@"+x.nick):x.text));l.appendChild(d)});el.classList.add("show")}
+      d.appendChild(document.createTextNode((x.don?"💰 ":"")+(/^https?:/i.test(x.text)?"ссылка от "+(cf.blind?"???":"@"+x.nick):x.text)));l.appendChild(d)});el.classList.add("show")}
     else el.classList.remove("show");
   }
   extra(S,c,r,th,name);
@@ -309,8 +325,8 @@ function extra(S,c,r,th,name){
 }
 setInterval(()=>{if(!SC.on||SC.kind==="end")return;$("snt").textContent=SC.end?fmt(Math.max(0,Math.ceil((SC.end-Date.now())/1000))):(SC.kind==="soon"?"…":"☕")},250);
 function fitTitle(){const e=$("ttl");let fs=CLIP?26:36;e.style.fontSize=fs+"px";while(fs>13&&e.scrollHeight>fs*1.15*2+2){fs--;e.style.fontSize=fs+"px"}}
-function flash(){if(LITE)return;const f=$("fl");f.classList.remove("go");void f.offsetWidth;f.classList.add("go")}
-function rain(){if(LITE)return;for(let i=0;i<26;i++){const d=document.createElement("i");d.className="rn";d.textContent=i%5?"🩸":"⭐";d.style.left=Math.random()*96+"%";d.style.animationDuration=(2.6+Math.random()*2.2)+"s";d.style.animationDelay=Math.random()*1.2+"s";STG.appendChild(d);setTimeout(()=>d.remove(),7000)}}
+function flash(){if(fxOff())return;const f=$("fl");f.classList.remove("go");void f.offsetWidth;f.classList.add("go")}
+function rain(){if(fxOff())return;for(let i=0;i<26;i++){const d=document.createElement("i");d.className="rn";d.textContent=i%5?"🩸":"⭐";d.style.left=Math.random()*96+"%";d.style.animationDuration=(2.6+Math.random()*2.2)+"s";d.style.animationDelay=Math.random()*1.2+"s";STG.appendChild(d);setTimeout(()=>d.remove(),7000)}}
 function skull(){const d=document.createElement("div");d.className="skull";d.textContent="💀";STG.appendChild(d);setTimeout(()=>d.remove(),2600)}
 addEventListener("storage",upd);
 setInterval(upd,1000);upd();rJoin();
