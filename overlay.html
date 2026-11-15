@@ -241,11 +241,11 @@ function upd(){
   if(r&&r!==last.rating){const e=$("rt");e.textContent=r;e.style.background=col(r);e.style.setProperty("--rc",col(r));e.className="rating";void e.offsetWidth;e.className="rating show"+(r>=9?" hot":"");
     if(ready){if(r===10){confetti();rain();flash();snd("horn");snd("applause")}else if(r===9)snd("applause");else if(r===1){skull();snd("fail")}}}
   if(!r)$("rt").className="rating";
-  const q=showQ?S.queue||[]:[],qs=JSON.stringify(q.slice(0,3).map(x=>x.id+(x.don?"d":"")))+(cf.blind?"b":"");
+  const q=showQ?S.queue||[]:[],qs=JSON.stringify(q.slice(0,3).map(x=>x.id+(x.don?"d":"")+(x.name||x.title||"")))+(cf.blind?"b":"");
   if(qs!==last.q){
     const el=$("q"),l=$("ql");l.textContent="";
     if(q.length){q.slice(0,3).forEach((x,i)=>{const d=document.createElement("div");d.className="q";d.style.animationDelay=i*.12+"s";const sp=document.createElement("span");sp.textContent=i+1;d.appendChild(sp);
-      d.appendChild(document.createTextNode((x.don?"💰 ":"")+(/^https?:/i.test(x.text)?"ссылка от "+(cf.blind?"???":"@"+x.nick):x.text)));l.appendChild(d)});el.classList.add("show")}
+      const nm=x.name||x.title||"";d.appendChild(document.createTextNode((x.don?"💰 ":"")+(nm?nm:/^https?:/i.test(x.text)?"ссылка от "+(cf.blind?"???":"@"+x.nick):x.text)));l.appendChild(d)});el.classList.add("show")}
     else el.classList.remove("show");
   }
   extra(S,c,r,th,name);
