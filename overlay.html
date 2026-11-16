@@ -235,13 +235,44 @@ html.lite .aura i,html.lite .eq i,html.lite .disc,html.lite .tk-in{animation:non
 .se-h{font-size:20px;letter-spacing:7px;font-weight:800;color:var(--ac2);text-transform:uppercase;margin-top:30px}
 .se-pod{position:absolute;left:0;right:0;bottom:140px;display:flex;justify-content:center;align-items:flex-end;gap:22px}
 html.lite .se-k,html.lite .se-k::after{animation:none!important}
+/* v20: сцены */
+.cob{position:absolute;left:22px;top:20px;z-index:6;padding:8px 18px;border-radius:99px;font-weight:700;font-size:20px;background:var(--card);border:2px solid color-mix(in srgb,var(--ac) 45%,transparent);backdrop-filter:blur(8px);opacity:0;transform:translateY(-12px) scale(.96);transition:.5s cubic-bezier(.2,1.2,.3,1)}
+.cob.show{opacity:1;transform:none}.cob b{color:var(--ac2)}
+.sc-hint{display:none}
+.sc-beam{position:absolute;top:-20%;width:520px;height:140%;background:linear-gradient(180deg,color-mix(in srgb,var(--ac2) 30%,transparent),transparent 70%);filter:blur(30px);opacity:.5;transform-origin:top center;mix-blend-mode:screen}
+.sc-beam.b1{left:16%;animation:scSw1 9s ease-in-out infinite alternate}.sc-beam.b2{right:16%;animation:scSw2 11s ease-in-out infinite alternate}
+@keyframes scSw1{from{transform:rotate(-24deg)}to{transform:rotate(14deg)}}@keyframes scSw2{from{transform:rotate(22deg)}to{transform:rotate(-16deg)}}
+.sc-nt{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.sc-nt i{position:absolute;bottom:-60px;font-style:normal;color:color-mix(in srgb,var(--ac2) 70%,#fff);opacity:0;animation:scNote 10s linear forwards;text-shadow:0 0 18px var(--ac)}
+@keyframes scNote{0%{transform:translateY(0) rotate(-10deg);opacity:0}10%{opacity:.85}100%{transform:translateY(-1200px) rotate(24deg);opacity:0}}
+.sc-arm{position:absolute;right:-34px;top:-24px;width:18px;height:290px;border-radius:12px;background:linear-gradient(90deg,#8a8a95,#e8e8f0,#8a8a95);transform-origin:50% 14px;transform:rotate(26deg);animation:scArm 5s ease-in-out infinite alternate;box-shadow:0 8px 20px rgba(0,0,0,.5);z-index:3}
+.sc-arm::before{content:"";position:absolute;top:-14px;left:-14px;width:46px;height:46px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff,#667 70%)}
+.sc-arm::after{content:"";position:absolute;bottom:-8px;left:-6px;width:30px;height:46px;border-radius:6px;background:var(--ac)}
+@keyframes scArm{from{transform:rotate(24deg)}to{transform:rotate(29deg)}}
+.scene.end .sc-arm{display:none}
+.sc-tick{position:absolute;left:0;right:0;bottom:0;height:50px;overflow:hidden;background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 45%,#000),color-mix(in srgb,var(--ac2) 35%,#000));border-top:2px solid color-mix(in srgb,var(--ac2) 60%,transparent);z-index:4;display:flex;align-items:center}
+.sc-tick div{white-space:nowrap;font-size:24px;font-weight:800;letter-spacing:4px;animation:scTk 60s linear infinite}
+@keyframes scTk{to{transform:translateX(-50%)}}
+.ch{display:inline-block;animation:chIn .8s cubic-bezier(.2,.9,.3,1.3) both}
+@keyframes chIn{from{opacity:0;transform:translateY(46px) scale(.5) rotate(-8deg);filter:blur(10px)}}
+.sc-end{z-index:3}.sc-eq{z-index:1}
+.scene.end .sc-eq{height:90px;opacity:.5}
+.se-pod{bottom:50px;gap:20px;align-items:flex-end;z-index:2}
+.sc-p{width:320px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:18px 16px 16px;transform-origin:bottom;animation:podUp .9s both cubic-bezier(.2,.9,.3,1.15)}
+.sc-p.p1{height:330px;border-color:var(--ac2);box-shadow:0 0 70px color-mix(in srgb,var(--ac) 55%,transparent)}.sc-p.p2{height:280px}.sc-p.p3{height:240px}
+.sc-p span{-webkit-line-clamp:2;font-size:24px;margin:8px 0 auto}
+.sc-p b{font-size:46px;margin-top:8px}
+.sc-more{position:absolute;right:40px;bottom:0;margin:0}
+@keyframes podUp{from{transform:scaleY(.15);opacity:0}}
+html.lite .sc-beam,html.lite .sc-nt{display:none}
+html.lite .sc-tick div,html.lite .ch,html.lite .sc-arm,html.lite .sc-p{animation:none!important}
 html.lite .sc-bg i,html.lite .sc-grid,html.lite .sc-dots,html.lite .sc-rec,html.lite .sc-ring,html.lite .sc-eq i,html.lite .sc-lbl span{animation:none!important}
 html.lite .sc-ring{display:none}
 #cot{margin-left:8px;max-width:260px;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
-<div id="st">
+<div id="st"><div class="cob" id="cob"></div>
 <div class="logo" id="logo">KOHbツ<b>.FM</b></div>
 <div class="chat" id="chat"></div>
 <iframe class="xchat" id="xchat" title="chat" allowtransparency="true"></iframe>
@@ -254,10 +285,11 @@ html.lite .sc-ring{display:none}
 <div class="queue" id="q"><h4>Далее в эфире</h4><div id="ql"></div></div>
 <div class="flash" id="fl"></div>
 <div class="scene" id="sn">
-  <div class="sc-bg"><i class="sc-o1"></i><i class="sc-o2"></i><i class="sc-o3"></i><div class="sc-grid"></div><div class="sc-dots"></div></div>
+  <div class="sc-bg"><i class="sc-o1"></i><i class="sc-o2"></i><i class="sc-o3"></i><div class="sc-grid"></div><div class="sc-dots"></div><div class="sc-beam b1"></div><div class="sc-beam b2"></div></div>
+  <div class="sc-nt" id="scnt"></div>
   <div class="sc-logo" id="sclg"></div>
   <div class="sc-wrap">
-    <div class="sc-vinyl"><div class="sc-ring"></div><div class="sc-ring"></div><div class="sc-rec"><div class="sc-lbl"><span id="sci">☕</span></div></div></div>
+    <div class="sc-vinyl"><div class="sc-ring"></div><div class="sc-ring"></div><div class="sc-rec"><div class="sc-lbl"><span id="sci">☕</span></div></div><div class="sc-arm"></div></div>
     <div class="sc-right">
       <div class="sn-k" id="snk"></div>
       <div class="sc-time" id="sct"><svg class="sc-svg" viewBox="0 0 200 200"><defs><linearGradient id="scg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:var(--ac)"/><stop offset="1" style="stop-color:var(--ac2)"/></linearGradient></defs><circle class="sc-trk" cx="100" cy="100" r="90"/><circle class="sc-arc" id="sca" cx="100" cy="100" r="90"/></svg><div class="sn-t" id="snt"></div></div>
@@ -269,6 +301,7 @@ html.lite .sc-ring{display:none}
   <div class="sc-qh" id="scqh"></div>
   <div class="sn-q" id="snq"></div>
   <div class="sc-eq" id="sceq"></div>
+  <div class="sc-tick"><div id="sctkin"></div></div>
 </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
@@ -358,7 +391,7 @@ function upd(){
   if(qs!==last.q){
     const el=$("q"),l=$("ql");l.textContent="";
     if(q.length){q.slice(0,3).forEach((x,i)=>{const d=document.createElement("div");d.className="q";d.style.animationDelay=i*.12+"s";const sp=document.createElement("span");sp.textContent=i+1;d.appendChild(sp);
-      d.appendChild(document.createTextNode((x.don?"💰 ":"")+(/^https?:/i.test(x.text)?"ссылка от "+(cf.blind?"???":"@"+x.nick):x.text)));l.appendChild(d)});el.classList.add("show")}
+      d.appendChild(document.createTextNode((x.don?"💰 ":"")+(qn(x)||(/^https?:/i.test(x.text)?"ссылка от "+(cf.blind?"???":"@"+x.nick):x.text))));l.appendChild(d)});el.classList.add("show")}
     else el.classList.remove("show");
   }
   extra(S,c,r,th,name);
@@ -421,35 +454,41 @@ const rb=()=>{try{return JSON.parse(localStorage.getItem("kohb_brk"))||{}}catch(
 const seedOf=id=>{let h=0;for(const ch of String(id))h=(h*31+ch.charCodeAt(0))|0;return Math.abs(h)};
 let PG={dur:0,pos:0,play:false,t:0,t0:0,has:false,seed:1},SC={on:false,kind:"break",end:0},tkK="",scK="",scEndSeen=0,scTot=0,scHints=[""],scHi=0,scHt=0;
 const evFrom=S=>{const r=[S.current,...(S.history||[])].filter(x=>x&&x.rating);return{cnt:r.length,avg:r.length?+(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):null,pl:r.filter(x=>x.pl).length,top:[...r].sort((a,b)=>b.rating-a.rating).slice(0,5).map(x=>({n:x.name||x.title||x.text,r:x.rating}))}};
+function qn(x){return x.n||(x.title?(x.name||x.title):"")}
+function spl(el,t){if(!el)return;el.innerHTML=[...t].map((c,i)=>'<span class="ch" style="animation-delay:'+(i*.045)+'s">'+(c===" "?"&nbsp;":c)+"</span>").join("")}
+function cnt(el){const v=parseFloat(el.dataset.v);if(isNaN(v))return;const dec=String(el.dataset.v).includes(".")?1:0,t0=performance.now();(function f(t){const k=Math.min(1,(t-t0)/1200);el.textContent=(v*(1-Math.pow(1-k,3))).toFixed(dec);if(k<1)requestAnimationFrame(f)})(t0)}
 function extra(S,c,r,th,name){
   const R=remote,v=R&&R.vote,vt=$("vt");
   if(c&&v&&(v.n>0||v.open)){vt.innerHTML=v.n?"💬 ЧАТ <b>"+v.avg+"</b> · "+v.n:"💬 <b>!1…!10</b>";vt.classList.add("show")}else vt.classList.remove("show");
-  {const co=c&&c.co,ct=$("cot");if(co&&co.r){ct.innerHTML="🤝 "+esc(co.n||"друг")+" <b>"+co.r+"</b>";ct.classList.add("show")}else ct.classList.remove("show")}
+  {const cb=$("cob");if(cb){if(R&&R.cob&&R.cob.n){cb.innerHTML="🤝 Коллаб с <b>"+esc(R.cob.n)+"</b>";cb.classList.add("show")}else cb.classList.remove("show")}}
+  {const co=c&&c.co,ct=$("cot");if(co&&co.r&&!(R&&R.corv===false)){ct.innerHTML="🤝 "+esc(co.n||"друг")+" <b>"+co.r+"</b>";ct.classList.add("show")}else ct.classList.remove("show")}
   PG={dur:R&&R.dur>0?R.dur:0,pos:R&&typeof R.pos==="number"?R.pos:0,play:R?R.play!==false:true,t:R?R.t||Date.now():Date.now(),t0:c&&c.t0||(R&&R.t0)||0,has:!!c,seed:c?seedOf(c.id):1};
   const B=R?R.brk:(b=>b.on?{rem:b.until?Math.max(0,b.until-Date.now()):null,kind:b.kind}:null)(rb());
   SC={on:!!B&&SCN,kind:B&&B.kind||"break",end:B&&B.rem!=null?(R?R.t:Date.now())+B.rem:0};
-  const q=S.queue||[],ev=R?R.ev:evFrom(S),CMD=(R&&R.cmd)||"!заказ",sk=JSON.stringify([SC.on,SC.kind,q.slice(0,5).map(x=>x.id),ev,!!CF.blind,CMD]);
+  const q=S.queue||[],ev=R?R.ev:evFrom(S),CMD=(R&&R.cmd)||"!заказ",sk=JSON.stringify([SC.on,SC.kind,q.slice(0,5).map(x=>x.id+(x.n||x.title||"")),ev,!!CF.blind,CMD]);
   if(SC.end!==scEndSeen&&Math.abs(SC.end-scEndSeen)>1500){scEndSeen=SC.end;scTot=SC.end?Math.max(1000,SC.end-Date.now()):0}
   if(sk!==scK){scK=sk;const sn=$("sn"),EN=SC.kind==="end";sn.classList.toggle("show",SC.on);sn.classList.toggle("end",EN);
     $("sci").textContent="";
-    $("snk").textContent=EN?"КОНЕЦ СТРИМА":SC.kind==="soon"?"СКОРО НАЧНЁМ":"ПЕРЕРЫВ";
+    spl($("snk"),SC.kind==="soon"?"СКОРО НАЧНЁМ":"ПЕРЕРЫВ");if(EN)spl(document.querySelector(".se-k"),"КОНЕЦ СТРИМА");
     $("sct").classList.toggle("nt",EN||!SC.end);
     scHints=EN?["Спасибо, что были с нами ♥"]:SC.kind==="soon"?["Заказ трека: "+CMD+" название","Скоро начнём ♥"]:["Заказ трека: "+CMD+" название","Оценки в чате: !1 … !10"];
     $("sch").textContent=scHints[0];scHi=0;
+    $("sctkin").textContent=(EN?"СПАСИБО, ЧТО БЫЛИ С НАМИ ✦ ДО НОВЫХ ВСТРЕЧ ✦ ":SC.kind==="soon"?"СКОРО НАЧНЁМ ✦ ЗАКАЗЫВАЙ ТРЕК: "+CMD+" ✦ ":"ПЕРЕРЫВ ✦ ЗАКАЗЫВАЙ ТРЕК: "+CMD+" ✦ ОЦЕНИВАЙ В ЧАТЕ !1…!10 ✦ ").repeat(12);
     const chip=(a,b)=>'<span class="sc-ch">'+a+" <b>"+b+"</b></span>";
     if(EN){const tp=ev&&ev.top||[];
       $("sns").innerHTML="";$("scqh").textContent="";$("snq").innerHTML="";
-      $("sest").innerHTML=ev&&ev.cnt?[["Треков",ev.cnt],["Средняя",ev.avg],["В плейлист",ev.pl||0]].map((a,i)=>'<div class="se-b" style="animation-delay:'+(.1+i*.12)+'s"><b>'+a[1]+"</b><span>"+a[0]+"</span></div>").join(""):"";
-      $("seh").textContent=tp.length?"Хит-парад вечера":"";
+      $("sest").innerHTML=ev&&ev.cnt?[["Треков",ev.cnt],["Средняя",ev.avg],["В плейлист",ev.pl||0]].map((a,i)=>'<div class="se-b" style="animation-delay:'+(.1+i*.12)+'s"><b data-v="'+a[1]+'">'+a[1]+"</b><span>"+a[0]+"</span></div>").join(""):"";
+      $("seh").textContent=tp.length?"Хит-парад вечера":"";document.querySelectorAll("#sest b").forEach(cnt);
       const med=["🥇","🥈","🥉"],ord=[1,0,2],pod=ord.filter(i=>tp[i]).map(i=>'<div class="sc-p p'+(i+1)+'" style="animation-delay:'+(.3+i*.25)+'s"><em>'+med[i]+"</em><span>"+esc(tp[i].n)+"</span><b>"+tp[i].r+"/10</b></div>").join("");
       const rest=tp.slice(3).map((x,i)=>'<div style="animation-delay:'+(1+i*.2)+'s"><i>'+(i+4)+"</i><span>"+esc(x.n)+"</span><b>"+x.r+"</b></div>").join("");
       $("sepod").innerHTML=pod+(rest?'<div class="sc-more">'+rest+"</div>":"")}
     else{
       $("sns").innerHTML=ev&&ev.cnt?chip("⭐ Средняя",ev.avg)+chip("🎵 Треков",ev.cnt):"";
       $("scqh").textContent=q.length?"Дальше в эфире":"";
-      $("snq").innerHTML=q.slice(0,3).map((x,i)=>'<div class="sc-c" style="animation-delay:'+(.15+i*.14)+'s"><i>'+(i+1)+"</i><span>"+(x.don?"💰 ":"")+esc(/^https?:/i.test(x.text)?"ссылка от "+(CF.blind?"???":"@"+x.nick):x.text)+"</span></div>").join("")}
+      $("snq").innerHTML=q.slice(0,3).map((x,i)=>'<div class="sc-c" style="animation-delay:'+(.15+i*.14)+'s"><i>'+(i+1)+"</i><span>"+(x.don?"💰 ":"")+esc(qn(x)||(/^https?:/i.test(x.text)?"ссылка от "+(CF.blind?"???":"@"+x.nick):x.text))+"</span></div>").join("")}
   }
 }
+setInterval(()=>{if(!SC.on||LITE)return;const box=$("scnt");if(!box||box.children.length>16)return;const n=document.createElement("i"),set=SC.kind==="end"?["✦","★","♥","✧"]:["♪","♫","♬"];n.textContent=set[Math.random()*set.length|0];n.style.left=(4+Math.random()*92)+"%";n.style.fontSize=(22+Math.random()*34)+"px";n.style.animationDuration=(7+Math.random()*6)+"s";box.appendChild(n);setTimeout(()=>n.remove(),14000)},800);
 setInterval(()=>{const eq=$("sceq");if(eq&&!eq.firstChild){let h="";for(let i=0;i<46;i++)h+='<i style="--h:'+(25+Math.round(Math.random()*70))+"%;animation-duration:"+(0.7+Math.random()*0.9).toFixed(2)+"s;animation-delay:-"+(Math.random()*1.5).toFixed(2)+'s"></i>';eq.innerHTML=h;const lg=$("logo");if(lg)$("sclg").innerHTML=lg.innerHTML}},1500);
 setInterval(()=>{if(!SC.on)return;const a=$("sch");scHt++;if(scHt%24===0&&scHints.length>1){a.classList.add("sw");setTimeout(()=>{scHi=(scHi+1)%scHints.length;a.textContent=scHints[scHi];a.classList.remove("sw")},500)}},250);
 setInterval(()=>{if(!SC.on||SC.kind==="end")return;const rem=SC.end?Math.max(0,SC.end-Date.now()):0;$("snt").textContent=SC.end?fmt(Math.ceil(rem/1000)):"";const arc=$("sca");if(arc&&scTot)arc.style.strokeDashoffset=(565.5*(1-Math.min(1,rem/scTot))).toFixed(1)},250);

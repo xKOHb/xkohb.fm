@@ -431,6 +431,31 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
 .coin{width:100%}
 .cost{display:flex;align-items:center;gap:8px;margin:8px 0;font-size:13px}.cost .dot{flex:none}
 .cocode{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:12px}
+
+/* ===== v20: интерфейс ===== */
+.fld input[type=checkbox]{-webkit-appearance:none;appearance:none;width:42px;height:24px;border-radius:99px;background:rgba(255,255,255,.12);border:1px solid var(--ln);position:relative;cursor:pointer;transition:background .25s,box-shadow .25s;flex:none;accent-color:initial}
+.fld input[type=checkbox]::after{content:"";position:absolute;top:2px;left:2px;width:18px;height:18px;border-radius:50%;background:#fff;transition:transform .28s cubic-bezier(.3,1.5,.5,1)}
+.fld input[type=checkbox]:checked{background:var(--ac);box-shadow:0 0 14px -2px var(--ac)}
+.fld input[type=checkbox]:checked::after{transform:translateX(18px)}
+.ssrch{position:sticky;top:0;z-index:4;width:100%;margin:8px 0 6px;padding:11px 14px;border-radius:14px;background:var(--in);backdrop-filter:blur(8px)}
+.sheet details{border:1px solid var(--ln);border-radius:14px;margin:7px 0;background:rgba(255,255,255,.025);transition:border-color .25s,background .25s}
+.sheet details[open]{border-color:color-mix(in srgb,var(--ac) 38%,var(--ln));background:rgba(255,255,255,.04)}
+.sheet details>summary{cursor:pointer;padding:12px 14px;border-radius:14px;transition:background .2s}
+.sheet details>summary:hover{background:color-mix(in srgb,var(--ac) 9%,transparent)}
+.sheet details>.sb{padding:2px 14px 12px}
+h4.sh{margin:14px 0 4px;font-size:11.5px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ac2);opacity:.9}
+@keyframes lift{from{opacity:0;transform:translateY(14px) scale(.98)}}
+@keyframes shimmer{to{background-position:-200% 0}}
+@keyframes sheetIn{from{opacity:0;transform:translateY(26px) scale(.97)}}
+@keyframes toastIn{0%{transform:translate(-50%,26px) scale(.88)}60%{transform:translate(-50%,-4px) scale(1.04)}100%{transform:translate(-50%,0) scale(1)}}
+@keyframes nxGlow{0%,100%{box-shadow:0 4px 18px -4px var(--ac)}50%{box-shadow:0 6px 34px -2px var(--ac)}}
+html:not([data-fx=off]) .item{animation:lift .45s cubic-bezier(.2,.9,.3,1.1) backwards}
+html:not([data-fx=off]) .sheet{animation:sheetIn .38s cubic-bezier(.2,.9,.3,1.1)}
+html:not([data-fx=off]) .toast.show{animation:toastIn .5s cubic-bezier(.2,1,.3,1)}
+html:not([data-fx=off]) #nx.p,html:not([data-fx=off]) #nx.ping{animation:nxGlow 2.8s ease-in-out infinite}
+html:not([data-fx=off]) h1#ttl{background:linear-gradient(90deg,var(--tx) 0,var(--tx) 38%,var(--ac2) 50%,var(--tx) 62%,var(--tx) 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 7s linear infinite}
+html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.6,.5,1),box-shadow .2s,background .2s}
+#ttl{cursor:pointer}
 </style>
 </head>
 <body>
@@ -478,7 +503,7 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
 <div id="covid"><span class="cvl" id="covl"></span><video id="covv" autoplay playsinline muted></video><div class="cvb"><button id="covm" title="Звук окна партнёра">🔇</button><button id="covx" title="Скрыть окно">✕</button></div></div>
 <div class="modal" id="modal"><div class="sheet">
   <div class="shh">Настройки <button id="mclose" class="ghost">✕</button></div>
-  <div class="hint" style="margin:6px 0 4px">Разделы свёрнуты: открой нужный, настрой и закрой.</div>
+  <input type="text" id="s-search" class="ssrch" placeholder="🔍 Найти настройку…" autocomplete="off">
 
   <details><summary>🎨 Внешний вид <small>тема, цвет, масштаб, что показывать</small></summary><div class="sb">
     <h4 class="sh">Тема</h4><div class="tgrid" id="tgrid"></div>
@@ -500,8 +525,7 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
     <div class="fld"><label for="c-blind">Слепое прослушивание<small>ник скрыт до оценки · клавиша B</small></label><input type="checkbox" id="c-blind"></div>
     <h4 class="sh">Теги настроения</h4>
     <div class="fld"><label for="c-tags">Список тегов<small>через запятую, в формате «эмодзи Название». До 16 штук</small></label><input type="text" id="c-tags"></div>
-    <div class="fld"><label for="c-qp">Быстрые комментарии<small>через запятую, добавляются в заметку к треку одним нажатием</small></label><input type="text" id="c-qp"></div>
-    <div class="tools"><button id="tg-rst">Вернуть списки по умолчанию</button></div>
+        <div class="tools"><button id="tg-rst">Вернуть списки по умолчанию</button></div>
     <h4 class="sh">Донаты</h4>
     <div class="fld"><label for="c-don">Слово-метка доната<small>если в комментарии к заявке есть это слово (можно несколько через запятую), трек встаёт первым в очереди и играет сразу после текущего и его оценки. Пусто — выключено. Кнопка $ у трека в очереди делает то же вручную</small></label><input type="text" id="c-don"></div>
   </div></details>
@@ -564,7 +588,15 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
     <h4 class="sh">Я хозяин комнаты</h4>
     <div class="row"><button id="co-open">🔓 Открыть комнату</button><button id="co-copy">📋 Скопировать код</button></div>
     <div class="fld"><label for="co-inv">Код приглашения<small>отправь другу. Он нужен только ему, не показывай его в эфире</small></label><input type="text" id="co-inv" class="cocode" readonly placeholder="комната закрыта"></div>
-    <div class="fld"><label for="c-coctl">Друг может переключать треки<small>следующий, пропуск, пауза, играть сейчас, удалить, донат. Оценки и заявки доступны всегда</small></label><input type="checkbox" id="c-coctl"></div>
+    <h4 class="sh">Что может друг</h4>
+    <div class="fld"><label for="c-copp">⏯ Пауза и старт<small>кнопка плеера</small></label><input type="checkbox" id="c-copp"></div>
+    <div class="fld"><label for="c-conx">⏭ Следующий и пропуск</label><input type="checkbox" id="c-conx"></div>
+    <div class="fld"><label for="c-coqu">📋 Очередь<small>играть сейчас, удалить, донат</small></label><input type="checkbox" id="c-coqu"></div>
+    <div class="fld"><label for="c-coad">➕ Добавлять заявки</label><input type="checkbox" id="c-coad"></div>
+    <div class="fld"><label for="c-comod">🕵 Заявки друга на проверку<small>сначала попадают в «На проверке»</small></label><input type="checkbox" id="c-comod"></div>
+    <h4 class="sh">В оверлее</h4>
+    <div class="fld"><label for="c-cobadge">🤝 Плашка «Коллаб с ником друга»<small>ник обновляется, когда друг дописал его</small></label><input type="checkbox" id="c-cobadge"></div>
+    <div class="fld"><label for="c-corshow">⭐ Оценка друга рядом с твоей</label><input type="checkbox" id="c-corshow"></div>
     <h4 class="sh">Я гость</h4>
     <div class="fld"><label for="co-code">Код приглашения от друга</label><input type="text" id="co-code" class="cocode" placeholder="вставь код сюда"></div>
     <div class="row"><button id="co-join">🤝 Подключиться</button></div>
@@ -580,6 +612,9 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
     <div class="row"><button id="d-exp">⬇ Экспорт</button><button id="d-imp">⬆ Импорт</button><button id="clr">🗑 Новый эфир</button><button id="clr-all" title="Очередь, история, архив и итоги — всё в ноль. Настройки и тема останутся.">🧨 Очистить всё</button><input type="file" id="d-file" accept="application/json" hidden></div>
   </div></details>
 </div></div>
+<div class="modal" id="podm"><div class="sheet"><div class="shh">🏁 Конец стрима: пьедестал <button id="podx" class="ghost">✕</button></div>
+  <div class="hint" style="margin:4px 0 8px">Выбери, кто займёт 1–3 места в финале. «Авто» берёт лучшие по оценке.</div>
+  <div id="podb"></div><div class="row" style="margin-top:12px"><button id="pod-auto">↺ Авто</button><button id="pod-go" class="p">🏁 Показать финал</button></div></div></div>
 <div class="modal" id="smodal"><div class="sheet wide">
   <div class="shh">Итоги вечера <button id="sclose" class="ghost">✕</button></div>
   <div id="sbody"></div>
@@ -610,6 +645,7 @@ const isUrl=s=>/^https?:\/\//i.test(s);
 let vol=ls.get("kohb_vol")!==null?+ls.get("kohb_vol"):50,muted=false,player=null,ytReady=false,pending=null,playing=false;
 const ytId=u=>((u||"").match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([\w-]{11})/)||[])[1];
 const THEMES=[["kohb","KOHbツ","linear-gradient(135deg,#09090a,#3a3a42,#ff3341)"],["neon","Неон","linear-gradient(135deg,#2a0a5e,#ff2bd6 55%,#00e5ff)"],["space","Космос","linear-gradient(135deg,#050816,#7c9cff,#c39bff)"],["lagoon","Лагуна","linear-gradient(135deg,#06201f,#2fe3b0,#6ad6ff)"],["sakura","Сакура","linear-gradient(135deg,#1d0f18,#ff7eb6,#ffc2dd)"],["matrix","Матрица","linear-gradient(135deg,#020a05,#00ff7f)"],["retro","Ретро VHS","linear-gradient(135deg,#060508,#2a1a46,#b79cff)"],["volcano","Вулкан","linear-gradient(135deg,#1a0707,#ff3b3b 60%,#ff9a8a)"],["platinum","Платина","linear-gradient(135deg,#0b0c10,#e4e8f0 70%,#8a94a8)"],["stage","Сцена","linear-gradient(135deg,#100d04,#ffe11a 60%,#fff59a)"],["aurora","Аврора","linear-gradient(135deg,#030a14,#4dffb0 55%,#8f7bff)"],["sunset","Закат","linear-gradient(135deg,#14072a,#8a2b4f 50%,#ff8a5c)"],["frost","Мороз","linear-gradient(135deg,#06121b,#7fdcff 60%,#d4f1ff)"],["toxic","Токсик","linear-gradient(135deg,#050804,#c6ff00 60%,#00ffa3)"],["gold","Золото","linear-gradient(135deg,#0b0804,#f5c451 60%,#fff0b3)"],["lavender","Лаванда","linear-gradient(135deg,#120e1f,#cdb4ff 60%,#9fd0ff)"],["peach","Персик","linear-gradient(135deg,#1c1110,#ffb38a 60%,#ffd9a8)"],["candy","Сладкая вата","linear-gradient(135deg,#190f22,#ff8fd0 55%,#8fe3ff)"],["midnight","Полночь","linear-gradient(135deg,#050816,#101c46 55%,#ffe7a0)"],["cocoa","Какао","linear-gradient(135deg,#150e0b,#e0a77a 60%,#f6e0c8)"],["carbon","Карбон","linear-gradient(135deg,#050506,#00d9ff 55%,#ff2e63)"],["abyss","Бездна","linear-gradient(135deg,#01060f,#03152b 50%,#6f8cff 80%,#00f5d4)"],["eclipse","Затмение","linear-gradient(135deg,#030304,#0b0707 45%,#ffb347 75%,#ff5e62)"],["nebula","Туманность","linear-gradient(135deg,#06030e,#5a3cdc 55%,#ff6bd6)"],["noir","Нуар","linear-gradient(135deg,#050505,#2a2a2a 55%,#e9e9e9)"],["storm","Гроза","linear-gradient(135deg,#04060c,#0b1424 55%,#8ab4f8)"],["radar","Радар","linear-gradient(135deg,#070502,#150f03 50%,#ffb000 80%,#ff6a00)"],["cinema","Кинозал","linear-gradient(135deg,#0a0508,#1c0c10 50%,#ffd166 80%,#ef476f)"],["flow","Поток","linear-gradient(135deg,#12062e,#5a1a9a 40%,#ff7ab8 70%,#7ab8ff)"],["arcade","Аркада","linear-gradient(135deg,#050716,#0a0f3a 50%,#ffe600 80%,#00e5ff)"]];
+{const K=["kohb","m1z","hmstr","neon","space","lagoon","sakura","matrix","retro","volcano","platinum","stage","aurora","sunset","frost","toxic","gold","noir","storm"];const keep=THEMES.filter(t=>K.includes(t[0])).sort((a,b)=>K.indexOf(a[0])-K.indexOf(b[0]));THEMES.splice(0,THEMES.length,...keep)}
 let theme=ls.get("kohb_theme")||"kohb";if(!THEMES.some(t=>t[0]===theme))theme="kohb";
 function setTheme(t){theme=t;document.documentElement.dataset.theme=t;ls.set("kohb_theme",t);bcast();document.querySelectorAll(".tc").forEach(b=>b.classList.toggle("on",b.dataset.t===t))}
 function toast(t){const o=$("toast");o.textContent=t;o.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>o.classList.remove("show"),1600)}
@@ -672,9 +708,9 @@ let TAGS=[],QP=[];
 const TAG_DEF="🔥 Качает, 💤 Скучный, 😄 Весёлый, 😢 Грустный, 😎 Прикольный, 👎 Не очень, ⚖️ 50/50",QP_DEF="Добавлен в плейлист, Прикольный, Мимо, Не зацепило";
 function parseLists(){const emo=/^[^\p{L}\p{N}]+$/u;
   TAGS=String(cfg.tagList||"").split(",").map(s=>s.trim()).filter(Boolean).map(s=>{const m=s.match(/^(\S+)\s+(.+)$/);return m&&emo.test(m[1])?[m[1],m[2].trim()]:["",s]}).slice(0,16);
-  QP=String(cfg.qpList||"").split(",").map(s=>s.trim()).filter(Boolean).slice(0,16)}
+  QP=[]}
 function renderTags(){const c=S.current,on=t=>c&&(c.tags||[]).includes(t),d=c?"":" disabled";
-  $("tags").innerHTML=`<div class="tgr"><span class="tgl">Настроение</span><div class="tgs">${TAGS.map(([e,t])=>`<button class="tg${on(t)?" on":""}" data-tag="${esc(t)}"${d}>${e?`<i>${esc(e)}</i>`:""}${esc(t)}</button>`).join("")}</div></div><div class="tgr"><span class="tgl">Быстрый комментарий</span><div class="tgs">${QP.map(q=>`<button class="tg qp" data-qp="${esc(q)}"${d}>${esc(q)}</button>`).join("")}</div></div>`}
+  $("tags").innerHTML=`<div class="tgr"><span class="tgl">Настроение</span><div class="tgs">${TAGS.map(([e,t])=>`<button class="tg${on(t)?" on":""}" data-tag="${esc(t)}"${d}>${e?`<i>${esc(e)}</i>`:""}${esc(t)}</button>`).join("")}</div></div>`}
 function renderNow(resetNote){
   const c=S.current;
   $("ttl").textContent=c?plName(c):"Ничего не играет";
@@ -687,11 +723,11 @@ function renderNow(resetNote){
   if(resetNote)$("note").value=c?c.note||"":"";
   renderTags();
 }
-function renderLists(){
+function renderLists(){qmKick();
   $("pcard").hidden=!S.pending.length;$("pc").textContent=S.pending.length||"";
-  $("pend").innerHTML=S.pending.map(x=>`<div class="item"><div style="min-width:0"><div class="t">${esc(x.text)}</div><div class="m">${cfg.blind?"???":"@"+esc(x.nick)}</div></div><div class="row" style="flex-wrap:nowrap"><button data-ok="${x.id}" title="Принять">✓</button><button data-no="${x.id}" title="Отклонить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join("");
+  $("pend").innerHTML=S.pending.map(x=>`<div class="item"><div style="min-width:0"><div class="t">${esc(x.title?plName(x):x.text)}</div><div class="m">${cfg.blind?"???":"@"+esc(x.nick)}</div></div><div class="row" style="flex-wrap:nowrap"><button data-ok="${x.id}" title="Принять">✓</button><button data-no="${x.id}" title="Отклонить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join("");
   const q=S.queue;$("qc").textContent=q.length?q.length:"";$("nx").classList.toggle("ping",!!q.length&&!S.current);
-  $("queue").innerHTML=q.length?q.map(x=>`<div class="item" draggable="true" data-qid="${x.id}"><div style="min-width:0"><div class="t">${x.don?"💰 ":""}${esc(x.text)}</div><div class="m">${cfg.blind?"@???":"@"+esc(x.nick)}${x.comment?" · "+esc(x.comment):""}</div></div><div class="row" style="flex-wrap:nowrap"><button data-don="${x.id}" title="Донат: сыграть сразу после текущего">${x.don?"💰":"$"}</button><button data-go="${x.id}" title="Играть сейчас">▶</button><button data-d="${x.id}" title="Удалить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join(""):'<div class="empty">Очередь пуста — добавь заявку из чата.</div>';
+  $("queue").innerHTML=q.length?q.map(x=>`<div class="item" draggable="true" data-qid="${x.id}"><div style="min-width:0"><div class="t">${x.don?"💰 ":""}${esc(x.title?plName(x):x.text)}</div><div class="m">${cfg.blind?"@???":"@"+esc(x.nick)}${x.comment?" · "+esc(x.comment):""}</div></div><div class="row" style="flex-wrap:nowrap"><button data-don="${x.id}" title="Донат: сыграть сразу после текущего">${x.don?"💰":"$"}</button><button data-go="${x.id}" title="Играть сейчас">▶</button><button data-d="${x.id}" title="Удалить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join(""):'<div class="empty">Очередь пуста — добавь заявку из чата.</div>';
   $("hist").innerHTML=S.history.length?S.history.map(h=>`<div class="item"><div style="min-width:0"><div class="t">${esc(plName(h))}</div><div class="m">@${esc(h.nick)}${h.note?" · "+esc(h.note):""}${h.tags&&h.tags.length?" · "+esc(h.tags.join(", ")):""}${h.vn?" · 💬 "+h.vavg:""}${h.pl?" · ♥":""}${h.skipped?" · пропущен":""}</div></div><div class="sc" style="color:${h.rating?col(h.rating):"var(--mut)"}">${h.rating??"–"}</div></div>`).join(""):'<div class="empty">Пока пусто.</div>';
   const all=[S.current,...S.history].filter(x=>x),r=all.filter(x=>x.rating);
   renderStats();$("stats").innerHTML=`Треков: <b>${all.length}</b> · Средняя оценка: <b>${r.length?(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):"–"}</b>`;
@@ -699,7 +735,7 @@ function renderLists(){
 function show(){renderStage();renderNow(true);renderLists();applyVol();setLive();meta(S.current)}
 const isDon=c=>{const w=lst(cfg.donWord),t=String(c||"").toLowerCase();return w.length>0&&w.some(x=>t.includes(x))};
 function donFront(it){const i=S.queue.indexOf(it);if(i>-1)S.queue.splice(i,1);it.don=true;S.queue.splice(S.queue.filter(q=>q.don).length,0,it)}
-function add(){const t=$("f-t").value.trim();if(!t)return;if(CO.role==="guest"){coSend({t:"add",manual:1,it:{text:t,nick:$("f-n").value.trim()||coMe(),comment:$("f-c").value.trim()}});$("f-t").value="";$("f-c").value="";toast("Отправлено в общую очередь ✓");return}const com=$("f-c").value.trim(),don=isDon(com),k=normKey(t),ex=S.queue.find(q=>normKey(q.text)===k);
+function add(){const t=$("f-t").value.trim();if(!t)return;if(CO.role==="guest"){if(CO.perm&&CO.perm.ad===false){toast("Хозяин отключил заявки от друга");return}coSend({t:"add",manual:1,it:{text:t,nick:$("f-n").value.trim()||coMe(),comment:$("f-c").value.trim()}});$("f-t").value="";$("f-c").value="";toast("Отправлено в общую очередь ✓");return}const com=$("f-c").value.trim(),don=isDon(com),k=normKey(t),ex=S.queue.find(q=>normKey(q.text)===k);
   const clr=()=>{$("f-t").value="";$("f-c").value="";$("f-t").focus();save();renderLists()};
   if(ex&&don&&!ex.don){donFront(ex);if(com&&!ex.comment)ex.comment=com;clr();return toast("💰 Донат: трек уже был в очереди, теперь он первый")}
   if(isDup(t))return toast("Этот трек уже есть в очереди");
@@ -710,7 +746,7 @@ const archGet=()=>{try{const a=JSON.parse(ls.get("kohb_arch")||"[]");return Arra
 function archSave(){if(CO.role==="guest")return;const t=[S.current,...S.history].filter(x=>x&&x.rating).map(x=>({n:plName(x),r:x.rating,nick:x.nick||"аноним",tg:x.tags||[],v:x.vavg||null}));if(!t.length)return;
   if(!S.evId)S.evId=Date.now();const a=archGet().filter(e=>e.id!==S.evId);a.push({id:S.evId,d:S.evId,t});ls.set("kohb_arch",JSON.stringify(a.slice(-60)))}
 function finish(sk){if(S.current)S.history.unshift({...S.current,skipped:!!sk});S.current=null;archSave()}
-function start(item){finish();votes={};if(brk.on){brk={on:false,until:0};brkUi()}S.current={...item,rating:null,note:"",pl:false,t0:Date.now()};snd("jingle");S.current.name=plName(S.current);save();show()}
+function start(item){finish();votes={};endPick=null;if(brk.on){brk={on:false,until:0};brkUi()}S.current={...item,rating:null,note:"",pl:false,t0:Date.now()};snd("jingle");S.current.name=plName(S.current);save();show()}
 function next(){if(CO.role==="guest")return coCmd("next");if(S.queue.length)start(S.queue.shift());else toast("Очередь пуста")}
 function skip(){if(CO.role==="guest")return S.current&&coCmd("skip");if(!S.current)return;finish(true);save();show()}
 function rate(n){const c=S.current;if(!c)return;if(CO.role==="guest")coSend({t:"rate",r:n,id:c.id});c.rating=n;save();renderNow(false);renderLists();if(n===10){snd("horn");snd("applause")}else if(n===9)snd("applause");else if(n===1)snd("fail");
@@ -761,6 +797,7 @@ try{Object.assign(cfg,JSON.parse(ls.get(CFGK)||"{}"))}catch(e){}
 const cfgSave=()=>ls.set(CFGK,JSON.stringify(cfg));
 function chanName(v){v=String(v||"").trim().toLowerCase();const m=v.match(/twitch\.tv\/(?:popout\/)?([a-z0-9_]+)/);if(m)v=m[1];return v.replace(/^[#@]/,"").replace(/[^a-z0-9_]/g,"")}
 parseLists();cfg.chan=chanName(cfg.chan);if(!cfg.room){cfg.room=Math.random().toString(36).slice(2,12);cfgSave()}
+if(cfg.coPp===undefined){cfg.coPp=cfg.coNx=cfg.coQu=!!cfg.coCtl;cfg.coAd=true;cfg.coBadge=true;cfg.coRShow=true;cfg.coMod=false;cfgSave()}
 if(!cfg.coKey||cfg.coKey.length<8){cfg.coKey=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,8);cfgSave()}
 function applyCfg(){document.documentElement.dataset.mode=cfg.mode==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):cfg.mode==="light"?"light":"dark";document.documentElement.dataset.fx=cfg.fxBg?"on":"off";document.documentElement.dataset.compact=cfg.compact?"on":"off";document.documentElement.dataset.lite=cfg.lite?"on":"off";
   {const H=document.documentElement;H.dataset.hs=cfg.hideStats?"on":"off";H.dataset.hh=cfg.hideHist?"on":"off";H.dataset.hk=cfg.hideKbd?"on":"off";
@@ -828,12 +865,16 @@ function onChat(tags,login,msg){
 /* settings UI */
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t)};
-[["c-coname","coName","s"],["c-coctl","coCtl","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-qp","qpList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
+[["c-coname","coName","s"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
   const el=$(id);if(ty==="b")el.checked=!!cfg[k];else el.value=cfg[k];
   el.onchange=()=>{cfg[k]=ty==="b"?el.checked:ty==="n"?+el.value:el.value.trim();if(k==="chan"){cfg.chan=chanName(el.value);el.value=cfg.chan}cfgSave();applyCfg();bcast();
     if(k==="chan"||k==="bot")twConnect();if(k==="blind"){renderNow(false);renderLists()}
     if(k==="clean"){if(S.current){S.current.name=plName(S.current);save()}renderNow(false);renderLists()}};
 });
+let cnT;$("c-coname").addEventListener("input",()=>{clearTimeout(cnT);cnT=setTimeout(()=>{cfg.coName=$("c-coname").value.trim();cfgSave();if(CO.role==="guest")coSend({t:"name",name:coMe()});else coBcast();bcast()},700)});
+$("ttl").title="Нажми, чтобы переименовать трек";$("ttl").style.cursor="pointer";
+$("ttl").onclick=()=>{const c=S.current;if(!c||CO.role==="guest")return;const v=prompt("Название трека (Исполнитель – Название):",plName(c));if(v==null)return;const t=v.trim();if(!t)return;c.title=t;c.author=" ";c.name=t;save();renderNow(false);renderLists();bcast();toast("Название сохранено")};
+$("s-search").oninput=e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll("#modal details").forEach(d=>{const sm=!q||d.querySelector("summary").textContent.toLowerCase().includes(q);let hit=sm;d.querySelectorAll(".fld").forEach(f=>{const m=sm||f.textContent.toLowerCase().includes(q);f.style.display=m?"":"none";if(m)hit=true});d.style.display=hit?"":"none";if(q&&hit)d.open=true})};
 $("gear").onclick=()=>$("modal").classList.add("open");
 $("mclose").onclick=()=>$("modal").classList.remove("open");
 $("modal").onclick=e=>{if(e.target===$("modal"))$("modal").classList.remove("open")};
@@ -845,7 +886,7 @@ function chatToggle(){cfg.ovChat=cfg.ovChat===false;cfgSave();chatUi();bcast();t
 $("chbtn").onclick=chatToggle;
 $("c-accent").value=/^#[0-9a-f]{6}$/i.test(cfg.accent||"")?cfg.accent:"#ff3341";
 $("ac-rst").onclick=()=>{cfg.accent="";$("c-accent").value="#ff3341";cfgSave();applyCfg();bcast();toast("Цвет акцента: по теме")};
-$("tg-rst").onclick=()=>{cfg.tagList=TAG_DEF;cfg.qpList=QP_DEF;$("c-tags").value=TAG_DEF;$("c-qp").value=QP_DEF;cfgSave();applyCfg();toast("Списки возвращены")};
+$("tg-rst").onclick=()=>{cfg.tagList=TAG_DEF;$("c-tags").value=TAG_DEF;cfgSave();applyCfg();toast("Списки возвращены")};
 $("c-churl").addEventListener("change",e=>{const v=e.target.value.trim();if(v&&!/^https:\/\//i.test(v)){toast("Нужна ссылка, начинающаяся с https://");cfg.chatUrl="";e.target.value="";cfgSave();bcast();return}cfg.chatUrl=v;cfg.chatRev=(cfg.chatRev||0)+1;cfgSave();bcast();toast(v?"Чат в оверлее: новая ссылка ✓":"Чат в оверлее: стандартный")});
 $("ch-ref").onclick=()=>{cfg.chatRev=(cfg.chatRev||0)+1;cfgSave();bcast();toast("Чат в оверлее обновлён ✓")};
 $("ch-rst").onclick=()=>{cfg.chatUrl="";$("c-churl").value="";cfg.chatRev=(cfg.chatRev||0)+1;cfgSave();bcast();toast("Чат в оверлее: стандартный")};
@@ -861,8 +902,27 @@ async function ytMeta(x){const id=ytId(x.text);if(!id||x.author)return false;con
     try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),3000),j=await(await fetch(f+encodeURIComponent(u),{signal:ctl.signal})).json();clearTimeout(tm);
       if(j.author_name){x.author=j.author_name;if(!x.title&&j.title)x.title=j.title;x.name=plName(x);return true}}catch(e){}}
   return false}
+async function metaAny(x){
+  if(!x||x.title||!isUrl(x.text))return false;
+  if(ytId(x.text))return ytMeta(x);
+  const t=x.text;let u=null;
+  if(/open\.spotify\.com/.test(t))u="https://open.spotify.com/oembed?url="+encodeURIComponent(t);
+  else if(/soundcloud\.com/.test(t))u="https://soundcloud.com/oembed?format=json&url="+encodeURIComponent(t);
+  try{
+    const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),4500);
+    if(u){const j=await(await fetch(u,{signal:ctl.signal})).json();clearTimeout(tm);if(j.title){const a=j.author_name||"";let tt=String(j.title);if(a&&tt.endsWith(" by "+a))tt=tt.slice(0,-(" by "+a).length);x.title=tt;x.author=a;x.thumb=x.thumb||j.thumbnail_url||""}}
+    else{const m=t.match(/music\.yandex\.[a-z]+\/(?:album\/\d+\/)?track\/(\d+)/);
+      if(m){const j=await(await fetch("https://api.music.yandex.net/tracks/"+m[1],{signal:ctl.signal})).json();clearTimeout(tm);const r=j&&j.result&&j.result[0];if(r&&r.title){x.title=r.title;x.author=(r.artists||[]).map(a=>a.name).join(", ")}}
+      else clearTimeout(tm)}
+  }catch(e){}
+  if(x.title){x.name=plName(x);return true}return false}
+function qmKick(){try{clearTimeout(window._qmT);window._qmT=setTimeout(qMeta,400)}catch(e){}}
+async function qMeta(){if(CO.role==="guest")return;const seen=window._qmS=window._qmS||new Set();let ch=false;
+  const list=[...S.queue,...S.pending].filter(x=>x&&!x.title&&isUrl(x.text)&&!seen.has(x.id)).slice(0,6);
+  for(const x of list){seen.add(x.id);if(await metaAny(x))ch=true}
+  if(ch){save();renderLists();bcast()}}
 async function enrichPl(){const r=await Promise.all(plItems().map(ytMeta)),ch=r.some(Boolean);if(ch)save();return ch}
-async function meta(c){if(c&&!isUrl(c.text))coverFor(c);if(c&&ytId(c.text)&&!c.author){const id=c.id;setTimeout(async()=>{if(S.current&&S.current.id===id&&!S.current.author&&await ytMeta(S.current)){save();renderNow(false);renderLists()}},4000);return}
+async function meta(c){if(c&&!isUrl(c.text))coverFor(c);if(c&&isUrl(c.text)&&!ytId(c.text)&&!c.title){metaAny(c).then(ok=>{if(ok&&S.current&&S.current.id===c.id){save();renderNow(false);renderLists();bcast();coverFor(S.current)}})}if(c&&ytId(c.text)&&!c.author){const id=c.id;setTimeout(async()=>{if(S.current&&S.current.id===id&&!S.current.author&&await ytMeta(S.current)){save();renderNow(false);renderLists()}},4000);return}
   if(!c||c.title||!isUrl(c.text)||ytId(c.text))return;let u=null;
   if(/open\.spotify\.com/.test(c.text))u="https://open.spotify.com/oembed?url="+encodeURIComponent(c.text);else if(/soundcloud\.com/.test(c.text))u="https://soundcloud.com/oembed?format=json&url="+encodeURIComponent(c.text);
   if(!u)return;const id=c.id;
@@ -904,9 +964,10 @@ function renderStats(){
   if(!rt.length){el.innerHTML='<div class="empty">Появится после первой оценки.</div>';return}
   let sm=0;const run=rt.map((x,i)=>(sm+=x.rating)/(i+1)),cnt=Array(10).fill(0);rt.forEach(x=>cnt[x.rating-1]++);
   const mx=Math.max(...cnt),dd=all.filter(x=>x.dur>0&&!x.skipped).sort((a,b)=>a.dur-b.dur),cv=rt.filter(x=>x.vn);
-  el.innerHTML=`<div class="stats">Средняя: <b>${run[run.length-1].toFixed(2)}</b> · оценок: <b>${rt.length}</b>${cv.length?` · чат / ведущий: <b>${(cv.reduce((a,x)=>a+x.vavg,0)/cv.length).toFixed(1)}</b> / <b>${(cv.reduce((a,x)=>a+x.rating,0)/cv.length).toFixed(1)}</b>`:""}</div>${sparkSvg(run)}<div style="display:flex;gap:4px;align-items:flex-end;height:54px">${cnt.map((c,i)=>`<div title="${i+1}: ${c}" style="flex:1;height:${c?8+c/mx*46:3}px;background:${col(i+1)};border-radius:4px;opacity:${c?1:.25}"></div>`).join("")}</div>${dd.length?`<div class="hint">Длиннее всех: <b>${esc(plName(dd[dd.length-1]))}</b> (${fmt(dd[dd.length-1].dur)}) · короче всех: <b>${esc(plName(dd[0]))}</b> (${fmt(dd[0].dur)})</div>`:""}`}
-function sparkSvg(rs){if(rs.length<2)return"";const w=640,h=90,q=8,xs=i=>q+i*(w-2*q)/(rs.length-1),ys=r=>h-q-(r-1)*(h-2*q)/9;
-  return`<svg class="spark" viewBox="0 0 ${w} ${h}" style="width:100%;height:90px;display:block"><polyline points="${rs.map((r,i)=>xs(i).toFixed(1)+","+ys(r).toFixed(1)).join(" ")}" fill="none" stroke="var(--ac)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>${rs.map((r,i)=>`<circle cx="${xs(i).toFixed(1)}" cy="${ys(r).toFixed(1)}" r="4.5" fill="${col(r)}"/>`).join("")}</svg>`}
+  el.innerHTML=`<div class="stats">Средняя: <b>${run[run.length-1].toFixed(2)}</b> · оценок: <b>${rt.length}</b>${cv.length?` · чат / ведущий: <b>${(cv.reduce((a,x)=>a+x.vavg,0)/cv.length).toFixed(1)}</b> / <b>${(cv.reduce((a,x)=>a+x.rating,0)/cv.length).toFixed(1)}</b>`:""}</div><div class="hint" style="margin:6px 0 0">Оценка каждого трека по порядку</div>${sparkSvg(rt.map(x=>({r:x.rating,n:plName(x)})))}<div style="display:flex;gap:4px;align-items:flex-end;height:54px">${cnt.map((c,i)=>`<div title="${i+1}: ${c}" style="flex:1;height:${c?8+c/mx*46:3}px;background:${col(i+1)};border-radius:4px;opacity:${c?1:.25}"></div>`).join("")}</div>${dd.length?`<div class="hint">Длиннее всех: <b>${esc(plName(dd[dd.length-1]))}</b> (${fmt(dd[dd.length-1].dur)}) · короче всех: <b>${esc(plName(dd[0]))}</b> (${fmt(dd[0].dur)})</div>`:""}`}
+function sparkSvg(rs){rs=rs.map(x=>typeof x==="number"?{r:x}:x);if(rs.length<2)return"";
+  const w=640,h=110,q=12,xs=i=>q+i*(w-2*q)/(rs.length-1),ys=r=>h-q-(r-1)*(h-2*q)/9,pts=rs.map((x,i)=>xs(i).toFixed(1)+","+ys(x.r).toFixed(1));
+  return`<svg class="spark" viewBox="0 0 ${w} ${h}" style="width:100%;height:110px;display:block"><defs><linearGradient id="spg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--ac)" stop-opacity=".35"/><stop offset="1" stop-color="var(--ac)" stop-opacity="0"/></linearGradient></defs>${[1,5,10].map(v=>`<line x1="${q}" x2="${w-q}" y1="${ys(v).toFixed(1)}" y2="${ys(v).toFixed(1)}" stroke="currentColor" stroke-opacity=".14" stroke-dasharray="4 6"/>`).join("")}<polygon points="${xs(0).toFixed(1)},${h-q} ${pts.join(" ")} ${xs(rs.length-1).toFixed(1)},${h-q}" fill="url(#spg)"/><polyline points="${pts.join(" ")}" fill="none" stroke="var(--ac)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>${rs.map((x,i)=>`<circle cx="${xs(i).toFixed(1)}" cy="${ys(x.r).toFixed(1)}" r="5" fill="${col(x.r)}"><title>${esc(x.n||"")} ${x.r}/10</title></circle>`).join("")}</svg>`}
 function openSum(){
   if(!$("s-style").options.length){$("s-style").innerHTML='<option value="">Стиль: как в панели</option>'+THEMES.map(t=>`<option value="${t[0]}">${t[1]}</option>`).join("")}
   const all=[S.current,...S.history].filter(x=>x),rt=all.filter(x=>x.rating),avg=rt.length?rt.reduce((a,x)=>a+x.rating,0)/rt.length:0;
@@ -917,7 +978,7 @@ function openSum(){
   const curators=Object.entries(cur).sort((a,b)=>b[1]-a[1]).slice(0,5);
   const dd=all.filter(x=>x.dur>0&&!x.skipped).sort((a,b)=>a.dur-b.dur);
   $("sbody").innerHTML=`<div class="stats" style="margin:10px 0">Оценено: <b>${rt.length}</b> из ${all.length} · Средняя: <b>${rt.length?avg.toFixed(1):"–"}</b></div>
-  ${sparkSvg(rt.slice().reverse().map(x=>x.rating))}
+  <div class="hint">Оценка каждого трека по порядку</div>${sparkSvg(rt.slice().reverse().map(x=>({r:x.rating,n:plName(x)})))}
   ${dd.length?`<div class="hint">Самый длинный: <b>${esc(plName(dd[dd.length-1]))}</b> (${fmt(dd[dd.length-1].dur)}) · самый короткий: <b>${esc(plName(dd[0]))}</b> (${fmt(dd[0].dur)})</div>`:""}
   <div class="row" style="margin:10px 0"><select id="s-tag"><option value="">Хит-парад: все теги</option>${TAGS.map(([e,t])=>`<option value="${esc(t)}"${sumTag===t?" selected":""}>${esc(e)} ${esc(t)}</option>`).join("")}</select><button data-all="30">🗓 За 30 дней</button><button data-all="0">🗓 За всё время</button></div>
   <h3>Хит-парад вечера</h3><table class="tbl"><tr><th></th><th>Трек</th><th>Ник</th><th>Чат</th><th>Оценка</th></tr>${top.map((x,i)=>`<tr><td>${i+1}</td><td>${esc(plName(x))}${x.tags&&x.tags.length?" <small>"+esc(x.tags.join(", "))+"</small>":""}</td><td>@${esc(x.nick)}</td><td>${x.vn?x.vavg+" ("+x.vn+")":"–"}</td><td style="color:${col(x.rating)};font-weight:800">${x.rating}</td></tr>`).join("")||"<tr><td colspan=5>Нет оценок"+(sumTag?" с тегом «"+esc(sumTag)+"»":"")+"</td></tr>"}</table>
@@ -944,9 +1005,21 @@ function openAll(days){
 
 function updVotes(){const c=S.current;if(!c)return;const v=Object.values(votes);c.vn=v.length;c.vavg=v.length?+(v.reduce((a,x)=>a+x,0)/v.length).toFixed(1):null;save();renderNow(false)}
 function brkUi(){ls.set("kohb_brk",JSON.stringify(brk));$("brk").classList.toggle("on",brk.on&&brk.kind==="break");$("soon").classList.toggle("on",brk.on&&brk.kind==="soon");$("fin").classList.toggle("on",brk.on&&brk.kind==="end")}
+let endPick=null;
+const rankR=l=>l.map((x,i)=>[x,i]).sort((a,b)=>b[0].rating-a[0].rating||a[1]-b[1]).map(a=>a[0]);
+function podTop(r){const ch=(endPick||[]).map(id=>id?r.find(x=>String(x.id)===String(id)):null),pool=rankR(r.filter(x=>!ch.includes(x))),t3=[0,1,2].map(i=>ch[i]||pool.shift()).filter(Boolean);return[...t3,...pool].slice(0,5).map(x=>({n:plName(x),r:x.rating}))}
+function podGo(){endPick=[...document.querySelectorAll(".pod-s")].map(s=>s.value);$("podm").classList.remove("open");brk={on:true,until:0,kind:"end"};brkUi();bcast();toast("🏁 Конец стрима: итоги в оверлее")}
+function openPod(){const r=[S.current,...S.history].filter(x=>x&&x.rating);
+  if(!r.length){endPick=null;brk={on:true,until:0,kind:"end"};brkUi();bcast();toast("🏁 Конец стрима");return}
+  const ord=rankR(r),n=Math.min(3,ord.length),ids=ord.map(x=>String(x.id));
+  $("podb").innerHTML=["🥇 1 место","🥈 2 место","🥉 3 место"].slice(0,n).map((t,i)=>`<div class="fld"><label>${t}</label><select class="pod-s">${ord.map(x=>`<option value="${x.id}">${esc(plName(x))} · ${x.rating}</option>`).join("")}</select></div>`).join("");
+  const sel=[...document.querySelectorAll(".pod-s")],auto=()=>{sel.forEach((s,i)=>{s.value=ids[i];s.dataset.prev=s.value})};auto();
+  sel.forEach(s=>{s.onchange=()=>{sel.forEach(o=>{if(o!==s&&o.value===s.value)o.value=s.dataset.prev});sel.forEach(o=>o.dataset.prev=o.value)}});
+  $("pod-auto").onclick=auto;$("pod-go").onclick=podGo;$("podm").classList.add("open")}
+$("podx").onclick=()=>$("podm").classList.remove("open");
 function brkToggle(kind){
   if(brk.on&&brk.kind===kind){brk={on:false,until:0};brkUi();bcast();toast("Заставка выключена");return}
-  if(kind==="end"){brk={on:true,until:0,kind:"end"};brkUi();bcast();toast("🏁 Конец стрима: итоги вечера в оверлее");return}
+  if(kind==="end"){openPod();return}
   const v=prompt(kind==="soon"?"Через сколько минут начнём? (пусто — без таймера)":"На сколько минут перерыв? (пусто — без таймера)","5");if(v===null)return;
   const m=parseFloat(String(v).replace(",","."));brk={on:true,until:m>0?Date.now()+m*60000:0,kind};brkUi();bcast();toast(kind==="soon"?"⏳ «Скоро начнём» в оверлее":"☕ Перерыв в оверлее")}
 $("brk").onclick=()=>brkToggle("break");$("soon").onclick=()=>brkToggle("soon");$("fin").onclick=()=>brkToggle("end");$("t-f").onclick=()=>window.SFX&&SFX.fail();matchMedia("(prefers-color-scheme: light)").addEventListener&&matchMedia("(prefers-color-scheme: light)").addEventListener("change",applyCfg);
@@ -1004,7 +1077,7 @@ async function scrStart(){
   }catch(e){toast("Показ вкладки отменён")}
 }
 function scrToggle(){return scrOn?scrStop():scrStart()}
-const pubState=()=>{const c=S.current;return{t:Date.now(),pos:(()=>{try{return player&&player.getCurrentTime&&c&&player.getVideoData().video_id===ytId(c.text)?player.getCurrentTime():0}catch(e){return 0}})(),play:!!playing,scr:!!scrOn,theme,blind:!!cfg.blind,dur:(()=>{try{return player&&c&&player.getVideoData().video_id===ytId(c.text)?(player.getDuration()||0):0}catch(e){return 0}})(),vote:c?{avg:c.vavg||null,n:c.vn||0,open:!c.rating}:null,brk:brk.on?{rem:brk.until?Math.max(0,brk.until-Date.now()):null,kind:brk.kind||"break"}:null,ev:(()=>{const r=[S.current,...S.history].filter(x=>x&&x.rating);return{cnt:r.length,avg:r.length?+(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):null,pl:r.filter(x=>x.pl).length,top:[...r].sort((a,b)=>b.rating-a.rating).slice(0,5).map(x=>({n:plName(x),r:x.rating}))}})(),hist:S.history.filter(x=>x.rating).slice(0,5).map(x=>({n:plName(x),r:x.rating})),snd:cfg.snd,cmd:String(cfg.cmds||"!заказ").split(",")[0].trim()||"!заказ",sndVol:cfg.sndVol,chatUrl:cfg.chatUrl||"",chatRev:cfg.chatRev||0,chatBox:{x:cfg.chX,y:cfg.chY,w:cfg.chW,h:cfg.chH},ovFx:cfg.ovFx!==false,accent:/^#[0-9a-f]{6}$/i.test(cfg.accent||"")?cfg.accent:"",chatOn:cfg.ovChat!==false,current:c?{id:c.id,text:c.text,name:c.name,title:c.title,nick:c.nick,rating:c.rating||null,thumb:c.thumb||"",t0:c.t0||0,cover:c.cover||"",noemb:!!c.noemb,co:c.co&&c.co.r?{n:c.co.n,r:c.co.r}:null}:null,queue:S.queue.slice(0,5).map(x=>({id:x.id,text:x.text,nick:x.nick,don:!!x.don}))}};
+const pubState=()=>{const c=S.current;return{cob:(cfg.coBadge!==false&&coLive())?{n:coLive()}:null,corv:cfg.coRShow!==false,t:Date.now(),pos:(()=>{try{return player&&player.getCurrentTime&&c&&player.getVideoData().video_id===ytId(c.text)?player.getCurrentTime():0}catch(e){return 0}})(),play:!!playing,scr:!!scrOn,theme,blind:!!cfg.blind,dur:(()=>{try{return player&&c&&player.getVideoData().video_id===ytId(c.text)?(player.getDuration()||0):0}catch(e){return 0}})(),vote:c?{avg:c.vavg||null,n:c.vn||0,open:!c.rating}:null,brk:brk.on?{rem:brk.until?Math.max(0,brk.until-Date.now()):null,kind:brk.kind||"break"}:null,ev:(()=>{const r=[S.current,...S.history].filter(x=>x&&x.rating);return{cnt:r.length,avg:r.length?+(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):null,pl:r.filter(x=>x.pl).length,top:podTop(r)}})(),hist:S.history.filter(x=>x.rating).slice(0,5).map(x=>({n:plName(x),r:x.rating})),snd:cfg.snd,cmd:String(cfg.cmds||"!заказ").split(",")[0].trim()||"!заказ",sndVol:cfg.sndVol,chatUrl:cfg.chatUrl||"",chatRev:cfg.chatRev||0,chatBox:{x:cfg.chX,y:cfg.chY,w:cfg.chW,h:cfg.chH},ovFx:cfg.ovFx!==false,accent:/^#[0-9a-f]{6}$/i.test(cfg.accent||"")?cfg.accent:"",chatOn:cfg.ovChat!==false,current:c?{id:c.id,text:c.text,name:c.name,title:c.title,nick:c.nick,rating:c.rating||null,thumb:c.thumb||"",t0:c.t0||0,cover:c.cover||"",noemb:!!c.noemb,co:c.co&&c.co.r?{n:coLive()||c.co.n,r:c.co.r}:null}:null,queue:S.queue.slice(0,5).map(x=>({id:x.id,text:x.text,nick:x.nick,don:!!x.don,n:x.title?plName(x):""}))}};
 function bcast(){try{conns=conns.filter(c=>c.open);if(conns.length){const m=pubState();conns.forEach(c=>c.send(m))}}catch(e){}try{coBcast()}catch(e){}}
 function ovSt(){const n=conns.filter(c=>c.open).length,e=$("ov-st");if(!e)return;e.textContent=peerErr||(n?"оверлей подключён"+(n>1?" ("+n+")":""):"ждёт оверлей");$("ov-dot").className="dot"+(n&&!peerErr?" ok":"")}
 function peerStart(){
@@ -1026,9 +1099,11 @@ const coWant=()=>{try{return ls.get(CJ)||""}catch(e){return""}};
 const coMe=()=>(cfg.coName||cfg.chan||"друг").slice(0,24);
 const coConns=()=>CO.role==="host"?cos.filter(c=>c.open):(CO.role==="guest"&&CO.conn&&CO.conn.open?[CO.conn]:[]);
 const coSend=m=>{try{if(CO.conn&&CO.conn.open)CO.conn.send(m)}catch(e){}};
-const coCmd=(c,id)=>{if(CO.ctl===false){toast("Хозяин не разрешил управлять треками (у него Настройки → Коллаб)");return}coSend({t:"cmd",c,id})};
+const PK={pp:"pp",next:"nx",skip:"nx",go:"qu",del:"qu",don:"qu"};
+const coCmd=(c,id)=>{if(CO.perm&&CO.perm[PK[c]]===false){toast("Хозяин не разрешил это действие (у него Настройки → Коллаб)");return}coSend({t:"cmd",c,id})};
+function coLive(){try{if(CO.role==="guest")return CO.host||"";if(CO.role==="host"){const x=cos.find(c=>c.open);return x?(x.coName||"друг"):""}}catch(e){}return""}
 const coTrim=x=>x?{id:x.id,text:x.text,nick:x.nick,comment:x.comment||"",title:x.title,author:x.author,name:x.name,cover:x.cover,thumb:x.thumb,noemb:!!x.noemb,src:x.src,t0:x.t0,rating:x.rating||null,vn:x.vn||0,vavg:x.vavg||null,don:!!x.don}:null;
-function coPack(){const p=pubState();return{t:"st",pos:p.pos,play:p.play,dur:p.dur,cur:coTrim(S.current),q:S.queue.slice(0,40).map(coTrim),n:S.queue.length,hn:coMe(),ctl:!!cfg.coCtl}}
+function coPack(){const p=pubState();return{t:"st",pos:p.pos,play:p.play,dur:p.dur,cur:coTrim(S.current),q:S.queue.slice(0,40).map(coTrim),n:S.queue.length,hn:coMe(),ctl:!!(cfg.coPp||cfg.coNx||cfg.coQu),perm:{pp:!!cfg.coPp,nx:!!cfg.coNx,qu:!!cfg.coQu,ad:!!cfg.coAd}}}
 function coBcast(){if(CO.role!=="host")return;cos=cos.filter(c=>c.open);if(!cos.length)return;const m=coPack();cos.forEach(c=>{try{c.send(m)}catch(e){}})}
 function coUi(){
   const host=CO.role==="host",guest=CO.role==="guest",n=cos.filter(c=>c.open).length;
@@ -1054,18 +1129,19 @@ function coAccept(c){
     if(CO.role!=="host"||md.key!==cfg.coKey){try{c.send({t:"deny",why:CO.role!=="host"?"комната закрыта":"неверный код"})}catch(e){}setTimeout(()=>{try{c.close()}catch(e){}},300);return}
     c.coName=String(md.name||"друг").slice(0,24);
     cos.filter(x=>x!==c).forEach(x=>{try{x.send({t:"bye"});x.close()}catch(e){}});cos=[c];
-    try{c.send({t:"hello",name:coMe(),ctl:!!cfg.coCtl});c.send(coPack())}catch(e){}
+    try{c.send({t:"hello",name:coMe(),ctl:!!(cfg.coPp||cfg.coNx||cfg.coQu)});c.send(coPack())}catch(e){}
     toast("🤝 "+c.coName+" подключился");coUi();if(scrOn)scrCall(c)});
   c.on("data",m=>coHostMsg(c,m));
   const gone=()=>{if(cos.includes(c)){cos=cos.filter(x=>x!==c);toast("🤝 "+(c.coName||"друг")+" отключился")}coUi()};c.on("close",gone);c.on("error",gone)}
 function coHostMsg(c,m){
   if(!m||typeof m!=="object")return;
   try{
-  if(m.t==="rate"){const cur=S.current;if(cur&&String(cur.id)===String(m.id)){const r=Math.max(1,Math.min(10,+m.r|0));cur.co={n:c.coName,r};save();renderNow(false);toast("🤝 "+c.coName+": "+r+"/10")}}
-  else if(m.t==="add"&&m.it){
+  if(m.t==="name"){c.coName=String(m.name||"друг").slice(0,24);coUi();bcast()}
+  else if(m.t==="rate"){const cur=S.current;if(cur&&String(cur.id)===String(m.id)){const r=Math.max(1,Math.min(10,+m.r|0));cur.co={n:c.coName,r};save();renderNow(false);toast("🤝 "+c.coName+": "+r+"/10")}}
+  else if(m.t==="add"&&m.it){if(!cfg.coAd){try{c.send({t:"msg",x:"Хозяин отключил заявки от друга"})}catch(e){}return}
     const it={id:Date.now()+Math.random(),text:String(m.it.text||"").slice(0,300).trim(),nick:String(m.it.nick||c.coName).slice(0,40),comment:String(m.it.comment||"").slice(0,200),src:"co:"+c.coName};
     if(!it.text)return;
-    if(m.manual){const don=isDon(it.comment),ex=S.queue.find(q=>normKey(q.text)===normKey(it.text));
+    if(m.manual){if(cfg.coMod){S.pending.push(it);save();renderLists();toast("⚠ заявка от "+c.coName+": на проверке");return}const don=isDon(it.comment),ex=S.queue.find(q=>normKey(q.text)===normKey(it.text));
       if(ex&&don&&!ex.don){donFront(ex);save();renderLists();return}
       if(isDup(it.text)){try{c.send({t:"msg",x:"Этот трек уже в очереди"})}catch(e){}return}
       if(don){it.don=true;S.queue.splice(S.queue.filter(q=>q.don).length,0,it)}else S.queue.push(it);save();renderLists();toast("🎵 "+c.coName+" добавил трек");return}
@@ -1074,7 +1150,7 @@ function coHostMsg(c,m){
     S.queue.push(it);save();renderLists();toast(cfg.blind?"🎵 новая заявка":"🎵 @"+it.nick+" → в очередь")}
   else if(m.t==="vote"){const v=+m.v;if(S.current&&!S.current.rating&&v>=1&&v<=10&&m.u){votes[String(m.u).toLowerCase().slice(0,40)]=v;updVotes()}}
   else if(m.t==="cmd"){
-    if(!cfg.coCtl){try{c.send({t:"msg",x:"Хозяин запретил управление треками"})}catch(e){}return}
+    const PKm={pp:"coPp",next:"coNx",skip:"coNx",go:"coQu",del:"coQu",don:"coQu"};if(!cfg[PKm[m.c]]){try{c.send({t:"msg",x:"Хозяин не разрешил это действие"})}catch(e){}return}
     if(m.c==="next"){if(!S.queue.length)try{c.send({t:"msg",x:"Очередь пуста"})}catch(e){}next()}else if(m.c==="skip")skip();else if(m.c==="pp"){if(!player||!player.getPlayerState){try{c.send({t:"msg",x:"У хозяина сейчас нет встроенного плеера"})}catch(e){}}else{player.getPlayerState()===1?player.pauseVideo():player.playVideo();setTimeout(bcast,400)}}
     else if(m.c==="go"){const i=S.queue.findIndex(q=>String(q.id)===String(m.id));if(i>-1)start(S.queue.splice(i,1)[0])}
     else if(m.c==="del"){S.queue=S.queue.filter(q=>String(q.id)!==String(m.id));save();renderLists()}
@@ -1114,7 +1190,7 @@ function coApply(m){
     mir={...cur,co:{n:CO.host,r:cur.rating||null},rating:same?old.rating:null,note:same?old.note:"",pl:same?!!old.pl:false,tags:same?(old.tags||[]):[]}}
   const changed=(!old)!==(!mir)||(old&&mir&&String(old.id)!==String(mir.id));
   if(changed&&old){coSess.unshift(old);if(coSess.length>300)coSess.pop();coFlush()}
-  S.queue=m.q||[];S.pending=[];S.current=mir;S.history=coSess;CO.pos=m.pos;if(typeof m.ctl==="boolean")CO.ctl=m.ctl;CO.play=m.play;CO.dur=m.dur;CO.hn=m.hn;
+  S.queue=m.q||[];S.pending=[];S.current=mir;S.history=coSess;CO.pos=m.pos;if(typeof m.ctl==="boolean")CO.ctl=m.ctl;if(m.perm)CO.perm=m.perm;CO.play=m.play;CO.dur=m.dur;CO.hn=m.hn;if(m.hn&&m.hn!==CO.host){CO.host=String(m.hn).slice(0,24);coUi()}
   const sig=JSON.stringify(S.queue.map(x=>x.id+(x.don?"d":"")));
   if(changed){votes={};show();setTimeout(coSync,1800);setTimeout(coSync,4500)}
   else{renderNow(false);if(sig!==coSig)renderLists();coSync()}
