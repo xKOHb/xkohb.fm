@@ -418,6 +418,7 @@ html[data-mode=light] .bg::after{background:radial-gradient(500px at 30% 40%,col
 html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
 
 /* ===== коллаб ===== */
+.beta{font-style:normal;font-size:10.5px;font-weight:800;letter-spacing:.8px;padding:2px 7px;border-radius:99px;background:var(--ac);color:#111;vertical-align:middle}
 #cobar{display:none;align-items:center;gap:12px;flex-wrap:wrap;padding:8px 18px;font-size:13.5px;background:linear-gradient(90deg,color-mix(in srgb,var(--ac) 22%,transparent),color-mix(in srgb,var(--ac2) 16%,transparent));border-bottom:1px solid var(--ln)}
 #cobar.on{display:flex}#cobar b{color:var(--ac2)}#cobar .sp{flex:1}
 #cobtn.on{background:var(--ac);border-color:var(--ac);color:#111}
@@ -439,7 +440,7 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
   <div class="stats" id="stats"></div>
   <div class="hr"><span class="air" id="bl" style="display:none">🕶 СЛЕПОЕ</span><span class="air" id="air">● ON AIR</span><button id="brk" class="ghost" title="Перерыв (K)">☕</button><button id="soon" class="ghost" title="Скоро начнём (L)">⏳</button><button id="fin" class="ghost" title="Конец стрима: итоги вечера в оверлее (E)">🏁</button><button id="chbtn" class="ghost" title="Чат в оверлее: показать / убрать (C)">💬</button><button id="cobtn" class="ghost" title="Коллаб: вести эфир вдвоём с другом">🤝</button><button id="sum" class="ghost">🏆 Итоги</button><button id="exp" class="ghost">📋 Плейлист</button><button id="gear" class="ghost" title="Настройки" aria-label="Настройки">⚙️</button></div>
 </header>
-<div id="cobar"><span id="cotx"></span><span class="sp"></span><button id="coleave" class="ghost" hidden>Выйти из коллаба</button></div>
+<div id="cobar"><span id="cotx"></span><span class="sp"></span><button id="coleave" class="ghost" hidden>Выйти</button></div>
 <main>
   <section class="col">
     <div class="card">
@@ -530,8 +531,8 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
   </div></details>
 
   <details><summary>📺 OBS-оверлей <small>ссылка, показ вкладки, эффекты</small></summary><div class="sb">
-    <div class="row"><button id="ov-copy">📋 Ссылка для Browser Source</button><button id="ov-win">🪟 Окно с зелёным фоном</button></div>
-    <div class="hint"><span class="dot" id="ov-dot"></span><span id="ov-st">…</span> · В OBS: Sources → + → Browser, вставь ссылку, размер 1920×1080. Панель должна быть открыта.</div>
+    <div class="row"><button id="ov-copy">📋 Ссылка для Browser Source</button><button id="ov-win">🪟 Окно с зелёным фоном</button><button id="ov-new" title="Если у двух людей совпал код оверлея (например, импортировали одни и те же настройки)">🔄 Новый код оверлея</button></div>
+    <div class="hint"><span class="dot" id="ov-dot"></span><span id="ov-st">…</span> · В OBS: Sources → + → Browser, вставь ссылку, размер 1920×1080. Панель должна быть открыта. Ссылка у каждого своя: никому её не отправляй.</div>
     <div class="fld"><label for="c-ovq">«Далее в эфире» в оверлее</label><input type="checkbox" id="c-ovq"></div>
     <div class="fld"><label for="c-ovlogo">Логотип в оверлее<small>после смены скопируй ссылку для OBS заново</small></label><input type="checkbox" id="c-ovlogo"></div>
     <div class="fld"><label for="c-ovfx">Конфетти, дождь и вспышка на 9–10<small>в оверлее</small></label><input type="checkbox" id="c-ovfx"></div>
@@ -557,7 +558,8 @@ html[data-mode=light] button:hover:not(:disabled){background:rgba(0,0,0,.06)}
     <div class="fld"><label for="c-copy">Копировать как</label><select id="c-copy"><option value="names">Исполнитель – Название</option><option value="links">Ссылки</option></select></div>
   </div></details>
 
-  <details id="co-sec"><summary>🤝 Коллаб (вдвоём с другом) <small>общая очередь, оценки, синхронный плеер, экран партнёра</small></summary><div class="sb">
+  <details id="co-sec"><summary>🤝 Коллаб <span class="beta">БЕТА</span> <small>общая очередь, оценки, синхронный плеер, экран партнёра</small></summary><div class="sb">
+    <div class="hint">⚠ <b>БЕТА</b>: функция в тестировании, возможны ошибки. Если что-то зависло, обнови страницу: связь с другом восстановится сама.</div>
     <div class="hint">Один создаёт комнату и отдаёт код, второй вставляет код у себя. Дальше у обоих одна очередь, треки играют синхронно, оценки видны обоим, а заявки из чата друга падают в общую очередь. Работает между любыми версиями сайта.</div>
     <h4 class="sh">Я хозяин комнаты</h4>
     <div class="row"><button id="co-open">🔓 Открыть комнату</button><button id="co-copy">📋 Скопировать код</button></div>
@@ -848,10 +850,11 @@ $("c-churl").addEventListener("change",e=>{const v=e.target.value.trim();if(v&&!
 $("ch-ref").onclick=()=>{cfg.chatRev=(cfg.chatRev||0)+1;cfgSave();bcast();toast("Чат в оверлее обновлён ✓")};
 $("ch-rst").onclick=()=>{cfg.chatUrl="";$("c-churl").value="";cfg.chatRev=(cfg.chatRev||0)+1;cfgSave();bcast();toast("Чат в оверлее: стандартный")};
 $("ov-copy").onclick=async()=>{try{await navigator.clipboard.writeText(ovLink());toast("Ссылка скопирована ✓")}catch(e){toast(ovLink())}};
+$("ov-new").onclick=()=>{if(!confirm("Создать новую ссылку оверлея? Старая перестанет работать, новую нужно вставить в OBS. Комната коллаба тоже закроется."))return;const rnd=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>(b%36).toString(36)).join("");if(cfg.coOpen)coOpenRoom(false);cfg.room=rnd(12);cfg.coKey=rnd(12);cfgSave();peerStart();coUi();toast("Новая ссылка создана: скопируй её в OBS")};
 $("ov-win").onclick=()=>window.open("/overlay.html?bg=green&"+ovQ(),"kohb_overlay","width=980,height=420");
-$("d-exp").onclick=()=>{const b=new Blob([JSON.stringify({S,cfg:(({ytKey,...r})=>r)(cfg),arch:(()=>{try{return JSON.parse(ls.get("kohb_arch")||"[]")}catch(e){return[]}})()},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="kohb-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$("d-exp").onclick=()=>{const b=new Blob([JSON.stringify({S,cfg:(({ytKey,room,coKey,coOpen,...r})=>r)(cfg),arch:(()=>{try{return JSON.parse(ls.get("kohb_arch")||"[]")}catch(e){return[]}})()},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="kohb-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 $("d-imp").onclick=()=>$("d-file").click();
-$("d-file").onchange=async e=>{try{const j=JSON.parse(await e.target.files[0].text());if(j.S){S=fixS(j.S);save()}if(Array.isArray(j.arch)&&j.arch.length)ls.set("kohb_arch",JSON.stringify(j.arch.slice(-60)));if(j.cfg){Object.assign(cfg,j.cfg);cfgSave();location.reload();return}show();toast("Импортировано ✓")}catch(x){toast("Не удалось прочитать файл")}};
+$("d-file").onchange=async e=>{try{const j=JSON.parse(await e.target.files[0].text());if(j.S){S=fixS(j.S);save()}if(Array.isArray(j.arch)&&j.arch.length)ls.set("kohb_arch",JSON.stringify(j.arch.slice(-60)));if(j.cfg){const{room:_r,coKey:_k,coOpen:_o,...jc}=j.cfg;Object.assign(cfg,jc);cfgSave();location.reload();return}show();toast("Импортировано ✓")}catch(x){toast("Не удалось прочитать файл")}};
 /* oEmbed: название и обложка для Spotify / SoundCloud */
 async function ytMeta(x){const id=ytId(x.text);if(!id||x.author)return false;const u="https://www.youtube.com/watch?v="+id;
   for(const f of["https://www.youtube.com/oembed?format=json&url=","https://noembed.com/embed?url="]){
@@ -1008,29 +1011,31 @@ function peerStart(){
   clearTimeout(peerT);
   if(!window.Peer){peerErr="нет связи с сервером синхронизации";ovSt();return}
   try{if(peer&&!peer.destroyed)peer.destroy();conns=[];peer=new Peer("kohbfm-"+cfg.room);
-    peer.on("open",()=>{peerErr="";ovSt()});
+    peer.on("open",()=>{peerErr="";ovSt();try{coUi();if(coWant()&&CO.role==="none")coJoin(coWant(),true)}catch(e){}});
     peer.on("connection",c=>{if(c.metadata&&c.metadata.co){coAccept(c);return}c.on("open",()=>{conns.push(c);try{c.send(pubState())}catch(e){}scrCall(c);ovSt()});const gone=()=>{conns=conns.filter(x=>x!==c);ovSt()};c.on("close",gone);c.on("error",gone)});
     peer.on("disconnected",()=>{try{peer.reconnect()}catch(e){}});
     peer.on("call",call=>{try{call.answer();call.on("stream",s=>coShow(s));call.on("close",coHide)}catch(e){}});
-    peer.on("error",e=>{peerErr=e.type==="unavailable-id"?"комната занята: закрой другие вкладки панели":"ошибка связи ("+e.type+")";ovSt();peerT=setTimeout(peerStart,5000)});
+    peer.on("error",e=>{peerErr=e.type==="unavailable-id"?"код оверлея занят другой панелью (закрой лишние вкладки или нажми «Новый код оверлея»)":"ошибка связи ("+e.type+")";ovSt();peerT=setTimeout(peerStart,5000)});
   }catch(e){peerErr="ошибка запуска синхронизации";ovSt()}
 }
 
 /* ============ КОЛЛАБ (WebRTC, без сервера) ============ */
 let cos=[],coBak=null,coSess=[],coSig="";
+const BETA='<i class="beta">БЕТА</i>',CJ=KEY.replace(/_fm_v1$/,"")+"_coj";
+const coWant=()=>{try{return ls.get(CJ)||""}catch(e){return""}};
 const coMe=()=>(cfg.coName||cfg.chan||"друг").slice(0,24);
 const coConns=()=>CO.role==="host"?cos.filter(c=>c.open):(CO.role==="guest"&&CO.conn&&CO.conn.open?[CO.conn]:[]);
 const coSend=m=>{try{if(CO.conn&&CO.conn.open)CO.conn.send(m)}catch(e){}};
-const coCmd=(c,id)=>{coSend({t:"cmd",c,id})};
+const coCmd=(c,id)=>{if(CO.ctl===false){toast("Хозяин не разрешил управлять треками (у него Настройки → Коллаб)");return}coSend({t:"cmd",c,id})};
 const coTrim=x=>x?{id:x.id,text:x.text,nick:x.nick,comment:x.comment||"",title:x.title,author:x.author,name:x.name,cover:x.cover,thumb:x.thumb,noemb:!!x.noemb,src:x.src,t0:x.t0,rating:x.rating||null,vn:x.vn||0,vavg:x.vavg||null,don:!!x.don}:null;
-function coPack(){const p=pubState();return{t:"st",pos:p.pos,play:p.play,dur:p.dur,cur:coTrim(S.current),q:S.queue.slice(0,40).map(coTrim),n:S.queue.length,hn:coMe()}}
+function coPack(){const p=pubState();return{t:"st",pos:p.pos,play:p.play,dur:p.dur,cur:coTrim(S.current),q:S.queue.slice(0,40).map(coTrim),n:S.queue.length,hn:coMe(),ctl:!!cfg.coCtl}}
 function coBcast(){if(CO.role!=="host")return;cos=cos.filter(c=>c.open);if(!cos.length)return;const m=coPack();cos.forEach(c=>{try{c.send(m)}catch(e){}})}
 function coUi(){
   const host=CO.role==="host",guest=CO.role==="guest",n=cos.filter(c=>c.open).length;
-  const b=$("cobtn");if(b)b.classList.toggle("on",guest||(host&&n>0));
-  const bar=$("cobar");if(bar){bar.classList.toggle("on",guest||(host&&n>0));
-    $("cotx").innerHTML=guest?"🤝 Коллаб: ты гость в эфире <b>"+esc(CO.host||"друга")+"</b>. Треки играют синхронно, оценки у каждого свои.":host&&n?"🤝 Коллаб: подключён <b>"+esc(cos.filter(c=>c.open).map(c=>c.coName).join(", "))+"</b>":"";
-    $("coleave").hidden=!guest}
+  const want=!!coWant()&&!guest,b=$("cobtn");if(b){b.classList.toggle("on",guest||(host&&n>0));b.title="Коллаб (БЕТА)"}
+  const bar=$("cobar");if(bar){bar.classList.toggle("on",guest||host||want||!!CO.pending);
+    $("cotx").innerHTML=guest?"🤝 Коллаб "+BETA+" · ты гость в эфире <b>"+esc(CO.host||"друга")+"</b>. Треки синхронны, оценки у каждого свои."+(CO.ctl===false?" Управление треками выключено у хозяина.":""):host&&n?"🤝 Коллаб "+BETA+" · подключён <b>"+esc(cos.filter(c=>c.open).map(c=>c.coName).join(", "))+"</b>":host?"🤝 Коллаб "+BETA+" · комната открыта, ждём друга":(want||CO.pending)?"🤝 Коллаб "+BETA+" · подключаюсь к другу…":"";
+    $("coleave").hidden=!(guest||host||want||CO.pending);$("coleave").textContent=host?"Закрыть комнату":guest?"Выйти из коллаба":"Отмена"}
   const op=$("co-open");if(op)op.textContent=host?"🔒 Закрыть комнату":"🔓 Открыть комнату";
   const inv=$("co-inv");if(inv)inv.value=host&&peer&&cfg.room?"kohbfm-"+cfg.room+"~"+cfg.coKey:"";
   const j=$("co-join");if(j)j.textContent=guest?"⏹ Выйти из коллаба":"🤝 Подключиться";
@@ -1041,7 +1046,7 @@ function coUi(){
 /* ---- хозяин ---- */
 function coOpenRoom(on){
   if(on&&CO.role==="guest"){toast("Сначала выйди из коллаба как гость");return}
-  cfg.coOpen=!!on;cfgSave();CO.role=on?"host":"none";if(!on){cos.forEach(c=>{try{c.send({t:"bye"});c.close()}catch(e){}});cos=[]}
+  cfg.coOpen=!!on;if(on)ls.set(CJ,"");cfgSave();CO.role=on?"host":"none";if(!on){cos.forEach(c=>{try{c.send({t:"bye"});c.close()}catch(e){}});cos=[]}
   coUi();bcast();toast(on?"🤝 Комната открыта. Отправь другу код":"Комната закрыта")}
 function coAccept(c){
   c.on("open",()=>{
@@ -1070,31 +1075,36 @@ function coHostMsg(c,m){
   else if(m.t==="vote"){const v=+m.v;if(S.current&&!S.current.rating&&v>=1&&v<=10&&m.u){votes[String(m.u).toLowerCase().slice(0,40)]=v;updVotes()}}
   else if(m.t==="cmd"){
     if(!cfg.coCtl){try{c.send({t:"msg",x:"Хозяин запретил управление треками"})}catch(e){}return}
-    if(m.c==="next")next();else if(m.c==="skip")skip();else if(m.c==="pp")$("pp").click();
+    if(m.c==="next"){if(!S.queue.length)try{c.send({t:"msg",x:"Очередь пуста"})}catch(e){}next()}else if(m.c==="skip")skip();else if(m.c==="pp"){if(!player||!player.getPlayerState){try{c.send({t:"msg",x:"У хозяина сейчас нет встроенного плеера"})}catch(e){}}else{player.getPlayerState()===1?player.pauseVideo():player.playVideo();setTimeout(bcast,400)}}
     else if(m.c==="go"){const i=S.queue.findIndex(q=>String(q.id)===String(m.id));if(i>-1)start(S.queue.splice(i,1)[0])}
     else if(m.c==="del"){S.queue=S.queue.filter(q=>String(q.id)!==String(m.id));save();renderLists()}
     else if(m.c==="don"){const it=S.queue.find(q=>String(q.id)===String(m.id));if(it){if(it.don)delete it.don;else donFront(it);save();renderLists()}}}
   }catch(e){}
 }
 /* ---- гость ---- */
-function coJoin(code){
+let coTry=0,coRT=null;
+function coRetry(){clearTimeout(coRT);if(!coWant()||CO.role!=="none"||coTry>=8){coUi();return}coTry++;coRT=setTimeout(()=>{if(CO.role==="none"&&coWant()&&!CO.pending)coJoin(coWant(),true)},4000)}
+function coJoin(code,auto){
   const [id,key]=String(code||"").trim().split("~");
   if(!id||!key){toast("Неверный код приглашения");return}
-  if(CO.role==="host"){toast("Сначала закрой свою комнату");return}
-  if(!peer||peer.destroyed||!peer.open){toast("Нет связи с сервером синхронизации, попробуй через пару секунд");return}
-  if(CO.role==="guest")coLeave(true);
+  if(CO.role==="host"){if(!auto)toast("Сначала закрой свою комнату");return}
+  if(CO.pending)return;
+  if(!peer||peer.destroyed||!peer.open){if(auto)coRetry();else toast("Нет связи с сервером синхронизации, попробуй через пару секунд");return}
+  if(CO.role==="guest")coLeave(true,"",true);
+  clearTimeout(coRT);
   const c=peer.connect(id,{reliable:true,metadata:{co:1,key,name:coMe()}});
-  CO.pending=c;toast("Подключаюсь…");
-  const to=setTimeout(()=>{if(CO.pending===c){CO.pending=null;try{c.close()}catch(e){}toast("Не удалось подключиться: проверь код и что комната открыта")}},12000);
+  c.coCode=String(code).trim();CO.pending=c;if(!auto)toast("Подключаюсь…");coUi();
+  const fail=m=>{if(CO.pending===c){CO.pending=null;try{c.close()}catch(e){}if(auto)coRetry();else toast(m)}coUi()};
+  const to=setTimeout(()=>fail("Не удалось подключиться: проверь код и что комната открыта"),12000);
   c.on("data",m=>coGuestMsg(c,m,to));
-  c.on("close",()=>{if(CO.conn===c)coLeave(false,"Связь с другом потеряна")});
-  c.on("error",()=>{if(CO.pending===c){CO.pending=null;toast("Ошибка подключения")}})}
+  c.on("close",()=>{if(CO.conn===c){coLeave(false,"Связь с другом потеряна, переподключаюсь…",true);coRetry()}});
+  c.on("error",()=>fail("Ошибка подключения"))}
 function coGuestMsg(c,m,to){
   if(!m||typeof m!=="object")return;
-  if(m.t==="deny"){clearTimeout(to);CO.pending=null;toast("Отказ: "+(m.why||"нельзя подключиться"));try{c.close()}catch(e){}return}
+  if(m.t==="deny"){clearTimeout(to);CO.pending=null;ls.set(CJ,"");coTry=0;toast("Отказ: "+(m.why||"нельзя подключиться"));try{c.close()}catch(e){}return}
   if(m.t==="msg"){toast(String(m.x||""));return}
   if(m.t==="bye"){coLeave(false,"Друг закрыл комнату");return}
-  if(m.t==="hello"){clearTimeout(to);CO.pending=null;coBak=S;coSess=[];coSig="";S=fixS();votes={};CO={role:"guest",conn:c,host:String(m.name||"друг"),ctl:!!m.ctl};
+  if(m.t==="hello"){clearTimeout(to);CO.pending=null;coTry=0;try{ls.set(CJ,c.coCode||"")}catch(e){}coBak=S;coSess=[];coSig="";S=fixS();votes={};CO={role:"guest",conn:c,host:String(m.name||"друг"),ctl:!!m.ctl};
     toast("🤝 Подключено к "+CO.host);coUi();show();return}
   if(m.t==="st"&&CO.role==="guest"&&CO.conn===c)coApply(m)}
 function coFlush(){if(CO.role!=="guest"||!coBak)return;try{ls.set(KEY,JSON.stringify({...coBak,history:[...coSess.filter(x=>x.rating||x.pl||x.note),...coBak.history].slice(0,500)}))}catch(e){}}
@@ -1104,7 +1114,7 @@ function coApply(m){
     mir={...cur,co:{n:CO.host,r:cur.rating||null},rating:same?old.rating:null,note:same?old.note:"",pl:same?!!old.pl:false,tags:same?(old.tags||[]):[]}}
   const changed=(!old)!==(!mir)||(old&&mir&&String(old.id)!==String(mir.id));
   if(changed&&old){coSess.unshift(old);if(coSess.length>300)coSess.pop();coFlush()}
-  S.queue=m.q||[];S.pending=[];S.current=mir;S.history=coSess;CO.pos=m.pos;CO.play=m.play;CO.dur=m.dur;CO.hn=m.hn;
+  S.queue=m.q||[];S.pending=[];S.current=mir;S.history=coSess;CO.pos=m.pos;if(typeof m.ctl==="boolean")CO.ctl=m.ctl;CO.play=m.play;CO.dur=m.dur;CO.hn=m.hn;
   const sig=JSON.stringify(S.queue.map(x=>x.id+(x.don?"d":"")));
   if(changed){votes={};show();setTimeout(coSync,1800);setTimeout(coSync,4500)}
   else{renderNow(false);if(sig!==coSig)renderLists();coSync()}
@@ -1114,8 +1124,9 @@ function coSync(){
   try{const st=player.getPlayerState();
     if(CO.play&&st!==1&&st!==3)player.playVideo();else if(!CO.play&&st===1)player.pauseVideo();
     if(CO.play&&typeof CO.pos==="number"&&player.getCurrentTime&&CO.pos>0){const d=CO.pos+.15-player.getCurrentTime();if(Math.abs(d)>2.5)player.seekTo(CO.pos+.15,true)}}catch(e){}}
-function coLeave(quiet,msg){
+function coLeave(quiet,msg,keep){
   if(CO.role!=="guest"){return}
+  if(!keep){ls.set(CJ,"");coTry=0;clearTimeout(coRT)}
   const conn=CO.conn;CO={role:"none"};try{conn&&conn.close()}catch(e){}
   const sess=coSess.filter(x=>x.rating||x.pl||x.note),base=coBak?fixS(coBak):fixS();
   if(S.current&&(S.current.rating||S.current.pl||S.current.note))sess.unshift(S.current);
@@ -1128,7 +1139,7 @@ $("covx").onclick=coHide;$("covm").onclick=()=>{const v=$("covv");v.muted=!v.mut
 $("co-open").onclick=()=>coOpenRoom(CO.role!=="host");
 $("co-copy").onclick=async()=>{const v=$("co-inv").value;if(!v)return toast("Сначала открой комнату");try{await navigator.clipboard.writeText(v);toast("Код скопирован ✓")}catch(e){$("co-inv").select();toast("Выдели и скопируй код вручную")}};
 $("co-join").onclick=()=>CO.role==="guest"?coLeave(false):coJoin($("co-code").value);
-$("coleave").onclick=()=>coLeave(false);
+$("coleave").onclick=()=>{if(CO.role==="host")coOpenRoom(false);else{ls.set(CJ,"");coTry=0;clearTimeout(coRT);if(CO.role==="guest")coLeave(false);else{CO={role:"none"};coUi();toast("Подключение отменено")}}};
 $("co-share").onclick=()=>scrToggle();
 $("co-win").onclick=()=>{const d=$("covid");d.classList.contains("on")?coHide():toast("Окно появится, когда друг начнёт показывать экран")};
 $("cobtn").onclick=()=>{$("modal").classList.add("open");const d=$("co-sec");if(d){d.open=true;d.scrollIntoView({block:"nearest"})}};

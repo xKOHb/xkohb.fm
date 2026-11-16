@@ -215,6 +215,26 @@ html.lite .aura i,html.lite .eq i,html.lite .disc,html.lite .tk-in{animation:non
 .sc-more{align-self:flex-end;display:flex;flex-direction:column;gap:10px;margin-left:10px}
 .sc-more div{display:flex;gap:14px;align-items:baseline;font-size:24px;font-weight:700;max-width:420px;background:rgba(255,255,255,.07);border-radius:14px;padding:8px 18px;animation:scIn .9s both}.sc-more div b{color:var(--ac2);margin-left:auto}.sc-more div i{font-style:normal;color:var(--ac);font-weight:900}.sc-more div span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:260px}
 .sc-thx{position:absolute;left:0;right:0;bottom:152px;text-align:center;display:none}
+/* v19: без смайлика на виниле, меньше текста, новый финал */
+.sc-lbl::after{content:"";position:absolute;left:42.5%;top:42.5%;width:15%;height:15%;border-radius:50%;background:#05050a;box-shadow:0 0 0 6px rgba(0,0,0,.45)}
+.sc-ch{font-size:24px;padding:6px 18px}.sc-ch b{font-size:28px}
+.sc-hint{font-size:24px;padding:10px 24px;margin-top:16px}
+.sc-qh{font-size:20px;letter-spacing:6px}
+.sc-c{padding:14px 18px}.sc-c i{width:44px;height:44px;font-size:22px}.sc-c span{font-size:22px}
+.sn-s{margin-top:12px;min-height:0}
+.sc-end{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;padding-top:96px}
+.scene.end .sc-end{display:flex}
+.scene.end .sc-wrap,.scene.end .sc-qh,.scene.end .sn-q{display:none}
+.se-k{font-size:100px;font-weight:900;letter-spacing:6px;line-height:1;text-align:center;animation:scGlow 3s ease-in-out infinite alternate}
+.se-k::after{content:"";display:block;height:6px;width:220px;margin:20px auto 0;border-radius:9px;background:linear-gradient(90deg,var(--ac),var(--ac2),var(--ac));background-size:200% 100%;animation:scShine 2.4s linear infinite}
+.se-s{font-size:28px;opacity:.85;margin-top:18px}
+.se-st{display:flex;gap:24px;margin-top:34px}
+.se-b{min-width:230px;text-align:center;padding:14px 26px 12px;border-radius:22px;background:rgba(255,255,255,.08);border:1.5px solid color-mix(in srgb,var(--ac2) 50%,transparent);animation:scIn .7s both}
+.se-b b{display:block;font-size:60px;font-weight:900;line-height:1;color:var(--ac2)}
+.se-b span{display:block;font-size:20px;letter-spacing:3px;text-transform:uppercase;opacity:.8;margin-top:8px}
+.se-h{font-size:20px;letter-spacing:7px;font-weight:800;color:var(--ac2);text-transform:uppercase;margin-top:30px}
+.se-pod{position:absolute;left:0;right:0;bottom:140px;display:flex;justify-content:center;align-items:flex-end;gap:22px}
+html.lite .se-k,html.lite .se-k::after{animation:none!important}
 html.lite .sc-bg i,html.lite .sc-grid,html.lite .sc-dots,html.lite .sc-rec,html.lite .sc-ring,html.lite .sc-eq i,html.lite .sc-lbl span{animation:none!important}
 html.lite .sc-ring{display:none}
 #cot{margin-left:8px;max-width:260px;overflow:hidden;text-overflow:ellipsis}
@@ -245,6 +265,7 @@ html.lite .sc-ring{display:none}
       <div class="sc-hint" id="sch"></div>
     </div>
   </div>
+  <div class="sc-end" id="sce"><div class="se-k">КОНЕЦ СТРИМА</div><div class="se-s">Спасибо, что были с нами ♥</div><div class="se-st" id="sest"></div><div class="se-h" id="seh"></div><div class="se-pod" id="sepod"></div></div>
   <div class="sc-qh" id="scqh"></div>
   <div class="sn-q" id="snq"></div>
   <div class="sc-eq" id="sceq"></div>
@@ -410,22 +431,23 @@ function extra(S,c,r,th,name){
   const q=S.queue||[],ev=R?R.ev:evFrom(S),CMD=(R&&R.cmd)||"!заказ",sk=JSON.stringify([SC.on,SC.kind,q.slice(0,5).map(x=>x.id),ev,!!CF.blind,CMD]);
   if(SC.end!==scEndSeen&&Math.abs(SC.end-scEndSeen)>1500){scEndSeen=SC.end;scTot=SC.end?Math.max(1000,SC.end-Date.now()):0}
   if(sk!==scK){scK=sk;const sn=$("sn"),EN=SC.kind==="end";sn.classList.toggle("show",SC.on);sn.classList.toggle("end",EN);
-    $("sci").textContent=EN?"🏁":SC.kind==="soon"?"⏳":"☕";
+    $("sci").textContent="";
     $("snk").textContent=EN?"КОНЕЦ СТРИМА":SC.kind==="soon"?"СКОРО НАЧНЁМ":"ПЕРЕРЫВ";
     $("sct").classList.toggle("nt",EN||!SC.end);
-    scHints=EN?["Спасибо, что были с нами ♥","До новых встреч в эфире","Заглядывайте на следующий стрим"]:SC.kind==="soon"?["💬 Заказывай трек: "+CMD+" Исполнитель – Название","Скоро включаем музыку","Устраивайся поудобнее ♥"]:["💬 Пока перерыв — заказывай трек: "+CMD+" Исполнитель – Название","Скоро вернёмся ♥","Оценивай треки в чате: !1 … !10"];
+    scHints=EN?["Спасибо, что были с нами ♥"]:SC.kind==="soon"?["Заказ трека: "+CMD+" название","Скоро начнём ♥"]:["Заказ трека: "+CMD+" название","Оценки в чате: !1 … !10"];
     $("sch").textContent=scHints[0];scHi=0;
     const chip=(a,b)=>'<span class="sc-ch">'+a+" <b>"+b+"</b></span>";
     if(EN){const tp=ev&&ev.top||[];
-      $("sns").innerHTML=ev&&ev.cnt?chip("🎵 Треков",ev.cnt)+chip("⭐ Средняя",ev.avg)+(ev.pl?chip("♥ В плейлист",ev.pl):""):'<span class="sc-ch">Итоги вечера</span>';
-      $("scqh").textContent=tp.length?"Хит-парад вечера":"";
-      const med=["🥇","🥈","🥉"],ord=[1,0,2],pod=ord.filter(i=>tp[i]).map(i=>'<div class="sc-p p'+(i+1)+'" style="animation-delay:'+(.2+i*.25)+'s"><em>'+med[i]+"</em><span>"+esc(tp[i].n)+"</span><b>"+tp[i].r+"/10</b></div>").join("");
-      const rest=tp.slice(3).map((x,i)=>'<div style="animation-delay:'+(.9+i*.2)+'s"><i>'+(i+4)+"</i><span>"+esc(x.n)+"</span><b>"+x.r+"</b></div>").join("");
-      $("snq").innerHTML=pod+(rest?'<div class="sc-more">'+rest+"</div>":"")}
+      $("sns").innerHTML="";$("scqh").textContent="";$("snq").innerHTML="";
+      $("sest").innerHTML=ev&&ev.cnt?[["Треков",ev.cnt],["Средняя",ev.avg],["В плейлист",ev.pl||0]].map((a,i)=>'<div class="se-b" style="animation-delay:'+(.1+i*.12)+'s"><b>'+a[1]+"</b><span>"+a[0]+"</span></div>").join(""):"";
+      $("seh").textContent=tp.length?"Хит-парад вечера":"";
+      const med=["🥇","🥈","🥉"],ord=[1,0,2],pod=ord.filter(i=>tp[i]).map(i=>'<div class="sc-p p'+(i+1)+'" style="animation-delay:'+(.3+i*.25)+'s"><em>'+med[i]+"</em><span>"+esc(tp[i].n)+"</span><b>"+tp[i].r+"/10</b></div>").join("");
+      const rest=tp.slice(3).map((x,i)=>'<div style="animation-delay:'+(1+i*.2)+'s"><i>'+(i+4)+"</i><span>"+esc(x.n)+"</span><b>"+x.r+"</b></div>").join("");
+      $("sepod").innerHTML=pod+(rest?'<div class="sc-more">'+rest+"</div>":"")}
     else{
-      $("sns").innerHTML=ev&&ev.cnt?chip("⭐ Средняя оценка вечера",ev.avg)+chip("🎵 Треков",ev.cnt):"";
+      $("sns").innerHTML=ev&&ev.cnt?chip("⭐ Средняя",ev.avg)+chip("🎵 Треков",ev.cnt):"";
       $("scqh").textContent=q.length?"Дальше в эфире":"";
-      $("snq").innerHTML=q.slice(0,4).map((x,i)=>'<div class="sc-c" style="animation-delay:'+(.15+i*.14)+'s"><i>'+(i+1)+"</i><span>"+(x.don?"💰 ":"")+esc(/^https?:/i.test(x.text)?"ссылка от "+(CF.blind?"???":"@"+x.nick):x.text)+"</span></div>").join("")}
+      $("snq").innerHTML=q.slice(0,3).map((x,i)=>'<div class="sc-c" style="animation-delay:'+(.15+i*.14)+'s"><i>'+(i+1)+"</i><span>"+(x.don?"💰 ":"")+esc(/^https?:/i.test(x.text)?"ссылка от "+(CF.blind?"???":"@"+x.nick):x.text)+"</span></div>").join("")}
   }
 }
 setInterval(()=>{const eq=$("sceq");if(eq&&!eq.firstChild){let h="";for(let i=0;i<46;i++)h+='<i style="--h:'+(25+Math.round(Math.random()*70))+"%;animation-duration:"+(0.7+Math.random()*0.9).toFixed(2)+"s;animation-delay:-"+(Math.random()*1.5).toFixed(2)+'s"></i>';eq.innerHTML=h;const lg=$("logo");if(lg)$("sclg").innerHTML=lg.innerHTML}},1500);
