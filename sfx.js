@@ -11,5 +11,7 @@ window.SFX={
   jingle(){[659,784,988].forEach((f,i)=>tone(f,i*.1,.45,"sine",.22))},
   applause(){for(let i=0;i<55;i++)noise(i*.05+Math.random()*.04,.16,.12,800+Math.random()*1800)},
   horn(){[[0,.3],[.36,.3],[.72,.9]].forEach(([t,d])=>[392,494,587].forEach(f=>tone(f,t,d,"sawtooth",.05,f*.97,1400)))},
+  pop(){tone(880,0,.12,"sine",.18,1320);tone(1320,.06,.14,"sine",.1)},
+  chime(){[523,659,784,1047].forEach((f,i)=>tone(f,i*.09,.4,"sine",.16))},
   fail(){[[0,.28,233],[.3,.28,220],[.6,.28,208],[.9,.9,196]].forEach(([t,d,f],i)=>tone(f,t,d,"sawtooth",.1,i===3?f*.7:f*.97,900))}
 };})();

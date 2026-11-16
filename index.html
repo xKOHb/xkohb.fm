@@ -163,51 +163,14 @@ html[data-mode=light][data-theme=toxic] .bg::after{inset:0;height:auto}
 [data-theme=gold] .bg::after{background-image:radial-gradient(circle,rgba(255,224,130,.9) 1px,transparent 2px),radial-gradient(circle,rgba(245,196,81,.7) 1.5px,transparent 2.5px),radial-gradient(circle,rgba(255,244,200,.6) 1px,transparent 2px);background-size:150px 210px,230px 280px,90px 140px;background-position:0 0,70px 90px,30px 50px;animation:ntRise 36s linear infinite}
 @keyframes ntRise{to{background-position:0 -420px,70px -560px,30px -280px}}
 /* ===== темы v16: lavender, peach, candy, midnight, cocoa ===== */
-[data-theme=lavender]{--bg:#120e1f;--card:rgba(30,22,52,.7);--tx:#f3eeff;--mut:#a99cc9;--ac:#cdb4ff;--ac2:#9fd0ff}
-[data-theme=lavender] .bg{background:radial-gradient(800px at 15% 0,rgba(205,180,255,.2),transparent),radial-gradient(700px at 100% 100%,rgba(159,208,255,.14),transparent),var(--bg)}
-[data-theme=lavender] .bg::before{inset:-20%;background:radial-gradient(circle 150px at 20% 30%,rgba(205,180,255,.2),transparent 70%),radial-gradient(circle 110px at 72% 24%,rgba(159,208,255,.17),transparent 70%),radial-gradient(circle 190px at 60% 78%,rgba(255,190,235,.13),transparent 70%),radial-gradient(circle 90px at 12% 80%,rgba(205,180,255,.16),transparent 70%);animation:ntBoke 22s ease-in-out infinite alternate}
-[data-theme=lavender] .bg::after{background-image:radial-gradient(1.5px 1.5px at 50px 70px,rgba(255,255,255,.7),transparent),radial-gradient(1px 1px at 170px 150px,rgba(230,215,255,.6),transparent),radial-gradient(2px 2px at 260px 40px,rgba(190,225,255,.7),transparent);background-size:300px 220px;animation:tw 6s ease-in-out infinite alternate}
 @keyframes ntBoke{from{transform:translate(-3%,2%) scale(1)}to{transform:translate(4%,-4%) scale(1.12)}}
-[data-theme=peach]{--bg:#1c1110;--card:rgba(46,26,22,.7);--tx:#fff2ea;--mut:#cfa597;--ac:#ffb38a;--ac2:#ffd9a8}
-[data-theme=peach] .bg{background:radial-gradient(900px at 85% -5%,rgba(255,179,138,.25),transparent),radial-gradient(700px at 0 100%,rgba(255,130,120,.14),transparent),var(--bg)}
-[data-theme=peach] .bg::before{inset:-50%;background:linear-gradient(115deg,transparent 40%,rgba(255,200,160,.08) 46%,rgba(255,215,180,.2) 50%,rgba(255,200,160,.08) 54%,transparent 60%);animation:ntSweep 13s ease-in-out infinite alternate}
-[data-theme=peach] .bg::after{inset:-20%;background:radial-gradient(circle 240px at 30% 65%,rgba(255,150,120,.14),transparent),radial-gradient(circle 200px at 78% 30%,rgba(255,217,168,.12),transparent);animation:float 17s ease-in-out infinite alternate}
-[data-theme=candy]{--bg:#190f22;--card:rgba(40,22,56,.7);--tx:#fff0fb;--mut:#c6a3c9;--ac:#ff8fd0;--ac2:#8fe3ff}
-[data-theme=candy] .bg{background:radial-gradient(800px at 10% 0,rgba(255,143,208,.2),transparent),radial-gradient(700px at 100% 100%,rgba(143,227,255,.16),transparent),var(--bg)}
-[data-theme=candy] .bg::before{inset:-40%;transform:rotate(-18deg);background:repeating-linear-gradient(180deg,rgba(255,143,208,.08) 0 20px,rgba(143,227,255,.06) 20px 40px);background-size:100% 40px;animation:ntCandy 6s linear infinite}
-[data-theme=candy] .bg::after{background-image:radial-gradient(2px 2px at 60px 80px,rgba(255,170,224,.9),transparent),radial-gradient(1.5px 1.5px at 190px 40px,rgba(160,235,255,.9),transparent),radial-gradient(2.5px 2.5px at 250px 200px,rgba(255,255,255,.8),transparent),radial-gradient(1.5px 1.5px at 110px 230px,rgba(255,170,224,.8),transparent);background-size:320px 280px;animation:tw 3.5s ease-in-out infinite alternate}
 @keyframes ntCandy{to{background-position:0 40px}}
-[data-theme=midnight]{--bg:#060a1a;--card:rgba(12,18,44,.72);--tx:#e9eeff;--mut:#8f9cc9;--ac:#9db4ff;--ac2:#ffe7a0}
-[data-theme=midnight] .bg{background:radial-gradient(420px 420px at 84% 14%,rgba(255,231,160,.15),transparent 70%),linear-gradient(180deg,#050816,#0c1636 70%,#101c46)}
-[data-theme=midnight] .bg::before{background-image:radial-gradient(1.5px 1.5px at 30px 40px,#fff,transparent),radial-gradient(1px 1px at 130px 110px,#cfd9ff,transparent),radial-gradient(2px 2px at 220px 60px,#fff,transparent),radial-gradient(1px 1px at 300px 190px,#dfe6ff,transparent),radial-gradient(1.5px 1.5px at 90px 250px,#fff,transparent);background-size:360px 320px;animation:tw 4s ease-in-out infinite alternate}
-[data-theme=midnight] .bg::after{inset:auto;top:8%;left:88%;width:200px;height:2px;opacity:0;background:linear-gradient(90deg,rgba(255,255,255,.95),transparent);transform:rotate(-28deg);animation:ntShoot 9s linear infinite}
 @keyframes ntShoot{0%{transform:translate(0,0) rotate(-28deg);opacity:0}4%{opacity:1}15%{transform:translate(-760px,400px) rotate(-28deg);opacity:0}100%{transform:translate(-760px,400px) rotate(-28deg);opacity:0}}
-html[data-mode=light][data-theme=midnight] .bg::after{inset:0;width:auto;height:auto;opacity:1;transform:none}
-[data-theme=cocoa]{--bg:#150e0b;--card:rgba(40,27,20,.72);--tx:#fff3e8;--mut:#bfa28d;--ac:#e0a77a;--ac2:#f6e0c8}
-[data-theme=cocoa] .bg{background:radial-gradient(900px 420px at 50% 112%,rgba(224,167,122,.22),transparent 70%),radial-gradient(500px at 100% 0,rgba(246,224,200,.07),transparent),var(--bg)}
-[data-theme=cocoa] .bg::before{inset:auto -10% -20% -10%;height:90%;background:radial-gradient(ellipse 90px 160px at 18% 100%,rgba(246,224,200,.13),transparent 70%),radial-gradient(ellipse 120px 200px at 42% 100%,rgba(246,224,200,.1),transparent 70%),radial-gradient(ellipse 100px 180px at 68% 100%,rgba(246,224,200,.12),transparent 70%),radial-gradient(ellipse 80px 150px at 88% 100%,rgba(246,224,200,.09),transparent 70%);animation:ntSteam 11s ease-in-out infinite alternate}
-[data-theme=cocoa] .bg::after{background:radial-gradient(600px 260px at 50% 108%,rgba(224,167,122,.25),transparent 70%);animation:pulse 6s ease-in-out infinite alternate}
 @keyframes ntSteam{from{transform:translateY(8%) scaleY(.9);opacity:.5}to{transform:translateY(-14%) scaleY(1.12);opacity:1}}
 /* ===== v18: 10 новых тем: carbon, abyss, eclipse, nebula, noir, storm, radar, cinema, flow, arcade ===== */
 @keyframes ntSpinC{to{transform:translate(-50%,-50%) rotate(360deg)}}
 @keyframes ntFlash{0%,89%,100%{opacity:0}90%{opacity:.3}91.5%{opacity:.04}93%{opacity:.45}96%{opacity:0}}
-[data-theme=carbon]{--bg:#050506;--card:rgba(14,14,18,.8);--tx:#f1f3f8;--mut:#8f95a3;--ac:#00d9ff;--ac2:#ff2e63}
-[data-theme=carbon] .bg{background:radial-gradient(900px 500px at 50% -10%,rgba(0,217,255,.1),transparent 70%),#050506}
-[data-theme=carbon] .bg::before{background:linear-gradient(135deg,rgba(255,255,255,.04) 25%,transparent 25% 50%,rgba(255,255,255,.04) 50% 75%,transparent 75%),linear-gradient(45deg,rgba(255,255,255,.025) 25%,transparent 25% 50%,rgba(255,255,255,.025) 50% 75%,transparent 75%);background-size:8px 8px}
-[data-theme=carbon] .bg::after{inset:-50%;background:linear-gradient(100deg,transparent 44%,rgba(0,217,255,.16) 48.5%,rgba(255,46,99,.16) 51.5%,transparent 56%);animation:ntSweep 8s ease-in-out infinite alternate}
-[data-theme=abyss]{--bg:#01060f;--card:rgba(4,16,34,.78);--tx:#e6f1ff;--mut:#7f97bd;--ac:#6f8cff;--ac2:#00f5d4}
-[data-theme=abyss] .bg{background:radial-gradient(900px 600px at 50% 120%,rgba(0,245,212,.12),transparent 70%),linear-gradient(180deg,#01060f,#03152b 80%,#021a2b)}
-[data-theme=abyss] .bg::before{background-image:radial-gradient(circle at 40px 60px,transparent 0 6px,rgba(140,200,255,.35) 7px 8px,transparent 9px),radial-gradient(circle at 170px 150px,transparent 0 10px,rgba(0,245,212,.3) 11px 12px,transparent 13px),radial-gradient(circle at 100px 20px,transparent 0 4px,rgba(160,190,255,.35) 5px 6px,transparent 7px);background-size:220px 260px,300px 340px,160px 200px;background-position:0 0,60px 80px,30px 40px;animation:ntBub 40s linear infinite}
-[data-theme=abyss] .bg::after{background-image:radial-gradient(circle at 80px 120px,rgba(0,245,212,.8) 0 2px,rgba(0,245,212,.18) 6px,transparent 12px),radial-gradient(circle at 260px 220px,rgba(111,140,255,.85) 0 2px,rgba(111,140,255,.16) 6px,transparent 12px),radial-gradient(circle at 180px 40px,rgba(0,245,212,.7) 0 1.5px,rgba(0,245,212,.12) 5px,transparent 10px);background-size:360px 300px;animation:tw 5s ease-in-out infinite alternate}
 @keyframes ntBub{to{background-position:0 -520px,60px -680px,30px -400px}}
-[data-theme=eclipse]{--bg:#030304;--card:rgba(12,10,12,.8);--tx:#fff4ea;--mut:#a89588;--ac:#ffb347;--ac2:#ff5e62}
-[data-theme=eclipse] .bg{background:radial-gradient(circle at 50% 45%,#0b0707 0,#030304 60%)}
-[data-theme=eclipse] .bg::before{inset:auto;left:50%;top:45%;width:min(90vmin,780px);height:min(90vmin,780px);border-radius:50%;background:conic-gradient(from 0deg,rgba(255,179,71,0),rgba(255,179,71,.6),rgba(255,94,98,0) 120deg,rgba(255,94,98,.45) 200deg,rgba(255,179,71,0) 290deg,rgba(255,179,71,.55) 340deg,rgba(255,179,71,0));-webkit-mask-image:radial-gradient(circle,transparent 0 38%,#000 43%,transparent 71%);mask-image:radial-gradient(circle,transparent 0 38%,#000 43%,transparent 71%);transform:translate(-50%,-50%);animation:ntSpinC 38s linear infinite}
-[data-theme=eclipse] .bg::after{background:radial-gradient(circle at 50% 45%,transparent 0 24%,rgba(255,179,71,.3) 27%,rgba(255,94,98,.12) 38%,transparent 56%);animation:pulse 6s ease-in-out infinite alternate}
-[data-theme=nebula]{--bg:#06030e;--card:rgba(18,9,34,.76);--tx:#f6ecff;--mut:#a592c4;--ac:#c77dff;--ac2:#ff6bd6}
-[data-theme=nebula] .bg{background:radial-gradient(900px at 20% 10%,rgba(120,60,200,.25),transparent),radial-gradient(800px at 90% 90%,rgba(255,80,190,.16),transparent),#06030e}
-[data-theme=nebula] .bg::before{inset:-30%;background:radial-gradient(circle 360px at 30% 35%,rgba(199,125,255,.22),transparent 70%),radial-gradient(circle 300px at 70% 60%,rgba(255,107,214,.17),transparent 70%),radial-gradient(circle 420px at 55% 20%,rgba(90,60,220,.18),transparent 70%);animation:ntNeb 34s ease-in-out infinite alternate}
-[data-theme=nebula] .bg::after{background-image:radial-gradient(1.5px 1.5px at 40px 60px,#fff,transparent),radial-gradient(1px 1px at 160px 140px,#e9d6ff,transparent),radial-gradient(2px 2px at 250px 40px,#fff,transparent),radial-gradient(1px 1px at 90px 230px,#ffd6f5,transparent);background-size:320px 280px;animation:tw 5s ease-in-out infinite alternate}
 @keyframes ntNeb{from{transform:translate(-4%,3%) rotate(-4deg) scale(1)}to{transform:translate(5%,-3%) rotate(5deg) scale(1.15)}}
 [data-theme=noir]{--bg:#070707;--card:rgba(16,16,16,.8);--tx:#f3f3f3;--mut:#9b9b9b;--ac:#e9e9e9;--ac2:#9aa0a6}
 [data-theme=noir] .bg{background:radial-gradient(800px 500px at 50% 30%,#1a1a1a,#060606 75%)}
@@ -220,27 +183,10 @@ html[data-mode=light][data-theme=midnight] .bg::after{inset:0;width:auto;height:
 [data-theme=storm] .bg::before{inset:-20%;transform:skewX(-14deg);background-image:radial-gradient(ellipse 1px 24px at 30px 20px,rgba(170,200,255,.55),transparent),radial-gradient(ellipse 1px 34px at 110px 70px,rgba(170,200,255,.4),transparent),radial-gradient(ellipse 1px 18px at 70px 100px,rgba(200,220,255,.5),transparent),radial-gradient(ellipse 1px 28px at 150px 40px,rgba(170,200,255,.35),transparent);background-size:170px 120px,230px 190px,130px 160px,200px 150px;animation:ntRainA .9s linear infinite}
 [data-theme=storm] .bg::after{background:#c8dcff;opacity:0;animation:ntFlash 9s linear infinite}
 @keyframes ntRainA{to{background-position:0 120px,0 190px,0 160px,0 150px}}
-[data-theme=radar]{--bg:#080602;--card:rgba(18,13,4,.78);--tx:#fff4d6;--mut:#b09a64;--ac:#ffb000;--ac2:#ff6a00}
-[data-theme=radar] .bg{background:radial-gradient(circle at 50% 50%,#150f03,#070502 70%)}
-[data-theme=radar] .bg::before{background:repeating-radial-gradient(circle at 50% 50%,transparent 0 89px,rgba(255,176,0,.13) 90px 91px),linear-gradient(90deg,transparent calc(50% - .5px),rgba(255,176,0,.1) calc(50% - .5px) calc(50% + .5px),transparent calc(50% + .5px)),linear-gradient(transparent calc(50% - .5px),rgba(255,176,0,.1) calc(50% - .5px) calc(50% + .5px),transparent calc(50% + .5px))}
-[data-theme=radar] .bg::after{inset:auto;left:50%;top:50%;width:150vmax;height:150vmax;border-radius:50%;background:conic-gradient(from 0deg,rgba(255,176,0,.34),rgba(255,176,0,.08) 40deg,transparent 80deg,transparent);transform:translate(-50%,-50%);animation:ntSpinC 7s linear infinite}
-html[data-mode=light][data-theme=radar] .bg::after{display:none}
-[data-theme=cinema]{--bg:#0a0508;--card:rgba(22,10,14,.8);--tx:#fff1dc;--mut:#b89a8a;--ac:#ffd166;--ac2:#ef476f}
-[data-theme=cinema] .bg{background:linear-gradient(90deg,rgba(0,0,0,.6) 0 58px,transparent 58px calc(100% - 58px),rgba(0,0,0,.6) calc(100% - 58px)),radial-gradient(ellipse at 50% 40%,#1c0c10,#070304 78%)}
-[data-theme=cinema] .bg::before{background:linear-gradient(180deg,transparent 0 14px,rgba(255,209,102,.22) 14px 34px,transparent 34px 48px) 18px 0/22px 48px repeat-y,linear-gradient(180deg,transparent 0 14px,rgba(255,209,102,.22) 14px 34px,transparent 34px 48px) calc(100% - 18px) 0/22px 48px repeat-y;animation:ntFilm 3s linear infinite}
-[data-theme=cinema] .bg::after{background:radial-gradient(ellipse at 50% 40%,rgba(255,225,170,.12),transparent 65%);animation:ntFlick 2.6s steps(1) infinite}
 @keyframes ntFilm{to{background-position:18px 48px,calc(100% - 18px) 48px}}
 @keyframes ntFlick{0%{opacity:.9}8%{opacity:.5}12%{opacity:1}30%{opacity:.7}34%{opacity:1}60%{opacity:.6}64%{opacity:.95}100%{opacity:.9}}
-[data-theme=flow]{--bg:#12062e;--card:rgba(20,10,46,.74);--tx:#fff0fb;--mut:#bba3d6;--ac:#ff7ab8;--ac2:#7ab8ff}
-[data-theme=flow] .bg{background:linear-gradient(125deg,#12062e,#2a0f6b,#5a1a9a,#a3175f,#1d3a9e,#12062e);background-size:400% 400%;animation:ntFlow 26s ease infinite}
-[data-theme=flow] .bg::before{inset:-20%;background:radial-gradient(circle 260px at 25% 30%,rgba(255,122,184,.14),transparent),radial-gradient(circle 300px at 75% 70%,rgba(122,184,255,.13),transparent);animation:float 18s ease-in-out infinite alternate}
-[data-theme=flow] .bg::after{display:none}
 @keyframes ntFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 html[data-fx=off][data-theme=flow] .bg{animation:none}
-[data-theme=arcade]{--bg:#050716;--card:rgba(10,12,38,.78);--tx:#f2f6ff;--mut:#8a94c8;--ac:#ffe600;--ac2:#00e5ff}
-[data-theme=arcade] .bg{background:radial-gradient(800px at 50% 110%,rgba(0,229,255,.14),transparent),linear-gradient(180deg,#050716,#0a0f3a)}
-[data-theme=arcade] .bg::before{background-image:radial-gradient(1.5px 1.5px at 20px 30px,#fff 99%,transparent),radial-gradient(1px 1px at 120px 90px,#9fe9ff 99%,transparent),radial-gradient(2px 2px at 200px 60px,#ffe600 99%,transparent),radial-gradient(1px 1px at 70px 150px,#fff 99%,transparent);background-size:240px 180px,300px 220px,360px 260px,200px 200px;animation:ntPix 24s steps(48) infinite}
-[data-theme=arcade] .bg::after{background:linear-gradient(180deg,transparent,rgba(0,229,255,.1),transparent) 0 -30%/100% 20% no-repeat,repeating-linear-gradient(0deg,rgba(0,0,0,.28) 0 2px,transparent 2px 4px);animation:ntRoll 6s linear infinite}
 @keyframes ntPix{to{background-position:-240px 0,-600px 0,-720px 0,-400px 0}}
 @keyframes ntRoll{from{background-position:0 -30%,0 0}to{background-position:0 130%,0 0}}
 html[data-fx=off] .bg::before,html[data-fx=off] .bg::after{animation:none}
@@ -456,6 +402,87 @@ html:not([data-fx=off]) #nx.p,html:not([data-fx=off]) #nx.ping{animation:nxGlow 
 html:not([data-fx=off]) h1#ttl{background:linear-gradient(90deg,var(--tx) 0,var(--tx) 38%,var(--ac2) 50%,var(--tx) 62%,var(--tx) 100%);background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 7s linear infinite}
 html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.6,.5,1),box-shadow .2s,background .2s}
 #ttl{cursor:pointer}
+
+/* ===== v21: темы ===== */
+@keyframes v21Blob{from{transform:translate(-4%,-3%) scale(1) rotate(0)}to{transform:translate(5%,4%) scale(1.12) rotate(8deg)}}
+@keyframes v21Rise{to{background-position:0 -600px,0 -840px,0 -720px,0 -520px}}
+@keyframes v21Fall{to{background-position:0 600px,0 840px,0 720px,0 520px}}
+@keyframes v21Tw{from{opacity:.25}to{opacity:1}}
+@keyframes v21Spin{to{transform:rotate(360deg)}}
+@keyframes v21Grid{to{background-position:0 56px,0 56px}}
+@keyframes v21Rip{from{transform:scale(1) translateY(0)}to{transform:scale(1.14) translateY(-3%)}}
+@keyframes v21Sweep{from{background-position:0 0}to{background-position:100% 0}}
+@keyframes v21Pulse{from{transform:scale(.8);opacity:.5}to{transform:scale(1.15);opacity:1}}
+[data-theme=obsidian]{--bg:#04050a;--card:rgba(10,12,22,.8);--tx:#eaf0ff;--mut:#8a96b8;--ac:#3d7bff;--ac2:#8fd0ff}
+[data-theme=obsidian] .bg{background:radial-gradient(900px 500px at 15% 0,rgba(61,123,255,.16),transparent),radial-gradient(800px 500px at 100% 100%,rgba(143,208,255,.12),transparent),#04050a}
+[data-theme=obsidian] .bg::before{background-image:radial-gradient(circle at 40px 60px,rgba(255,255,255,0.90) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(143,208,255,0.80) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(255,255,255,0.70) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(143,208,255,0.60) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;animation:v21Tw 4s ease-in-out infinite alternate}
+[data-theme=obsidian] .bg::after{background-image:radial-gradient(circle at 40px 60px,rgba(61,123,255,0.72) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(255,255,255,0.64) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(61,123,255,0.56) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(255,255,255,0.48) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;background-position:110px 70px;animation:v21Tw 5.5s ease-in-out 1.5s infinite alternate}
+[data-theme=ruby]{--bg:#14030a;--card:rgba(38,8,20,.76);--tx:#ffeaf0;--mut:#cf90a4;--ac:#e0115f;--ac2:#ff9ab8}
+[data-theme=ruby] .bg{background:radial-gradient(900px 500px at 15% 0,rgba(224,17,95,.16),transparent),radial-gradient(800px 500px at 100% 100%,rgba(255,154,184,.12),transparent),#14030a}
+[data-theme=ruby] .bg::before{background:radial-gradient(circle at 50% 50%,rgba(224,17,95,.3),transparent 46%);animation:v21Pulse 4.6s ease-in-out infinite alternate}
+[data-theme=ruby] .bg::after{background-image:radial-gradient(circle at 40px 60px,rgba(255,154,184,0.45) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(224,17,95,0.40) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(255,154,184,0.35) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(224,17,95,0.30) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;animation:v21Rise 40s linear infinite;opacity:.6}
+[data-theme=turq]{--bg:#021614;--card:rgba(4,40,38,.7);--tx:#e6fffb;--mut:#7fbfb6;--ac:#00bfa6;--ac2:#ffd98a}
+[data-theme=turq] .bg{background:linear-gradient(160deg,#021614,rgba(0,191,166,.16) 60%,#021614)}
+[data-theme=turq] .bg::before{inset:-10%;background:repeating-radial-gradient(circle at 50% 120%,transparent 0 46px,rgba(0,191,166,.1) 47px 49px),repeating-radial-gradient(circle at 20% 110%,transparent 0 70px,rgba(255,217,138,.07) 71px 73px);animation:v21Rip 11s ease-in-out infinite alternate}
+[data-theme=turq] .bg::after{background:radial-gradient(circle 300px at 20% 30%,rgba(0,191,166,.2),transparent),radial-gradient(circle 260px at 80% 70%,rgba(255,217,138,.14),transparent);animation:v21Blob 18s ease-in-out infinite alternate}
+[data-theme=copper]{--bg:#130a05;--card:rgba(40,22,12,.74);--tx:#fff1e6;--mut:#c9a487;--ac:#d9772b;--ac2:#f5d0a9}
+[data-theme=copper] .bg{background:radial-gradient(900px 420px at 50% 115%,rgba(217,119,43,.28),transparent 70%),radial-gradient(500px at 100% 0,rgba(245,208,169,.08),transparent),#130a05}
+[data-theme=copper] .bg::before{background-image:radial-gradient(circle at 40px 60px,rgba(217,119,43,0.90) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(245,208,169,0.80) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(217,119,43,0.70) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(245,208,169,0.60) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;animation:v21Rise 22s linear infinite}
+[data-theme=copper] .bg::after{background-image:radial-gradient(circle at 40px 60px,rgba(245,208,169,0.54) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(217,119,43,0.48) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(245,208,169,0.42) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(217,119,43,0.36) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;background-position:70px 40px;animation:v21Rise 34s linear infinite;opacity:.7}
+[data-theme=indigo]{--bg:#07041c;--card:rgba(16,10,48,.74);--tx:#eeeaff;--mut:#9b93d6;--ac:#5b4bff;--ac2:#c0b8ff}
+[data-theme=indigo] .bg{background:radial-gradient(900px 500px at 15% 0,rgba(91,75,255,.16),transparent),radial-gradient(800px 500px at 100% 100%,rgba(192,184,255,.12),transparent),#07041c}
+[data-theme=indigo] .bg::before{inset:-25%;background:radial-gradient(circle 320px at 25% 35%,rgba(91,75,255,.24),transparent 70%),radial-gradient(circle 380px at 75% 65%,rgba(192,184,255,.2),transparent 70%),radial-gradient(circle 260px at 60% 20%,rgba(91,75,255,.14),transparent 70%);animation:v21Blob 24s ease-in-out infinite alternate}
+[data-theme=indigo] .bg::after{background:radial-gradient(circle 220px at 80% 20%,rgba(192,184,255,.14),transparent 70%);animation:v21Blob 31s ease-in-out infinite alternate-reverse}
+[data-theme=pine]{--bg:#04110a;--card:rgba(8,32,20,.74);--tx:#e9f6ec;--mut:#84ad92;--ac:#2e9d62;--ac2:#e0d3a8}
+[data-theme=pine] .bg{background:radial-gradient(900px 500px at 50% -10%,rgba(46,157,98,.14),transparent 70%),radial-gradient(500px at 100% 0,rgba(224,211,168,.08),transparent),#04110a}
+[data-theme=pine] .bg::before{background-image:radial-gradient(circle at 40px 60px,rgba(46,157,98,0.90) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(224,211,168,0.80) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(46,157,98,0.70) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(224,211,168,0.60) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;animation:v21Fall 22s linear infinite}
+[data-theme=pine] .bg::after{background-image:radial-gradient(circle at 40px 60px,rgba(224,211,168,0.54) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(46,157,98,0.48) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(224,211,168,0.42) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(46,157,98,0.36) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;background-position:70px 40px;animation:v21Fall 34s linear infinite;opacity:.7}
+[data-theme=contrast]{--bg:#050a14;--card:rgba(8,18,36,.78);--tx:#f0f6ff;--mut:#8ea2c4;--ac:#ff6a00;--ac2:#00b4ff}
+[data-theme=contrast] .bg{background:radial-gradient(900px 500px at 50% 0,rgba(255,106,0,.10),transparent 70%),#050a14}
+[data-theme=contrast] .bg::before{inset:-60%;background:conic-gradient(from 0deg at 50% 50%,transparent 0,rgba(255,106,0,.22) 8%,transparent 20%,transparent 50%,rgba(0,180,255,.22) 58%,transparent 70%);animation:v21Spin 46s linear infinite}
+[data-theme=contrast] .bg::after{background:radial-gradient(500px 300px at 50% 105%,rgba(0,180,255,.14),transparent 70%)}
+[data-theme=tropics]{--bg:#06130f;--card:rgba(10,38,30,.72);--tx:#eafff6;--mut:#86bfaa;--ac:#ff4f9a;--ac2:#19e6a6}
+[data-theme=tropics] .bg{background:radial-gradient(900px 500px at 15% 0,rgba(255,79,154,.16),transparent),radial-gradient(800px 500px at 100% 100%,rgba(25,230,166,.12),transparent),#06130f}
+[data-theme=tropics] .bg::before{inset:-25%;background:radial-gradient(circle 320px at 25% 35%,rgba(255,79,154,.24),transparent 70%),radial-gradient(circle 380px at 75% 65%,rgba(25,230,166,.2),transparent 70%),radial-gradient(circle 260px at 60% 20%,rgba(255,79,154,.14),transparent 70%);animation:v21Blob 24s ease-in-out infinite alternate}
+[data-theme=tropics] .bg::after{background:radial-gradient(circle 220px at 80% 20%,rgba(25,230,166,.14),transparent 70%);animation:v21Blob 31s ease-in-out infinite alternate-reverse}
+[data-theme=rosegold]{--bg:#150b0b;--card:rgba(42,24,24,.74);--tx:#fff0ec;--mut:#cfa59f;--ac:#e0a39a;--ac2:#f7d9cf}
+[data-theme=rosegold] .bg{background:radial-gradient(900px 500px at 15% 0,rgba(224,163,154,.16),transparent),radial-gradient(800px 500px at 100% 100%,rgba(247,217,207,.12),transparent),#150b0b}
+[data-theme=rosegold] .bg::before{background-image:radial-gradient(circle at 40px 60px,rgba(255,255,255,0.90) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(247,217,207,0.80) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(255,255,255,0.70) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(247,217,207,0.60) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;animation:v21Tw 4s ease-in-out infinite alternate}
+[data-theme=rosegold] .bg::after{background-image:radial-gradient(circle at 40px 60px,rgba(224,163,154,0.72) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(255,255,255,0.64) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(224,163,154,0.56) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(255,255,255,0.48) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;background-position:110px 70px;animation:v21Tw 5.5s ease-in-out 1.5s infinite alternate}
+[data-theme=ultraviolet]{--bg:#08031a;--card:rgba(20,8,48,.76);--tx:#f1ecff;--mut:#a396d6;--ac:#7c3aed;--ac2:#22d3ee}
+[data-theme=ultraviolet] .bg{background:linear-gradient(180deg,#08031a 0,rgba(124,58,237,.14) 100%),#08031a}
+[data-theme=ultraviolet] .bg::before{background:linear-gradient(rgba(124,58,237,.2) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,.2) 1px,transparent 1px);background-size:56px 56px;-webkit-mask-image:linear-gradient(transparent 5%,#000 100%);mask-image:linear-gradient(transparent 5%,#000 100%);animation:v21Grid 5s linear infinite}
+[data-theme=ultraviolet] .bg::after{background:radial-gradient(circle 240px at 50% 100%,rgba(34,211,238,.3),transparent 70%)}
+[data-theme=empire]{--bg:#0d0204;--card:rgba(34,6,10,.78);--tx:#fff1e0;--mut:#c9a08a;--ac:#c1121f;--ac2:#ffd166}
+[data-theme=empire] .bg{background:radial-gradient(900px 500px at 15% 0,rgba(193,18,31,.16),transparent),radial-gradient(800px 500px at 100% 100%,rgba(255,209,102,.12),transparent),#0d0204}
+[data-theme=empire] .bg::before{background:linear-gradient(115deg,transparent 38%,rgba(193,18,31,.2) 47%,rgba(255,209,102,.18) 52%,transparent 62%);background-size:260% 100%;animation:v21Sweep 10s ease-in-out infinite alternate}
+[data-theme=empire] .bg::after{background:radial-gradient(600px 260px at 50% 110%,rgba(193,18,31,.22),transparent 70%)}
+[data-theme=oled]{--bg:#000000;--card:rgba(8,8,10,.9);--tx:#f2f6f8;--mut:#8a9399;--ac:#00e5ff;--ac2:#7af0ff}
+[data-theme=oled] .bg{background:radial-gradient(900px 500px at 50% 0,rgba(0,229,255,.10),transparent 70%),#000000}
+[data-theme=oled] .bg::before{inset:-60%;background:conic-gradient(from 0deg at 50% 50%,transparent 0,rgba(0,229,255,.12) 8%,transparent 20%,transparent 50%,rgba(122,240,255,.12) 58%,transparent 70%);animation:v21Spin 46s linear infinite}
+[data-theme=oled] .bg::after{background:radial-gradient(500px 300px at 50% 105%,rgba(122,240,255,.14),transparent 70%)}
+[data-theme=olive]{--bg:#0b0d06;--card:rgba(26,30,12,.76);--tx:#f1f3df;--mut:#a3ab7c;--ac:#a9b665;--ac2:#e0c97f}
+[data-theme=olive] .bg{background:radial-gradient(900px 500px at 50% -10%,rgba(169,182,101,.14),transparent 70%),radial-gradient(500px at 100% 0,rgba(224,201,127,.08),transparent),#0b0d06}
+[data-theme=olive] .bg::before{background-image:radial-gradient(circle at 40px 60px,rgba(169,182,101,0.90) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(224,201,127,0.80) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(169,182,101,0.70) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(224,201,127,0.60) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;animation:v21Fall 22s linear infinite}
+[data-theme=olive] .bg::after{background-image:radial-gradient(circle at 40px 60px,rgba(224,201,127,0.54) 0 2px,transparent 3px),radial-gradient(circle at 180px 140px,rgba(169,182,101,0.48) 0 1.5px,transparent 2.5px),radial-gradient(circle at 90px 260px,rgba(224,201,127,0.42) 0 2.5px,transparent 3.5px),radial-gradient(circle at 250px 80px,rgba(169,182,101,0.36) 0 1px,transparent 2px);background-size:300px 300px,420px 420px,360px 360px,260px 260px;background-position:70px 40px;animation:v21Fall 34s linear infinite;opacity:.7}
+
+/* ===== v21: коллаб, плюшки ===== */
+#cobar{position:relative}
+#cobar .cometa{display:inline-flex;gap:10px;font-size:12.5px;opacity:.85}
+#cobar .corx{display:inline-flex;gap:4px}
+#cobar .corx button{padding:3px 8px;font-size:17px;border-radius:10px;line-height:1.2;transition:transform .18s cubic-bezier(.3,1.7,.5,1)}
+#cobar .corx button:hover{transform:scale(1.28) translateY(-2px)}
+#cobar .corx button:active{transform:scale(.9)}
+#cochatb.unread::after{content:"";position:absolute;top:2px;right:2px;width:8px;height:8px;border-radius:50%;background:var(--ac)}
+#cochat{display:none;padding:8px 18px 10px;border-bottom:1px solid var(--ln);background:color-mix(in srgb,var(--ac) 7%,transparent)}
+#cochat.on{display:block}
+#colog{max-height:120px;overflow:auto;font-size:13px;display:flex;flex-direction:column;gap:3px;margin-bottom:6px}
+#colog div b{color:var(--ac2)}#colog .me b{color:var(--ac)}
+#cochat .row{display:flex;gap:6px;margin:0}#cochat input{flex:1}
+.fxe{position:fixed;bottom:70px;z-index:80;pointer-events:none;animation:fxUp 2.7s cubic-bezier(.2,.7,.3,1) forwards;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
+@keyframes fxUp{0%{transform:translateY(0) scale(.3);opacity:0}12%{opacity:1;transform:translateY(-30px) scale(1.2)}100%{transform:translateY(-62vh) scale(1) rotate(12deg);opacity:0}}
+#upt{font-size:12.5px;opacity:.8;cursor:pointer;padding:3px 9px;border-radius:99px;border:1px solid var(--ln);white-space:nowrap}
+.hfind{width:100%;margin:0 0 8px;padding:8px 12px;border-radius:12px}
 </style>
 </head>
 <body>
@@ -465,7 +492,8 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
   <div class="stats" id="stats"></div>
   <div class="hr"><span class="air" id="bl" style="display:none">🕶 СЛЕПОЕ</span><span class="air" id="air">● ON AIR</span><button id="brk" class="ghost" title="Перерыв (K)">☕</button><button id="soon" class="ghost" title="Скоро начнём (L)">⏳</button><button id="fin" class="ghost" title="Конец стрима: итоги вечера в оверлее (E)">🏁</button><button id="chbtn" class="ghost" title="Чат в оверлее: показать / убрать (C)">💬</button><button id="cobtn" class="ghost" title="Коллаб: вести эфир вдвоём с другом">🤝</button><button id="sum" class="ghost">🏆 Итоги</button><button id="exp" class="ghost">📋 Плейлист</button><button id="gear" class="ghost" title="Настройки" aria-label="Настройки">⚙️</button></div>
 </header>
-<div id="cobar"><span id="cotx"></span><span class="sp"></span><button id="coleave" class="ghost" hidden>Выйти</button></div>
+<div id="cobar"><span id="cotx"></span><span class="cometa"><span id="coping" title="Задержка связи"></span><span id="cotm" title="Время вместе"></span></span><span class="sp"></span><span class="corx" id="corx" style="display:none"><button data-fx="🔥" title="Огонь">🔥</button><button data-fx="👏" title="Аплодисменты">👏</button><button data-fx="😂" title="Смешно">😂</button><button data-fx="😮" title="Ого">😮</button><button data-fx="❤️" title="Люблю">❤️</button><button data-fx="💀" title="Умер">💀</button><button data-fx="🎧" title="Качает">🎧</button></span><button id="cochatb" class="ghost" title="Мини-чат с другом" hidden>💬</button><button id="coleave" class="ghost" hidden>Выйти</button></div>
+<div id="cochat"><div id="colog"></div><div class="row"><input type="text" id="coin" maxlength="140" placeholder="Сообщение другу…" autocomplete="off"><button id="cosend">➤</button></div></div>
 <main>
   <section class="col">
     <div class="card">
@@ -582,11 +610,20 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
     <div class="fld"><label for="c-copy">Копировать как</label><select id="c-copy"><option value="names">Исполнитель – Название</option><option value="links">Ссылки</option></select></div>
   </div></details>
 
+  <details id="fx-sec"><summary>✨ Плюшки <small>удобства, каждую можно выключить</small></summary><div class="sb">
+    <div class="fld"><label for="c-fxtab">🏷 Трек и очередь в названии вкладки</label><input type="checkbox" id="c-fxtab"></div>
+    <div class="fld"><label for="c-fxreq">🔔 Звук новой заявки</label><input type="checkbox" id="c-fxreq"></div>
+    <div class="fld"><label for="c-fxauto">⏭ Авто-следующий<small>когда трек закончился и оценён: через 3 с, Esc отменяет (только YouTube)</small></label><input type="checkbox" id="c-fxauto"></div>
+    <div class="fld"><label for="c-fxup">⏱ Часы эфира в шапке<small>клик по часам сбрасывает</small></label><input type="checkbox" id="c-fxup"></div>
+    <div class="fld"><label for="c-fxfind">🔎 Поиск по истории</label><input type="checkbox" id="c-fxfind"></div>
+    <div class="fld"><label for="c-fxundo">↶ Ctrl+Z возвращает предыдущий трек</label><input type="checkbox" id="c-fxundo"></div>
+  </div></details>
   <details id="co-sec"><summary>🤝 Коллаб <span class="beta">БЕТА</span> <small>общая очередь, оценки, синхронный плеер, экран партнёра</small></summary><div class="sb">
     <div class="hint">⚠ <b>БЕТА</b>: функция в тестировании, возможны ошибки. Если что-то зависло, обнови страницу: связь с другом восстановится сама.</div>
     <div class="hint">Один создаёт комнату и отдаёт код, второй вставляет код у себя. Дальше у обоих одна очередь, треки играют синхронно, оценки видны обоим, а заявки из чата друга падают в общую очередь. Работает между любыми версиями сайта.</div>
     <h4 class="sh">Я хозяин комнаты</h4>
-    <div class="row"><button id="co-open">🔓 Открыть комнату</button><button id="co-copy">📋 Скопировать код</button></div>
+    <div class="row"><button id="co-open">🔓 Открыть комнату</button><button id="co-copy">📋 Скопировать код</button><button id="co-link">🔗 Ссылка-приглашение</button></div>
+    <div class="row"><button id="co-kick" class="ghost">⛔ Отключить друга</button><button id="co-newkey" class="ghost">🔑 Новый код приглашения</button></div>
     <div class="fld"><label for="co-inv">Код приглашения<small>отправь другу. Он нужен только ему, не показывай его в эфире</small></label><input type="text" id="co-inv" class="cocode" readonly placeholder="комната закрыта"></div>
     <h4 class="sh">Что может друг</h4>
     <div class="fld"><label for="c-copp">⏯ Пауза и старт<small>кнопка плеера</small></label><input type="checkbox" id="c-copp"></div>
@@ -597,6 +634,10 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
     <h4 class="sh">В оверлее</h4>
     <div class="fld"><label for="c-cobadge">🤝 Плашка «Коллаб с ником друга»<small>ник обновляется, когда друг дописал его</small></label><input type="checkbox" id="c-cobadge"></div>
     <div class="fld"><label for="c-corshow">⭐ Оценка друга рядом с твоей</label><input type="checkbox" id="c-corshow"></div>
+    <h4 class="sh">Прикольчики</h4>
+    <div class="fld"><label for="c-cofx">🔥 Летящие реакции<small>на панели и в оверлее</small></label><input type="checkbox" id="c-cofx"></div>
+    <div class="fld"><label for="c-cosnd">🔔 Звуки коллаба<small>вход друга, реакции</small></label><input type="checkbox" id="c-cosnd"></div>
+    <div class="fld"><label for="c-cochat">💬 Мини-чат с другом</label><input type="checkbox" id="c-cochat"></div>
     <h4 class="sh">Я гость</h4>
     <div class="fld"><label for="co-code">Код приглашения от друга</label><input type="text" id="co-code" class="cocode" placeholder="вставь код сюда"></div>
     <div class="row"><button id="co-join">🤝 Подключиться</button></div>
@@ -645,7 +686,7 @@ const isUrl=s=>/^https?:\/\//i.test(s);
 let vol=ls.get("kohb_vol")!==null?+ls.get("kohb_vol"):50,muted=false,player=null,ytReady=false,pending=null,playing=false;
 const ytId=u=>((u||"").match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([\w-]{11})/)||[])[1];
 const THEMES=[["kohb","KOHbツ","linear-gradient(135deg,#09090a,#3a3a42,#ff3341)"],["neon","Неон","linear-gradient(135deg,#2a0a5e,#ff2bd6 55%,#00e5ff)"],["space","Космос","linear-gradient(135deg,#050816,#7c9cff,#c39bff)"],["lagoon","Лагуна","linear-gradient(135deg,#06201f,#2fe3b0,#6ad6ff)"],["sakura","Сакура","linear-gradient(135deg,#1d0f18,#ff7eb6,#ffc2dd)"],["matrix","Матрица","linear-gradient(135deg,#020a05,#00ff7f)"],["retro","Ретро VHS","linear-gradient(135deg,#060508,#2a1a46,#b79cff)"],["volcano","Вулкан","linear-gradient(135deg,#1a0707,#ff3b3b 60%,#ff9a8a)"],["platinum","Платина","linear-gradient(135deg,#0b0c10,#e4e8f0 70%,#8a94a8)"],["stage","Сцена","linear-gradient(135deg,#100d04,#ffe11a 60%,#fff59a)"],["aurora","Аврора","linear-gradient(135deg,#030a14,#4dffb0 55%,#8f7bff)"],["sunset","Закат","linear-gradient(135deg,#14072a,#8a2b4f 50%,#ff8a5c)"],["frost","Мороз","linear-gradient(135deg,#06121b,#7fdcff 60%,#d4f1ff)"],["toxic","Токсик","linear-gradient(135deg,#050804,#c6ff00 60%,#00ffa3)"],["gold","Золото","linear-gradient(135deg,#0b0804,#f5c451 60%,#fff0b3)"],["lavender","Лаванда","linear-gradient(135deg,#120e1f,#cdb4ff 60%,#9fd0ff)"],["peach","Персик","linear-gradient(135deg,#1c1110,#ffb38a 60%,#ffd9a8)"],["candy","Сладкая вата","linear-gradient(135deg,#190f22,#ff8fd0 55%,#8fe3ff)"],["midnight","Полночь","linear-gradient(135deg,#050816,#101c46 55%,#ffe7a0)"],["cocoa","Какао","linear-gradient(135deg,#150e0b,#e0a77a 60%,#f6e0c8)"],["carbon","Карбон","linear-gradient(135deg,#050506,#00d9ff 55%,#ff2e63)"],["abyss","Бездна","linear-gradient(135deg,#01060f,#03152b 50%,#6f8cff 80%,#00f5d4)"],["eclipse","Затмение","linear-gradient(135deg,#030304,#0b0707 45%,#ffb347 75%,#ff5e62)"],["nebula","Туманность","linear-gradient(135deg,#06030e,#5a3cdc 55%,#ff6bd6)"],["noir","Нуар","linear-gradient(135deg,#050505,#2a2a2a 55%,#e9e9e9)"],["storm","Гроза","linear-gradient(135deg,#04060c,#0b1424 55%,#8ab4f8)"],["radar","Радар","linear-gradient(135deg,#070502,#150f03 50%,#ffb000 80%,#ff6a00)"],["cinema","Кинозал","linear-gradient(135deg,#0a0508,#1c0c10 50%,#ffd166 80%,#ef476f)"],["flow","Поток","linear-gradient(135deg,#12062e,#5a1a9a 40%,#ff7ab8 70%,#7ab8ff)"],["arcade","Аркада","linear-gradient(135deg,#050716,#0a0f3a 50%,#ffe600 80%,#00e5ff)"]];
-{const K=["kohb","m1z","hmstr","neon","space","lagoon","sakura","matrix","retro","volcano","platinum","stage","aurora","sunset","frost","toxic","gold","noir","storm"];const keep=THEMES.filter(t=>K.includes(t[0])).sort((a,b)=>K.indexOf(a[0])-K.indexOf(b[0]));THEMES.splice(0,THEMES.length,...keep)}
+{const K=["kohb","m1z","hmstr","neon","space","lagoon","sakura","matrix","retro","volcano","platinum","stage","aurora","sunset","frost","toxic","gold","noir","storm","obsidian","ruby","turq","copper","indigo","pine","contrast","tropics","rosegold","ultraviolet","empire","oled","olive"];THEMES.push(...[["obsidian","Обсидиан","linear-gradient(135deg,#04050a,#3d7bff 55%,#8fd0ff)"],["ruby","Рубин","linear-gradient(135deg,#14030a,#e0115f 55%,#ff9ab8)"],["turq","Бирюза","linear-gradient(135deg,#021614,#00bfa6 55%,#ffd98a)"],["copper","Медь","linear-gradient(135deg,#130a05,#d9772b 55%,#f5d0a9)"],["indigo","Индиго","linear-gradient(135deg,#07041c,#5b4bff 55%,#c0b8ff)"],["pine","Хвоя","linear-gradient(135deg,#04110a,#2e9d62 55%,#e0d3a8)"],["contrast","Контраст","linear-gradient(135deg,#050a14,#ff6a00 55%,#00b4ff)"],["tropics","Тропики","linear-gradient(135deg,#06130f,#ff4f9a 55%,#19e6a6)"],["rosegold","Розовое золото","linear-gradient(135deg,#150b0b,#e0a39a 55%,#f7d9cf)"],["ultraviolet","Ультрафиолет","linear-gradient(135deg,#08031a,#7c3aed 55%,#22d3ee)"],["empire","Империя","linear-gradient(135deg,#0d0204,#c1121f 55%,#ffd166)"],["oled","OLED","linear-gradient(135deg,#1a1a1a,#00e5ff 55%,#7af0ff)"],["olive","Оливка","linear-gradient(135deg,#0b0d06,#a9b665 55%,#e0c97f)"]]);const keep=THEMES.filter(t=>K.includes(t[0])).sort((a,b)=>K.indexOf(a[0])-K.indexOf(b[0]));THEMES.splice(0,THEMES.length,...keep)}
 let theme=ls.get("kohb_theme")||"kohb";if(!THEMES.some(t=>t[0]===theme))theme="kohb";
 function setTheme(t){theme=t;document.documentElement.dataset.theme=t;ls.set("kohb_theme",t);bcast();document.querySelectorAll(".tc").forEach(b=>b.classList.toggle("on",b.dataset.t===t))}
 function toast(t){const o=$("toast");o.textContent=t;o.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>o.classList.remove("show"),1600)}
@@ -666,7 +707,7 @@ function mountYT(id){
   player=new YT.Player("yt",{videoId:id,width:"100%",height:"100%",playerVars:{autoplay:1,rel:0,playsinline:1,modestbranding:1},events:{
     onReady:e=>{applyVol();e.target.playVideo();grab()},
     onError:e=>{toast("YouTube не играет это видео (код "+e.data+")");if(e.data===101||e.data===150)embedFail()},
-    onStateChange:e=>{playing=e.data===1;if(e.data===1&&S.current&&S.current.noemb){S.current.noemb=false;save()}$("pp").textContent=playing?"⏸":"▶";grab();setLive();bcast()}}});
+    onStateChange:e=>{playing=e.data===1;if(e.data===0)try{autoNx()}catch(x){}if(e.data===1&&S.current&&S.current.noemb){S.current.noemb=false;save()}$("pp").textContent=playing?"⏸":"▶";grab();setLive();bcast()}}});
 }
 /* видео без встраивания (101/150): автозамена на другую версию через YouTube Data API (нужен ключ в настройках) */
 const noEmbedMsg='Автор запретил встраивать это видео.<br>Нажми <b>O</b> — трек откроется на YouTube';
@@ -745,8 +786,8 @@ function add(){const t=$("f-t").value.trim();if(!t)return;if(CO.role==="guest"){
 const archGet=()=>{try{const a=JSON.parse(ls.get("kohb_arch")||"[]");return Array.isArray(a)?a:[]}catch(e){return[]}};
 function archSave(){if(CO.role==="guest")return;const t=[S.current,...S.history].filter(x=>x&&x.rating).map(x=>({n:plName(x),r:x.rating,nick:x.nick||"аноним",tg:x.tags||[],v:x.vavg||null}));if(!t.length)return;
   if(!S.evId)S.evId=Date.now();const a=archGet().filter(e=>e.id!==S.evId);a.push({id:S.evId,d:S.evId,t});ls.set("kohb_arch",JSON.stringify(a.slice(-60)))}
-function finish(sk){if(S.current)S.history.unshift({...S.current,skipped:!!sk});S.current=null;archSave()}
-function start(item){finish();votes={};endPick=null;if(brk.on){brk={on:false,until:0};brkUi()}S.current={...item,rating:null,note:"",pl:false,t0:Date.now()};snd("jingle");S.current.name=plName(S.current);save();show()}
+function finish(sk){if(sk)undoMk();if(S.current)S.history.unshift({...S.current,skipped:!!sk});S.current=null;archSave()}
+function start(item){undoMk(item);finish();votes={};endPick=null;if(brk.on){brk={on:false,until:0};brkUi()}S.current={...item,rating:null,note:"",pl:false,t0:Date.now()};snd("jingle");S.current.name=plName(S.current);save();show()}
 function next(){if(CO.role==="guest")return coCmd("next");if(S.queue.length)start(S.queue.shift());else toast("Очередь пуста")}
 function skip(){if(CO.role==="guest")return S.current&&coCmd("skip");if(!S.current)return;finish(true);save();show()}
 function rate(n){const c=S.current;if(!c)return;if(CO.role==="guest")coSend({t:"rate",r:n,id:c.id});c.rating=n;save();renderNow(false);renderLists();if(n===10){snd("horn");snd("applause")}else if(n===9)snd("applause");else if(n===1)snd("fail");
@@ -798,6 +839,7 @@ const cfgSave=()=>ls.set(CFGK,JSON.stringify(cfg));
 function chanName(v){v=String(v||"").trim().toLowerCase();const m=v.match(/twitch\.tv\/(?:popout\/)?([a-z0-9_]+)/);if(m)v=m[1];return v.replace(/^[#@]/,"").replace(/[^a-z0-9_]/g,"")}
 parseLists();cfg.chan=chanName(cfg.chan);if(!cfg.room){cfg.room=Math.random().toString(36).slice(2,12);cfgSave()}
 if(cfg.coPp===undefined){cfg.coPp=cfg.coNx=cfg.coQu=!!cfg.coCtl;cfg.coAd=true;cfg.coBadge=true;cfg.coRShow=true;cfg.coMod=false;cfgSave()}
+if(cfg.fxInit===undefined){Object.assign(cfg,{fxInit:1,fxTab:true,fxReq:true,fxAuto:false,fxUp:true,fxFind:true,fxUndo:true,coFx:true,coSnd:true,coChat:true});cfgSave()}
 if(!cfg.coKey||cfg.coKey.length<8){cfg.coKey=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,8);cfgSave()}
 function applyCfg(){document.documentElement.dataset.mode=cfg.mode==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):cfg.mode==="light"?"light":"dark";document.documentElement.dataset.fx=cfg.fxBg?"on":"off";document.documentElement.dataset.compact=cfg.compact?"on":"off";document.documentElement.dataset.lite=cfg.lite?"on":"off";
   {const H=document.documentElement;H.dataset.hs=cfg.hideStats?"on":"off";H.dataset.hh=cfg.hideHist?"on":"off";H.dataset.hk=cfg.hideKbd?"on":"off";
@@ -865,7 +907,7 @@ function onChat(tags,login,msg){
 /* settings UI */
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t)};
-[["c-coname","coName","s"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
+[["c-coname","coName","s"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
   const el=$(id);if(ty==="b")el.checked=!!cfg[k];else el.value=cfg[k];
   el.onchange=()=>{cfg[k]=ty==="b"?el.checked:ty==="n"?+el.value:el.value.trim();if(k==="chan"){cfg.chan=chanName(el.value);el.value=cfg.chan}cfgSave();applyCfg();bcast();
     if(k==="chan"||k==="bot")twConnect();if(k==="blind"){renderNow(false);renderLists()}
@@ -939,7 +981,7 @@ $("t-j").onclick=()=>window.SFX&&SFX.jingle();$("t-a").onclick=()=>window.SFX&&S
 const plItems=()=>[S.current,...S.history].filter(x=>x&&x.pl);
 const splitN=x=>{const n=plName(x),m=n.match(/^(.+?)\s[–-]\s(.+)$/);return isUrl(n)?["",n]:m?[m[1],m[2]]:["",n]};
 function fit(g,t,w){if(g.measureText(t).width<=w)return t;while(t.length>1&&g.measureText(t+"…").width>w)t=t.slice(0,-1);return t+"…"}
-const STORY_PAL={kohb:["#ff3341","#e9e9ee","#09090a"],neon:["#ff2bd6","#00e5ff","#1a0938"],space:["#7c9cff","#c39bff","#0a102a"],lagoon:["#2fe3b0","#6ad6ff","#062c2a"],sakura:["#ff7eb6","#ffc2dd","#2c1322"],matrix:["#00ff7f","#b6ff5e","#02140a"],retro:["#b79cff","#8c6bff","#0e0a16"],volcano:["#ff3b3b","#ff9a8a","#280a0a"],platinum:["#e4e8f0","#b4bdd0","#14161e"],stage:["#ffe11a","#fff59a","#221c06"],aurora:["#4dffb0","#8f7bff","#04141b"],sunset:["#ff8a5c","#ffd36b","#3a1148"],frost:["#7fdcff","#d4f1ff","#0b2233"],toxic:["#c6ff00","#00ffa3","#050804"],gold:["#f5c451","#fff0b3","#0b0804"],lavender:["#cdb4ff","#9fd0ff","#120e1f"],peach:["#ffb38a","#ffd9a8","#1c1110"],candy:["#ff8fd0","#8fe3ff","#190f22"],midnight:["#9db4ff","#ffe7a0","#0c1636"],cocoa:["#e0a77a","#f6e0c8","#150e0b"],carbon:["#00d9ff","#ff2e63","#050506"],abyss:["#6f8cff","#00f5d4","#03152b"],eclipse:["#ffb347","#ff5e62","#0b0707"],nebula:["#c77dff","#ff6bd6","#12072a"],noir:["#e9e9e9","#9aa0a6","#0c0c0c"],storm:["#8ab4f8","#cfe0ff","#0b1424"],radar:["#ffb000","#ff6a00","#150f03"],cinema:["#ffd166","#ef476f","#1c0c10"],flow:["#ff7ab8","#7ab8ff","#1a0a40"],arcade:["#ffe600","#00e5ff","#0a0f3a"]};
+const STORY_PAL={obsidian:["#3d7bff","#8fd0ff","#04050a"],ruby:["#e0115f","#ff9ab8","#14030a"],turq:["#00bfa6","#ffd98a","#021614"],copper:["#d9772b","#f5d0a9","#130a05"],indigo:["#5b4bff","#c0b8ff","#07041c"],pine:["#2e9d62","#e0d3a8","#04110a"],contrast:["#ff6a00","#00b4ff","#050a14"],tropics:["#ff4f9a","#19e6a6","#06130f"],rosegold:["#e0a39a","#f7d9cf","#150b0b"],ultraviolet:["#7c3aed","#22d3ee","#08031a"],empire:["#c1121f","#ffd166","#0d0204"],oled:["#00e5ff","#7af0ff","#000000"],olive:["#a9b665","#e0c97f","#0b0d06"],kohb:["#ff3341","#e9e9ee","#09090a"],neon:["#ff2bd6","#00e5ff","#1a0938"],space:["#7c9cff","#c39bff","#0a102a"],lagoon:["#2fe3b0","#6ad6ff","#062c2a"],sakura:["#ff7eb6","#ffc2dd","#2c1322"],matrix:["#00ff7f","#b6ff5e","#02140a"],retro:["#b79cff","#8c6bff","#0e0a16"],volcano:["#ff3b3b","#ff9a8a","#280a0a"],platinum:["#e4e8f0","#b4bdd0","#14161e"],stage:["#ffe11a","#fff59a","#221c06"],aurora:["#4dffb0","#8f7bff","#04141b"],sunset:["#ff8a5c","#ffd36b","#3a1148"],frost:["#7fdcff","#d4f1ff","#0b2233"],toxic:["#c6ff00","#00ffa3","#050804"],gold:["#f5c451","#fff0b3","#0b0804"],lavender:["#cdb4ff","#9fd0ff","#120e1f"],peach:["#ffb38a","#ffd9a8","#1c1110"],candy:["#ff8fd0","#8fe3ff","#190f22"],midnight:["#9db4ff","#ffe7a0","#0c1636"],cocoa:["#e0a77a","#f6e0c8","#150e0b"],carbon:["#00d9ff","#ff2e63","#050506"],abyss:["#6f8cff","#00f5d4","#03152b"],eclipse:["#ffb347","#ff5e62","#0b0707"],nebula:["#c77dff","#ff6bd6","#12072a"],noir:["#e9e9e9","#9aa0a6","#0c0c0c"],storm:["#8ab4f8","#cfe0ff","#0b1424"],radar:["#ffb000","#ff6a00","#150f03"],cinema:["#ffd166","#ef476f","#1c0c10"],flow:["#ff7ab8","#7ab8ff","#1a0a40"],arcade:["#ffe600","#00e5ff","#0a0f3a"]};
 let photoImg=null,storyArgs=null,sumTag="";
 function loadPhoto(){const u=ls.get("kohb_photo");if(!u){photoImg=null;return}const im=new Image();im.onload=()=>{photoImg=im;if(storyArgs)drawStory(...storyArgs)};im.src=u}
 function drawStory(top,avg,n,all,cur){
@@ -1077,18 +1119,18 @@ async function scrStart(){
   }catch(e){toast("Показ вкладки отменён")}
 }
 function scrToggle(){return scrOn?scrStop():scrStart()}
-const pubState=()=>{const c=S.current;return{cob:(cfg.coBadge!==false&&coLive())?{n:coLive()}:null,corv:cfg.coRShow!==false,t:Date.now(),pos:(()=>{try{return player&&player.getCurrentTime&&c&&player.getVideoData().video_id===ytId(c.text)?player.getCurrentTime():0}catch(e){return 0}})(),play:!!playing,scr:!!scrOn,theme,blind:!!cfg.blind,dur:(()=>{try{return player&&c&&player.getVideoData().video_id===ytId(c.text)?(player.getDuration()||0):0}catch(e){return 0}})(),vote:c?{avg:c.vavg||null,n:c.vn||0,open:!c.rating}:null,brk:brk.on?{rem:brk.until?Math.max(0,brk.until-Date.now()):null,kind:brk.kind||"break"}:null,ev:(()=>{const r=[S.current,...S.history].filter(x=>x&&x.rating);return{cnt:r.length,avg:r.length?+(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):null,pl:r.filter(x=>x.pl).length,top:podTop(r)}})(),hist:S.history.filter(x=>x.rating).slice(0,5).map(x=>({n:plName(x),r:x.rating})),snd:cfg.snd,cmd:String(cfg.cmds||"!заказ").split(",")[0].trim()||"!заказ",sndVol:cfg.sndVol,chatUrl:cfg.chatUrl||"",chatRev:cfg.chatRev||0,chatBox:{x:cfg.chX,y:cfg.chY,w:cfg.chW,h:cfg.chH},ovFx:cfg.ovFx!==false,accent:/^#[0-9a-f]{6}$/i.test(cfg.accent||"")?cfg.accent:"",chatOn:cfg.ovChat!==false,current:c?{id:c.id,text:c.text,name:c.name,title:c.title,nick:c.nick,rating:c.rating||null,thumb:c.thumb||"",t0:c.t0||0,cover:c.cover||"",noemb:!!c.noemb,co:c.co&&c.co.r?{n:coLive()||c.co.n,r:c.co.r}:null}:null,queue:S.queue.slice(0,5).map(x=>({id:x.id,text:x.text,nick:x.nick,don:!!x.don,n:x.title?plName(x):""}))}};
+const pubState=()=>{const c=S.current;return{rx:(typeof rxList!=="undefined"&&rxList||[]).filter(x=>Date.now()-x.t<10000),cob:(cfg.coBadge!==false&&coLive())?{n:coLive()}:null,corv:cfg.coRShow!==false,t:Date.now(),pos:(()=>{try{return player&&player.getCurrentTime&&c&&player.getVideoData().video_id===ytId(c.text)?player.getCurrentTime():0}catch(e){return 0}})(),play:!!playing,scr:!!scrOn,theme,blind:!!cfg.blind,dur:(()=>{try{return player&&c&&player.getVideoData().video_id===ytId(c.text)?(player.getDuration()||0):0}catch(e){return 0}})(),vote:c?{avg:c.vavg||null,n:c.vn||0,open:!c.rating}:null,brk:brk.on?{rem:brk.until?Math.max(0,brk.until-Date.now()):null,kind:brk.kind||"break"}:null,ev:(()=>{const r=[S.current,...S.history].filter(x=>x&&x.rating);return{cnt:r.length,avg:r.length?+(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):null,pl:r.filter(x=>x.pl).length,top:podTop(r)}})(),hist:S.history.filter(x=>x.rating).slice(0,5).map(x=>({n:plName(x),r:x.rating})),snd:cfg.snd,cmd:String(cfg.cmds||"!заказ").split(",")[0].trim()||"!заказ",sndVol:cfg.sndVol,chatUrl:cfg.chatUrl||"",chatRev:cfg.chatRev||0,chatBox:{x:cfg.chX,y:cfg.chY,w:cfg.chW,h:cfg.chH},ovFx:cfg.ovFx!==false,accent:/^#[0-9a-f]{6}$/i.test(cfg.accent||"")?cfg.accent:"",chatOn:cfg.ovChat!==false,current:c?{id:c.id,text:c.text,name:c.name,title:c.title,nick:c.nick,rating:c.rating||null,thumb:c.thumb||"",t0:c.t0||0,cover:c.cover||"",noemb:!!c.noemb,co:c.co&&c.co.r?{n:coLive()||c.co.n,r:c.co.r}:null}:null,queue:S.queue.slice(0,5).map(x=>({id:x.id,text:x.text,nick:x.nick,don:!!x.don,n:x.title?plName(x):""}))}};
 function bcast(){try{conns=conns.filter(c=>c.open);if(conns.length){const m=pubState();conns.forEach(c=>c.send(m))}}catch(e){}try{coBcast()}catch(e){}}
 function ovSt(){const n=conns.filter(c=>c.open).length,e=$("ov-st");if(!e)return;e.textContent=peerErr||(n?"оверлей подключён"+(n>1?" ("+n+")":""):"ждёт оверлей");$("ov-dot").className="dot"+(n&&!peerErr?" ok":"")}
 function peerStart(){
   clearTimeout(peerT);
   if(!window.Peer){peerErr="нет связи с сервером синхронизации";ovSt();return}
-  try{if(peer&&!peer.destroyed)peer.destroy();conns=[];peer=new Peer("kohbfm-"+cfg.room);
+  try{if(peer&&!peer.destroyed)peer.destroy();conns=[];try{cos=[]}catch(e){}peer=new Peer("kohbfm-"+cfg.room);
     peer.on("open",()=>{peerErr="";ovSt();try{coUi();if(coWant()&&CO.role==="none")coJoin(coWant(),true)}catch(e){}});
     peer.on("connection",c=>{if(c.metadata&&c.metadata.co){coAccept(c);return}c.on("open",()=>{conns.push(c);try{c.send(pubState())}catch(e){}scrCall(c);ovSt()});const gone=()=>{conns=conns.filter(x=>x!==c);ovSt()};c.on("close",gone);c.on("error",gone)});
     peer.on("disconnected",()=>{try{peer.reconnect()}catch(e){}});
     peer.on("call",call=>{try{call.answer();call.on("stream",s=>coShow(s));call.on("close",coHide)}catch(e){}});
-    peer.on("error",e=>{peerErr=e.type==="unavailable-id"?"код оверлея занят другой панелью (закрой лишние вкладки или нажми «Новый код оверлея»)":"ошибка связи ("+e.type+")";ovSt();peerT=setTimeout(peerStart,5000)});
+    peer.on("error",e=>{if(e.type==="peer-unavailable"){if(CO.pending){CO.pending=null;if(coWant())coRetry();else toast("Комната не найдена: друг не в сети или код неверный")}coUi();return}if(e.type==="network"){try{peer.reconnect()}catch(x){}return}peerErr=e.type==="unavailable-id"?"код оверлея занят другой панелью (закрой лишние вкладки или нажми «Новый код оверлея»)":"ошибка связи ("+e.type+")";ovSt();peerT=setTimeout(peerStart,5000)});
   }catch(e){peerErr="ошибка запуска синхронизации";ovSt()}
 }
 
@@ -1096,6 +1138,7 @@ function peerStart(){
 let cos=[],coBak=null,coSess=[],coSig="";
 const BETA='<i class="beta">БЕТА</i>',CJ=KEY.replace(/_fm_v1$/,"")+"_coj";
 const coWant=()=>{try{return ls.get(CJ)||""}catch(e){return""}};
+try{const _u=new URLSearchParams(location.search).get("co");if(_u){ls.set(CJ,_u);history.replaceState(null,"",location.pathname)}}catch(e){}
 const coMe=()=>(cfg.coName||cfg.chan||"друг").slice(0,24);
 const coConns=()=>CO.role==="host"?cos.filter(c=>c.open):(CO.role==="guest"&&CO.conn&&CO.conn.open?[CO.conn]:[]);
 const coSend=m=>{try{if(CO.conn&&CO.conn.open)CO.conn.send(m)}catch(e){}};
@@ -1103,7 +1146,7 @@ const PK={pp:"pp",next:"nx",skip:"nx",go:"qu",del:"qu",don:"qu"};
 const coCmd=(c,id)=>{if(CO.perm&&CO.perm[PK[c]]===false){toast("Хозяин не разрешил это действие (у него Настройки → Коллаб)");return}coSend({t:"cmd",c,id})};
 function coLive(){try{if(CO.role==="guest")return CO.host||"";if(CO.role==="host"){const x=cos.find(c=>c.open);return x?(x.coName||"друг"):""}}catch(e){}return""}
 const coTrim=x=>x?{id:x.id,text:x.text,nick:x.nick,comment:x.comment||"",title:x.title,author:x.author,name:x.name,cover:x.cover,thumb:x.thumb,noemb:!!x.noemb,src:x.src,t0:x.t0,rating:x.rating||null,vn:x.vn||0,vavg:x.vavg||null,don:!!x.don}:null;
-function coPack(){const p=pubState();return{t:"st",pos:p.pos,play:p.play,dur:p.dur,cur:coTrim(S.current),q:S.queue.slice(0,40).map(coTrim),n:S.queue.length,hn:coMe(),ctl:!!(cfg.coPp||cfg.coNx||cfg.coQu),perm:{pp:!!cfg.coPp,nx:!!cfg.coNx,qu:!!cfg.coQu,ad:!!cfg.coAd}}}
+function coPack(){const p=pubState();return{t:"st",pos:p.pos,play:p.play,dur:p.dur,cur:coTrim(S.current),q:S.queue.slice(0,40).map(coTrim),n:S.queue.length,hn:coMe(),ctl:!!(cfg.coPp||cfg.coNx||cfg.coQu),perm:{pp:!!cfg.coPp,nx:!!cfg.coNx,qu:!!cfg.coQu,ad:!!cfg.coAd},rtt:(cos[0]&&cos[0].rtt)||0}}
 function coBcast(){if(CO.role!=="host")return;cos=cos.filter(c=>c.open);if(!cos.length)return;const m=coPack();cos.forEach(c=>{try{c.send(m)}catch(e){}})}
 function coUi(){
   const host=CO.role==="host",guest=CO.role==="guest",n=cos.filter(c=>c.open).length;
@@ -1116,8 +1159,31 @@ function coUi(){
   const j=$("co-join");if(j)j.textContent=guest?"⏹ Выйти из коллаба":"🤝 Подключиться";
   const st=$("co-st"),dot=$("co-dot");if(st){st.textContent=guest?"гость: "+(CO.host||"друг")+" · на связи":host?(n?"подключён: "+cos.filter(c=>c.open).map(c=>c.coName).join(", "):"комната открыта, ждём друга"):"не подключено";dot.className="dot"+(guest||(host&&n)?" ok":"")}
   const sh=$("co-share");if(sh){sh.disabled=!coConns().length;sh.textContent=scrOn?"⏹ Остановить показ экрана":"📺 Показать другу мой экран"}
-  const lock=guest;[["clr"],["clr-all"]].forEach(([i])=>{const e=$(i);if(e)e.disabled=lock})
+  const lock=guest;[["clr"],["clr-all"]].forEach(([i])=>{const e=$(i);if(e)e.disabled=lock});
+  const on2=guest||(host&&n),rtt=guest?CO.rtt:(cos[0]&&cos[0].rtt),pg=$("coping");if(pg)pg.textContent=on2&&rtt?(rtt<150?"🟢 ":rtt<400?"🟡 ":"🔴 ")+rtt+" мс":"";
+  const t0=guest?CO.t0:(cos[0]&&cos[0].t0),tm=$("cotm");if(tm){const d=t0&&on2?Math.floor((Date.now()-t0)/1000):0;tm.textContent=d?"⏱ "+Math.floor(d/3600)+":"+String(Math.floor(d%3600/60)).padStart(2,"0")+":"+String(d%60).padStart(2,"0"):""}
+  const rx=$("corx");if(rx)rx.style.display=on2?"":"none";const cb=$("cochatb");if(cb)cb.hidden=cfg.coChat===false||!on2;if(!on2||cfg.coChat===false){const ch=$("cochat");if(ch)ch.classList.remove("on")}
+  const ck=$("co-kick");if(ck)ck.disabled=!(host&&n)
 }
+/* ---- прикольчики коллаба ---- */
+var rxList=[],coLog=[],coUnread=0;
+function floatFx(e){if(cfg.coFx===false)return;const el=document.createElement("div");el.className="fxe";el.textContent=e;el.style.left=(6+Math.random()*84)+"vw";el.style.fontSize=(30+Math.random()*30)+"px";document.body.appendChild(el);setTimeout(()=>el.remove(),2900)}
+function rxAdd(e,from){const it={id:Date.now()+"_"+Math.random().toString(36).slice(2,6),e:String(e).slice(0,4),n:String(from||"").slice(0,24),t:Date.now()};rxList=rxList.filter(x=>Date.now()-x.t<12000).slice(-7);rxList.push(it);floatFx(it.e);snd("pop");bcast()}
+function coReact(e){if(!(CO.role==="guest"||(CO.role==="host"&&cos.some(c=>c.open)))){toast("Реакции работают, когда друг подключён");return}rxAdd(e,coMe());const m={t:"fx",e,from:coMe()};if(CO.role==="guest")coSend(m);else cos.forEach(c=>{try{c.send(m)}catch(x){}})}
+function coLogRender(){const el=$("colog");if(!el)return;el.innerHTML=coLog.slice(-30).map(l=>'<div class="'+(l.me?"me":"")+'"><b>'+esc(l.n)+':</b> '+esc(l.x)+"</div>").join("");el.scrollTop=el.scrollHeight}
+function coChatIn(n,x){x=String(x||"").slice(0,140);if(!x)return;coLog.push({n:String(n||"друг").slice(0,24),x});if(coLog.length>60)coLog.shift();coLogRender();const open=$("cochat").classList.contains("on");if(!open&&cfg.coChat!==false){coUnread++;$("cochatb").classList.add("unread");toast("💬 "+n+": "+x);snd("pop")}}
+function coChatSend(){const inp=$("coin"),x=inp.value.trim();if(!x)return;if(!(CO.role==="guest"||(CO.role==="host"&&cos.some(c=>c.open)))){toast("Друг не подключён");return}inp.value="";const m={t:"chat",x};if(CO.role==="guest")coSend(m);else cos.forEach(c=>{try{c.send(m)}catch(e){}});coLog.push({n:coMe(),x,me:1});coLogRender()}
+document.querySelectorAll("#corx button").forEach(b=>b.onclick=()=>coReact(b.dataset.fx));
+$("cochatb").onclick=()=>{const p=$("cochat");p.classList.toggle("on");if(p.classList.contains("on")){$("cochatb").classList.remove("unread");coUnread=0;coLogRender();$("coin").focus()}};
+$("cosend").onclick=coChatSend;$("coin").onkeydown=e=>{if(e.key==="Enter")coChatSend()};
+$("co-link").onclick=async()=>{const v=$("co-inv").value;if(!v)return toast("Сначала открой комнату");const u=location.origin+location.pathname+"?co="+encodeURIComponent(v);try{await navigator.clipboard.writeText(u);toast("Ссылка-приглашение скопирована ✓")}catch(e){toast("Не удалось скопировать")}};
+$("co-kick").onclick=()=>{cos.forEach(c=>{try{c.send({t:"bye"});c.close()}catch(e){}});cos=[];coUi();toast("Друг отключён")};
+$("co-newkey").onclick=()=>{if(!confirm("Создать новый код приглашения? Старый перестанет работать, друга отключит."))return;cfg.coKey=Array.from(crypto.getRandomValues(new Uint8Array(12)),b=>(b%36).toString(36)).join("");cfgSave();cos.forEach(c=>{try{c.send({t:"bye"});c.close()}catch(e){}});cos=[];coUi();toast("Новый код приглашения готов")};
+setInterval(()=>{try{
+  if(CO.role==="host")cos.forEach(c=>{if(!c.open)return;try{c.send({t:"ping",ts:Date.now()})}catch(e){}if(c.lastPong&&Date.now()-c.lastPong>22000){try{c.close()}catch(e){}}});
+  if(CO.role==="guest"&&CO.last&&Date.now()-CO.last>20000){coLeave(false,"Нет связи с хозяином, переподключаюсь…",true);coRetry()}
+  const c=S.current;if(c&&c.co&&c.co.r&&c.rating&&(CO.role==="guest"||cos.some(x=>x.open))){const k=c.id+":"+c.rating+":"+c.co.r;if(window._mk!==k){window._mk=k;if(c.co.r===c.rating){rxAdd("🎯","Совпало "+c.rating);toast("🎯 Совпадение оценок: "+c.rating+"/10")}else if(Math.abs(c.co.r-c.rating)>=5)rxAdd("😱","Спор!")}}
+  coUi()}catch(e){}},4000);
 /* ---- хозяин ---- */
 function coOpenRoom(on){
   if(on&&CO.role==="guest"){toast("Сначала выйди из коллаба как гость");return}
@@ -1127,16 +1193,19 @@ function coAccept(c){
   c.on("open",()=>{
     const md=c.metadata||{};
     if(CO.role!=="host"||md.key!==cfg.coKey){try{c.send({t:"deny",why:CO.role!=="host"?"комната закрыта":"неверный код"})}catch(e){}setTimeout(()=>{try{c.close()}catch(e){}},300);return}
-    c.coName=String(md.name||"друг").slice(0,24);
+    c.coName=String(md.name||"друг").slice(0,24);c.lastPong=Date.now();c.t0=Date.now();
     cos.filter(x=>x!==c).forEach(x=>{try{x.send({t:"bye"});x.close()}catch(e){}});cos=[c];
     try{c.send({t:"hello",name:coMe(),ctl:!!(cfg.coPp||cfg.coNx||cfg.coQu)});c.send(coPack())}catch(e){}
-    toast("🤝 "+c.coName+" подключился");coUi();if(scrOn)scrCall(c)});
+    toast("🤝 "+c.coName+" подключился");snd("chime");coUi();if(scrOn)scrCall(c)});
   c.on("data",m=>coHostMsg(c,m));
   const gone=()=>{if(cos.includes(c)){cos=cos.filter(x=>x!==c);toast("🤝 "+(c.coName||"друг")+" отключился")}coUi()};c.on("close",gone);c.on("error",gone)}
 function coHostMsg(c,m){
   if(!m||typeof m!=="object")return;
   try{
-  if(m.t==="name"){c.coName=String(m.name||"друг").slice(0,24);coUi();bcast()}
+  if(m.t==="pong"){c.lastPong=Date.now();c.rtt=Math.max(1,Date.now()-(+m.ts||Date.now()));coUi()}
+  else if(m.t==="chat"){coChatIn(c.coName,m.x)}
+  else if(m.t==="fx"){rxAdd(m.e,c.coName)}
+  else if(m.t==="name"){c.coName=String(m.name||"друг").slice(0,24);coUi();bcast()}
   else if(m.t==="rate"){const cur=S.current;if(cur&&String(cur.id)===String(m.id)){const r=Math.max(1,Math.min(10,+m.r|0));cur.co={n:c.coName,r};save();renderNow(false);toast("🤝 "+c.coName+": "+r+"/10")}}
   else if(m.t==="add"&&m.it){if(!cfg.coAd){try{c.send({t:"msg",x:"Хозяин отключил заявки от друга"})}catch(e){}return}
     const it={id:Date.now()+Math.random(),text:String(m.it.text||"").slice(0,300).trim(),nick:String(m.it.nick||c.coName).slice(0,40),comment:String(m.it.comment||"").slice(0,200),src:"co:"+c.coName};
@@ -1179,12 +1248,16 @@ function coGuestMsg(c,m,to){
   if(!m||typeof m!=="object")return;
   if(m.t==="deny"){clearTimeout(to);CO.pending=null;ls.set(CJ,"");coTry=0;toast("Отказ: "+(m.why||"нельзя подключиться"));try{c.close()}catch(e){}return}
   if(m.t==="msg"){toast(String(m.x||""));return}
+  if(m.t==="ping"){CO.last=Date.now();coSend({t:"pong",ts:m.ts});return}
+  if(m.t==="chat"){coChatIn(CO.host||"друг",m.x);return}
+  if(m.t==="fx"){rxAdd(m.e,m.from||CO.host);return}
   if(m.t==="bye"){coLeave(false,"Друг закрыл комнату");return}
-  if(m.t==="hello"){clearTimeout(to);CO.pending=null;coTry=0;try{ls.set(CJ,c.coCode||"")}catch(e){}coBak=S;coSess=[];coSig="";S=fixS();votes={};CO={role:"guest",conn:c,host:String(m.name||"друг"),ctl:!!m.ctl};
+  if(m.t==="hello"){clearTimeout(to);CO.pending=null;coTry=0;try{ls.set(CJ,c.coCode||"")}catch(e){}coBak=S;coSess=[];coSig="";S=fixS();votes={};CO={role:"guest",conn:c,host:String(m.name||"друг"),ctl:!!m.ctl,last:Date.now(),t0:Date.now()};
     toast("🤝 Подключено к "+CO.host);coUi();show();return}
   if(m.t==="st"&&CO.role==="guest"&&CO.conn===c)coApply(m)}
 function coFlush(){if(CO.role!=="guest"||!coBak)return;try{ls.set(KEY,JSON.stringify({...coBak,history:[...coSess.filter(x=>x.rating||x.pl||x.note),...coBak.history].slice(0,500)}))}catch(e){}}
 function coApply(m){
+  CO.last=Date.now();CO.rtt=m.rtt||CO.rtt;
   const old=S.current,cur=m.cur;let mir=null;
   if(cur){const same=old&&String(old.id)===String(cur.id);
     mir={...cur,co:{n:CO.host,r:cur.rating||null},rating:same?old.rating:null,note:same?old.note:"",pl:same?!!old.pl:false,tags:same?(old.tags||[]):[]}}
@@ -1222,6 +1295,26 @@ $("cobtn").onclick=()=>{$("modal").classList.add("open");const d=$("co-sec");if(
 if(cfg.coOpen)CO.role="host";
 addEventListener("beforeunload",coFlush);
 setTimeout(coUi,300);
+/* ---- плюшки (всё выключается в настройках) ---- */
+const BASE_T=document.title;
+setInterval(()=>{try{if(!cfg.fxTab){if(document.title!==BASE_T)document.title=BASE_T;return}const c=S.current;document.title=(c?(playing?"▶ ":"⏸ ")+plName(c)+" · ":"")+(S.queue.length?"очередь "+S.queue.length+" · ":"")+BASE_T}catch(e){}},1500);
+const UPK=KEY.replace(/_fm_v1$/,"")+"_up0";
+(function(){const st=$("stats");if(!st)return;const el=document.createElement("span");el.id="upt";el.title="Время в эфире. Клик — сбросить";st.insertAdjacentElement("afterend",el);
+  el.onclick=()=>{if(confirm("Сбросить часы эфира?")){ls.set(UPK,String(Date.now()));tick()}};
+  function tick(){if(!cfg.fxUp){el.style.display="none";return}el.style.display="";let t0=+ls.get(UPK);if(!t0){t0=Date.now();ls.set(UPK,String(t0))}const d=Math.max(0,Math.floor((Date.now()-t0)/1000));el.textContent="⏱ "+Math.floor(d/3600)+":"+String(Math.floor(d%3600/60)).padStart(2,"0")+":"+String(d%60).padStart(2,"0")}
+  tick();setInterval(tick,1000)})();
+addEventListener("pointerdown",()=>{window._la=Date.now()},true);addEventListener("keydown",()=>{window._la=Date.now()},true);
+setInterval(()=>{try{const n=S.queue.length+S.pending.length;if(window._qn!==undefined&&n>window._qn&&cfg.fxReq&&CO.role!=="guest"&&Date.now()-(window._la||0)>1500)snd("pop");window._qn=n}catch(e){}},700);
+function autoNx(){const c=S.current;if(!cfg.fxAuto||CO.role==="guest"||!c)return;if(!c.rating){toast("Трек закончился: поставь оценку");return}toast("⏭ Следующий через 3 с (Esc — отмена)");const id=c.id;clearTimeout(window._anx);window._anx=setTimeout(()=>{window._anx=0;if(S.current&&S.current.id===id)next()},3000)}
+function undoMk(item){if(cfg.fxUndo===false||CO.role==="guest")return;try{window._undo={cur:S.current?JSON.parse(JSON.stringify(S.current)):null,item:item?JSON.parse(JSON.stringify(item)):null}}catch(e){}}
+function undo(){const u=window._undo;if(!u||CO.role==="guest")return toast("Нечего возвращать");window._undo=null;
+  if(u.item){if(S.current&&String(S.current.id)===String(u.item.id))S.current=null;S.queue.unshift(u.item)}
+  if(u.cur){const h=S.history[0];if(h&&String(h.id)===String(u.cur.id))S.history.shift();S.current=u.cur}
+  votes={};save();show();renderLists();toast("↶ Вернул: "+plName(u.cur||u.item))}
+addEventListener("keydown",e=>{const tg=((document.activeElement||{}).tagName||"");if((e.ctrlKey||e.metaKey)&&e.code==="KeyZ"&&cfg.fxUndo!==false&&!/INPUT|TEXTAREA|SELECT/.test(tg)){e.preventDefault();undo()}if(e.key==="Escape"&&window._anx){clearTimeout(window._anx);window._anx=0;toast("Авто-следующий отменён")}});
+(function(){const h=$("hist");if(!h)return;const inp=document.createElement("input");inp.type="text";inp.id="hfind";inp.className="hfind";inp.placeholder="🔎 Поиск по истории…";inp.autocomplete="off";h.parentNode.insertBefore(inp,h);
+  const ap=()=>{const on=cfg.fxFind!==false;inp.style.display=on?"":"none";const q=inp.value.trim().toLowerCase();[...h.children].forEach(el=>{el.style.display=(!q||!on||el.textContent.toLowerCase().includes(q))?"":"none"})};
+  inp.oninput=ap;new MutationObserver(ap).observe(h,{childList:true});setInterval(ap,2000)})();
 
 addEventListener("beforeunload",()=>{try{peer&&peer.destroy()}catch(e){}});setInterval(bcast,5000);setInterval(()=>{if(playing)bcast()},2000);
 /* плейлист: подтянуть исполнителей перед копированием */

@@ -21,21 +21,21 @@
 [data-theme=frost]{--ac:#7fdcff;--ac2:#d4f1ff;--card:rgba(10,30,44,.9)}
 [data-theme=toxic]{--ac:#c6ff00;--ac2:#00ffa3;--card:rgba(10,18,8,.9)}
 [data-theme=gold]{--ac:#f5c451;--ac2:#fff0b3;--card:rgba(24,18,8,.9)}
-[data-theme=lavender]{--ac:#cdb4ff;--ac2:#9fd0ff;--card:rgba(28,20,50,.9)}
-[data-theme=peach]{--ac:#ffb38a;--ac2:#ffd9a8;--card:rgba(44,24,20,.9)}
-[data-theme=candy]{--ac:#ff8fd0;--ac2:#8fe3ff;--card:rgba(38,20,54,.9)}
-[data-theme=midnight]{--ac:#9db4ff;--ac2:#ffe7a0;--card:rgba(10,16,42,.9)}
-[data-theme=cocoa]{--ac:#e0a77a;--ac2:#f6e0c8;--card:rgba(38,25,18,.9)}
-[data-theme=carbon]{--ac:#00d9ff;--ac2:#ff2e63;--card:rgba(14,14,18,.9)}
-[data-theme=abyss]{--ac:#6f8cff;--ac2:#00f5d4;--card:rgba(4,16,34,.9)}
-[data-theme=eclipse]{--ac:#ffb347;--ac2:#ff5e62;--card:rgba(12,10,12,.9)}
-[data-theme=nebula]{--ac:#c77dff;--ac2:#ff6bd6;--card:rgba(18,9,34,.9)}
 [data-theme=noir]{--ac:#e9e9e9;--ac2:#9aa0a6;--card:rgba(16,16,16,.9)}
+[data-theme=obsidian]{--ac:#3d7bff;--ac2:#8fd0ff;--card:rgba(10,12,22,.9)}
+[data-theme=ruby]{--ac:#e0115f;--ac2:#ff9ab8;--card:rgba(38,8,20,.9)}
+[data-theme=turq]{--ac:#00bfa6;--ac2:#ffd98a;--card:rgba(4,40,38,.9)}
+[data-theme=copper]{--ac:#d9772b;--ac2:#f5d0a9;--card:rgba(40,22,12,.9)}
+[data-theme=indigo]{--ac:#5b4bff;--ac2:#c0b8ff;--card:rgba(16,10,48,.9)}
+[data-theme=pine]{--ac:#2e9d62;--ac2:#e0d3a8;--card:rgba(8,32,20,.9)}
+[data-theme=contrast]{--ac:#ff6a00;--ac2:#00b4ff;--card:rgba(8,18,36,.9)}
+[data-theme=tropics]{--ac:#ff4f9a;--ac2:#19e6a6;--card:rgba(10,38,30,.9)}
+[data-theme=rosegold]{--ac:#e0a39a;--ac2:#f7d9cf;--card:rgba(42,24,24,.9)}
+[data-theme=ultraviolet]{--ac:#7c3aed;--ac2:#22d3ee;--card:rgba(20,8,48,.9)}
+[data-theme=empire]{--ac:#c1121f;--ac2:#ffd166;--card:rgba(34,6,10,.9)}
+[data-theme=oled]{--ac:#00e5ff;--ac2:#7af0ff;--card:rgba(8,8,10,.9)}
+[data-theme=olive]{--ac:#a9b665;--ac2:#e0c97f;--card:rgba(26,30,12,.9)}
 [data-theme=storm]{--ac:#8ab4f8;--ac2:#cfe0ff;--card:rgba(10,17,32,.9)}
-[data-theme=radar]{--ac:#ffb000;--ac2:#ff6a00;--card:rgba(18,13,4,.9)}
-[data-theme=cinema]{--ac:#ffd166;--ac2:#ef476f;--card:rgba(22,10,14,.9)}
-[data-theme=flow]{--ac:#ff7ab8;--ac2:#7ab8ff;--card:rgba(20,10,46,.9)}
-[data-theme=arcade]{--ac:#ffe600;--ac2:#00e5ff;--card:rgba(10,12,38,.9)}
 *{box-sizing:border-box}
 html,body{margin:0;height:100%;overflow:hidden;background:transparent;color:#fff;font-family:system-ui,"Segoe UI",Roboto,sans-serif}
 body.green{background:#00ff00}
@@ -266,6 +266,10 @@ html.lite .se-k,html.lite .se-k::after{animation:none!important}
 @keyframes podUp{from{transform:scaleY(.15);opacity:0}}
 html.lite .sc-beam,html.lite .sc-nt{display:none}
 html.lite .sc-tick div,html.lite .ch,html.lite .sc-arm,html.lite .sc-p{animation:none!important}
+.rxf{position:absolute;bottom:90px;z-index:8;text-align:center;animation:rxUp 4s ease-out forwards;pointer-events:none}
+.rxf span{font-size:64px;display:block;filter:drop-shadow(0 4px 12px rgba(0,0,0,.5))}
+.rxf small{font-size:16px;font-weight:700;background:var(--card);padding:2px 10px;border-radius:99px}
+@keyframes rxUp{0%{transform:translateY(0) scale(.4);opacity:0}12%{opacity:1;transform:translateY(-40px) scale(1.15)}100%{transform:translateY(-420px) scale(1);opacity:0}}
 html.lite .sc-bg i,html.lite .sc-grid,html.lite .sc-dots,html.lite .sc-rec,html.lite .sc-ring,html.lite .sc-eq i,html.lite .sc-lbl span{animation:none!important}
 html.lite .sc-ring{display:none}
 #cot{margin-left:8px;max-width:260px;overflow:hidden;text-overflow:ellipsis}
@@ -460,6 +464,7 @@ function cnt(el){const v=parseFloat(el.dataset.v);if(isNaN(v))return;const dec=S
 function extra(S,c,r,th,name){
   const R=remote,v=R&&R.vote,vt=$("vt");
   if(c&&v&&(v.n>0||v.open)){vt.innerHTML=v.n?"💬 ЧАТ <b>"+v.avg+"</b> · "+v.n:"💬 <b>!1…!10</b>";vt.classList.add("show")}else vt.classList.remove("show");
+  {const rx=R&&R.rx||[];window._rxs=window._rxs||new Set();rx.forEach(x=>{if(_rxs.has(x.id))return;_rxs.add(x.id);const el=document.createElement("div");el.className="rxf";el.innerHTML="<span>"+esc(x.e)+"</span>"+(x.n?"<small>"+esc(x.n)+"</small>":"");el.style.left=(6+Math.random()*30)+"%";$("st").appendChild(el);setTimeout(()=>el.remove(),4200)});if(_rxs.size>80)_rxs.clear()}
   {const cb=$("cob");if(cb){if(R&&R.cob&&R.cob.n){cb.innerHTML="🤝 Коллаб с <b>"+esc(R.cob.n)+"</b>";cb.classList.add("show")}else cb.classList.remove("show")}}
   {const co=c&&c.co,ct=$("cot");if(co&&co.r&&!(R&&R.corv===false)){ct.innerHTML="🤝 "+esc(co.n||"друг")+" <b>"+co.r+"</b>";ct.classList.add("show")}else ct.classList.remove("show")}
   PG={dur:R&&R.dur>0?R.dur:0,pos:R&&typeof R.pos==="number"?R.pos:0,play:R?R.play!==false:true,t:R?R.t||Date.now():Date.now(),t0:c&&c.t0||(R&&R.t0)||0,has:!!c,seed:c?seedOf(c.id):1};
