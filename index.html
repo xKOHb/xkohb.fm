@@ -580,6 +580,7 @@ function done(m){clean();if(m)alert(m);location.reload()}
     <div class="fld"><label for="c-bot">Принимать заявки из чата</label><input type="checkbox" id="c-bot"></div>
     <div class="fld"><label for="c-chan">Канал</label><input type="text" id="c-chan" placeholder="например, xk0hb"></div>
     <div class="fld"><label for="c-cmds">Команды</label><input type="text" id="c-cmds"></div>
+    <div class="fld"><label for="c-autolink">🔗 Искать ссылку по названию<small>заявка без ссылки сама находит видео на YouTube; плеер заиграет её</small></label><input type="checkbox" id="c-autolink"></div>
     <div class="fld"><label for="c-maxq">Заявок от зрителя в очереди</label><input type="number" id="c-maxq" min="1" max="20"></div>
     <div class="fld"><label for="c-cd">Пауза между заявками, сек</label><input type="number" id="c-cd" min="0" max="600"></div>
     <div class="hint"><span class="dot" id="tw-dot"></span><span id="tw-st">выключено</span> · читает чат анонимно, отвечать не умеет. Пример: <b>!заказ Artist - Song</b></div>
@@ -883,6 +884,7 @@ parseLists();cfg.chan=chanName(cfg.chan);if(!cfg.room){cfg.room=Math.random().to
 if(cfg.coPp===undefined){cfg.coPp=cfg.coNx=cfg.coQu=!!cfg.coCtl;cfg.coAd=true;cfg.coBadge=true;cfg.coRShow=true;cfg.coMod=false;cfgSave()}
 if(cfg.fxInit===undefined){Object.assign(cfg,{fxInit:1,fxTab:true,fxReq:true,fxAuto:false,fxUp:true,fxFind:true,fxUndo:true,coFx:true,coSnd:true,coChat:true});cfgSave()}
 if(cfg.pubInit===undefined){cfg.pubInit=1;cfg.pubOn=false;cfg.pubQ=true;cfg.pubMod=false;cfg.pubCode=Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>(b%36).toString(36)).join("");cfgSave()}
+if(cfg.alInit===undefined){cfg.alInit=1;cfg.autoLink=true;cfgSave()}
 if(cfg.pubInit2===undefined){cfg.pubInit2=1;cfg.pubFx=true;cfg.pubPause=false;cfg.pubMsg="";cfgSave()}
 if(cfg.pubInit3===undefined){cfg.pubInit3=1;cfg.pubGuess=true;cfgSave()}
 if(!cfg.coKey||cfg.coKey.length<8){cfg.coKey=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,8);cfgSave()}
@@ -952,7 +954,7 @@ function onChat(tags,login,msg){
 /* settings UI */
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t)};
-[["c-coname","coName","s"],["c-pubon","pubOn","b"],["c-pubguess","pubGuess","b"],["c-pubpause","pubPause","b"],["c-pubmsg","pubMsg","s"],["c-pubfx","pubFx","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
+[["c-coname","coName","s"],["c-autolink","autoLink","b"],["c-pubon","pubOn","b"],["c-pubguess","pubGuess","b"],["c-pubpause","pubPause","b"],["c-pubmsg","pubMsg","s"],["c-pubfx","pubFx","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
   const el=$(id);if(ty==="b")el.checked=!!cfg[k];else el.value=cfg[k];
   el.onchange=()=>{cfg[k]=ty==="b"?el.checked:ty==="n"?+el.value:el.value.trim();if(k==="chan"){cfg.chan=chanName(el.value);el.value=cfg.chan}cfgSave();applyCfg();bcast();
     if(k==="chan"||k==="bot")twConnect();if(k==="blind"){renderNow(false);renderLists()}
@@ -1003,8 +1005,33 @@ async function metaAny(x){
       else clearTimeout(tm)}
   }catch(e){}
   if(x.title){x.name=plName(x);return true}return false}
+
+/* ===== v25: автопоиск ссылки для заявок без ссылки ===== */
+async function qLink(){if(CO.role==="guest"||cfg.autoLink===false)return;const seen=window._qlS=window._qlS||new Set();let ch=false;
+  const list=[...S.queue,...S.pending].filter(x=>x&&!x.title&&!isUrl(x.text)&&String(x.text).trim().length>=4&&!seen.has(x.id)).slice(0,3);
+  for(const x of list){seen.add(x.id);const r=await ytFind(x.text);if(r){x.title=r.title||String(x.text).slice(0,160);x.author=r.author||"";x.text=r.url;ch=true}}
+  if(ch){save();renderLists();bcast()}}
+
+/* ===== v25: автопоиск ссылки на трек по названию ===== */
+const ytC=new Map(),YTP=["https://pipedapi.kavin.rocks","https://pipedapi.adminforge.de","https://api.piped.private.coffee"],YTI=["https://inv.nadeko.net","https://invidious.nerdvpn.de","https://yewtu.be"];
+async function getJ(u,ms){const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),ms);try{const r=await fetch(u,{signal:ctl.signal});clearTimeout(tm);if(!r.ok)return null;return await r.json()}catch(e){clearTimeout(tm);return null}}
+function firstOk(ps){return new Promise(res=>{let n=ps.length;if(!n)return res(null);ps.forEach(p=>p.then(v=>{if(v&&v.length)res(v);else if(--n===0)res(null)}).catch(()=>{if(--n===0)res(null)}))})}
+function ytTok(s){return String(s||"").toLowerCase().replace(/[\(\[].*?[\)\]]/g," ").replace(/\b(feat|ft)\.?\s.*$/,"").split(/[^\p{L}\p{N}]+/u).filter(w=>w.length>1)}
+function ytPick(items,q){const qt=ytTok(q),ql=String(q).toLowerCase(),bad=/karaoke|караоке|cover|кавер|nightcore|slowed|sped up|speed up|8d|reaction|реакци|live|concert|remix|instrumental|минус/i;let best=null,bs=0;
+  items.slice(0,8).forEach(x=>{if(!x||!/^[\w-]{11}$/.test(x.id||""))return;const hay=" "+ytTok((x.title||"")+" "+(x.author||"")).join(" ")+" ";
+    let sc=qt.length?qt.filter(w=>hay.includes(" "+w)).length/qt.length:0;
+    if(bad.test(x.title||"")&&!bad.test(ql))sc-=.25;if(/ - topic$|vevo$|official/i.test((x.author||"")+" "+(x.title||"")))sc+=.08;if(x.len&&(x.len<60||x.len>660))sc-=.2;
+    if(sc>bs){bs=sc;best=x}});
+  return bs>=.6&&best?{id:best.id,title:best.title||"",author:best.author||"",url:"https://www.youtube.com/watch?v="+best.id}:null}
+async function ytFind0(q){let items=null;const enc=encodeURIComponent(q);
+  if(/^https?:$/.test(location.protocol)){const j=await getJ("/api/yt?q="+enc,9000);if(j&&j.items&&j.items.length)items=j.items}
+  if(!items)items=await firstOk([
+    ...YTP.map(h=>getJ(h+"/search?filter=videos&q="+enc,6000).then(j=>j&&Array.isArray(j.items)?j.items.filter(x=>x.url&&/watch\?v=/.test(x.url)).map(x=>({id:x.url.split("v=")[1].slice(0,11),title:x.title||"",author:x.uploaderName||"",len:x.duration||0})):null)),
+    ...YTI.map(h=>getJ(h+"/api/v1/search?type=video&fields=videoId,title,author,lengthSeconds&q="+enc,6000).then(j=>Array.isArray(j)?j.map(x=>({id:x.videoId,title:x.title||"",author:x.author||"",len:x.lengthSeconds||0})):null))]);
+  return items&&items.length?ytPick(items,q):null}
+function ytFind(q){q=String(q||"").trim();const k=q.toLowerCase();if(ytC.has(k))return ytC.get(k);const p=ytFind0(q).catch(()=>null);ytC.set(k,p);p.then(v=>{if(!v)ytC.delete(k)});return p}
 function qmKick(){try{clearTimeout(window._qmT);window._qmT=setTimeout(qMeta,400)}catch(e){}}
-async function qMeta(){if(CO.role==="guest")return;const seen=window._qmS=window._qmS||new Set();let ch=false;
+async function qMeta(){if(CO.role==="guest")return;try{await qLink()}catch(e){}const seen=window._qmS=window._qmS||new Set();let ch=false;
   const list=[...S.queue,...S.pending].filter(x=>x&&!x.title&&isUrl(x.text)&&!seen.has(x.id)).slice(0,6);
   for(const x of list){seen.add(x.id);if(await metaAny(x))ch=true}
   if(ch){save();renderLists();bcast()}}
@@ -1370,11 +1397,14 @@ function siteState(){const c=S.current,bl=cfg.blind,nk=x=>bl?"???":x.nick;let b=
     q:cfg.pubQ===false?[]:S.queue.slice(0,40).map(x=>({id:x.id,n:x.title?plName(x):x.text,by:nk(x),don:!!x.don})),n:S.queue.length,brk:b,
     h:S.history.slice(0,40).map(h=>({id:h.id,n:plName(h),by:nk(h),r:h.rating||0,pl:h.pl?1:0,sk:h.skipped?1:0})),
     avg:rated.length?+(rated.reduce((a,h)=>a+h.rating,0)/rated.length).toFixed(2):0,cnt:rated.length,
-    msg:String(cfg.pubMsg||"").slice(0,160),paused:!!cfg.pubPause,fx:cfg.pubFx!==false,gs:cfg.pubGuess!==false,vw:pubConns.filter(x=>x.open).length,gavg:gv.length?+(gv.reduce((a,b)=>a+b,0)/gv.length).toFixed(1):0,gn:gv.length}}
+    msg:String(cfg.pubMsg||"").slice(0,160),paused:!!cfg.pubPause,fx:cfg.pubFx!==false,gs:cfg.pubGuess!==false,vw:pubConns.filter(x=>x.open).length,hv:S.history.length*2+(S.current&&S.current.rating?1:0),gavg:gv.length?+(gv.reduce((a,b)=>a+b,0)/gv.length).toFixed(1):0,gn:gv.length}}
 function sitePush(){if(!pubConns.length)return;pubConns=pubConns.filter(c=>c.open);if(!pubConns.length)return;const m=siteState();pubConns.forEach(c=>{try{c.send(m)}catch(e){}})}
 function siteReq(c,m){
   if(!m||typeof m!=="object")return;
   if(m.t==="hi"){try{c.send(siteHello());c.send(siteState())}catch(e){}return}
+  if(m.t==="hall"){const now=Date.now();if(c._ha&&now-c._ha<4000)return;c._ha=now;const seen=new Set(),l=[],add=(n,r,k)=>{n=String(n||"").trim();const key=n.toLowerCase();if(!n||seen.has(key))return;seen.add(key);l.push([n.slice(0,160),r||0,k])};
+    S.history.forEach(h=>add(plName(h),h.rating,h.skipped?2:0));archGet().slice().reverse().forEach(e=>(e.t||[]).forEach(t=>add(t.n,t.r,e.id===S.evId?0:1)));
+    try{c.send({t:"hall",l:l.slice(0,1500)})}catch(e){}return}
   const nm=v=>String(v||"").replace(/[^\w\u0400-\u04ff.-]/g,"").slice(0,25);
   if(m.t==="fx"){if(cfg.pubFx===false)return;const now=Date.now();c._fx=(c._fx||[]).filter(t=>now-t<10000);if(c._fx.length>=8)return;const e=String(m.e||"");if(!["🔥","👏","😂","❤️","💀","🎧","😮","🎉"].includes(e))return;c._fx.push(now);rxAdd(e,nm(m.nick)||"зритель");return}
   if(m.t==="like"){if(cfg.pubFx===false||!S.current||String(S.current.id)!==String(m.id))return;c._lk=c._lk||{};if(c._lk[m.id])return;c._lk[m.id]=1;S.current.lk=(S.current.lk||0)+1;rxAdd("❤️",nm(m.nick)||"зритель");sitePush();return}
@@ -1394,7 +1424,7 @@ function siteReq(c,m){
   if([...S.queue,...S.pending].filter(q=>q.nick===nick||(c.peer&&q.cid===c.peer)).length>=cfg.maxq)return ack({ok:false,why:"Лимит: "+cfg.maxq+" в очереди. Дождись, пока сыграют"});
   const left=cfg.cd-(Date.now()-(lastReq[nick]||0))/1000;if(left>0)return ack({ok:false,why:"Подожди ещё "+Math.ceil(left)+" с"});
   lastReq[nick]=Date.now();
-  const it={id:Date.now()+Math.random(),text,nick,comment,src:"site",cid:c.peer||"",...(cover?{cover}:{})},mod=cfg.pubMod||(cfg.conf&&suspicious(text));
+  const nmh=/^https?:\/\//i.test(text)?String(m.name||"").replace(/[\u200b-\u200f\u2060\ufeff]/g,"").trim().slice(0,160):"",it={id:Date.now()+Math.random(),text,nick,comment,src:"site",cid:c.peer||"",...(cover?{cover}:{}),...(nmh?{title:nmh}:{})},mod=cfg.pubMod||(cfg.conf&&suspicious(text));
   if(CO.role==="guest"){coSend({t:"add",conf:!!mod,it});toast(cfg.blind?"🌐 заказ отправлен":"🌐 @"+nick+" → в общую очередь");return ack({ok:true,pending:!!mod,id:it.id,pos:0})}
   if(mod){S.pending.push(it);save();renderLists();toast(cfg.blind?"⚠ заказ с сайта на проверке":"⚠ @"+nick+" (сайт): на проверке");return ack({ok:true,pending:true,id:it.id})}
   S.queue.push(it);save();renderLists();toast(cfg.blind?"🌐 новый заказ с сайта":"🌐 @"+nick+" → в очередь");
