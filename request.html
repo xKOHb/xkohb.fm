@@ -574,8 +574,18 @@ details.sg{border:1px solid var(--ln);border-radius:14px;margin:0 0 10px;padding
 details.sg summary{cursor:pointer;font-weight:700;padding:10px 0;list-style:none}details.sg summary::-webkit-details-marker{display:none}
 details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
 .sg select{background:var(--in);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:7px 10px;font:inherit}
+/* v26 */
+.air.idle{background:transparent;color:var(--mut);border-color:var(--ln);box-shadow:none}
+#twc{padding:0;overflow:hidden}#twc[hidden]{display:none}
+#twc>summary{cursor:pointer;list-style:none;padding:16px 20px;font-weight:700;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mut)}
+#twc>summary::-webkit-details-marker{display:none}#twc[open]>summary{border-bottom:1px solid var(--ln)}
+.twb{padding:12px 14px}.tw-p{position:relative;padding-top:56.25%;border-radius:10px;overflow:hidden;background:#000}
+.tw-p iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.tw-c{margin-top:10px;height:420px;border-radius:10px;overflow:hidden;background:#0e0e10}.tw-c iframe{width:100%;height:100%;border:0}
+.rq-alt{margin:6px auto 0;max-width:640px;text-align:center;font-size:12px;color:var(--mut)}.rq-alt a{color:var(--ac)}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="peerjs.min.js"></script>
+<script>window.Peer||document.write('<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"><\/script>')</script>
 <script>window.Peer||document.write('<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"><\/script>');window.Peer||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"><\/script>')</script>
 </head>
 <body>
@@ -596,6 +606,7 @@ details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
       <div class="gs" id="gs"><div class="gl" id="gl">🎯 Угадай оценку ведущего</div><div class="gb" id="gb"></div></div>
       <div class="rxbar" id="rxbar"><button data-e="🔥" title="Огонь">🔥</button><button data-e="👏" title="Аплодисменты">👏</button><button data-e="😂" title="Смешно">😂</button><button data-e="😮" title="Ого">😮</button><button data-e="💀" title="Умер">💀</button><button data-e="🎧" title="Качает">🎧</button><button data-e="🎉" title="Ура">🎉</button><button class="lk" id="likeb" title="Понравился трек">❤ 0</button></div>
     </div>
+    <details class="card" id="twc" hidden><summary>📺 Стрим и чат Twitch</summary><div class="twb" id="twb"></div></details>
     <div class="card" id="ordc">
       <h2>Заказать трек</h2>
       <div class="rq-note" id="note"><span id="note-t"></span><br><button id="recon">🔄 Переподключиться</button></div>
@@ -623,7 +634,8 @@ details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
     </div>
   </section>
 </main>
-<div class="rq-foot">Заказы идут в очередь ведущего. Если страница «оффлайн», стример сейчас не в эфире: она подключится сама.</div>
+<div class="rq-foot">Заказы идут в очередь ведущего. «Оффлайн» значит, что панель стримера закрыта: страница подключится сама. Метку «В эфире» ставит сам стример.</div>
+<div class="rq-alt" id="alt"></div>
 <div class="modal" id="tmod"><div class="sheet"><div class="shh">🎨 Тема страницы <button id="tmx" class="ghost">✕</button></div><div class="hint" style="margin:6px 0 12px">Тема сохраняется только у тебя.</div><div class="tgrid" id="tgrid"></div></div></div>
 <div class="modal" id="smod"><div class="sheet"><div class="shh">⚙️ Настройки страницы <button id="smx" class="ghost">✕</button></div>
   <div class="row" style="margin:8px 0 12px"><button id="s-calm" class="ghost" title="Выключает эффекты и звуки, приглушает и успокаивает фон">🌿 Спокойный режим одним нажатием</button></div>
@@ -645,6 +657,7 @@ details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
   <details class="sg"><summary>🧩 Функции страницы</summary>
     <div class="fld"><label for="s-search">🔎 Поиск трека при вводе<small>подсказки с обложками и фрагментом</small></label><input type="checkbox" id="s-search"></div>
     <div class="fld"><label for="s-autolink">🔗 Подставлять ссылку на трек сама<small>находит видео по названию, ты видишь, что нашлось</small></label><input type="checkbox" id="s-autolink"></div>
+    <div class="fld"><label for="s-tw">📺 Стрим и чат Twitch<small>плеер и чат прямо на странице</small></label><input type="checkbox" id="s-tw"></div>
     <div class="fld"><label for="s-eta">⏱ Примерное время ожидания</label><input type="checkbox" id="s-eta"></div>
     <div class="fld"><label for="s-guess">🎯 Игра «Угадай оценку»</label><input type="checkbox" id="s-guess"></div>
     <div class="fld"><label for="s-fav">⭐ Избранное</label><input type="checkbox" id="s-fav"></div>
@@ -664,10 +677,10 @@ const ICE={config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun
 const rc=r=>"hsl("+Math.round((Math.max(1,Math.min(10,r))-1)*13.3)+",82%,56%)";
 /* --- тема и настройки --- */
 let theme=ls.get(SLUG+"_rq_theme")||DEF,mode=ls.get(SLUG+"_rq_mode")||"dark";
-const SET_DEF={fx:true,snd:true,tab:true,notif:false,hist:true,compact:false,lite:false,scale:100,search:true,eta:true,guess:true,fav:true,soon:true,stat:true,autolink:true,bg:"anim",dim:100,rad:20};
+const SET_DEF={fx:true,snd:true,tab:true,notif:false,hist:true,compact:false,lite:false,scale:100,search:true,eta:true,guess:true,fav:true,soon:true,stat:true,autolink:true,tw:true,bg:"anim",dim:100,rad:20};
 let set=Object.assign({},SET_DEF);try{Object.assign(set,JSON.parse(ls.get(SLUG+"_rq_set")||"{}"))}catch(e){}
 function applyTheme(){if(!THEMES.some(t=>t[0]===theme))theme=DEF;const h=document.documentElement;h.dataset.theme=theme;h.dataset.mode=mode;document.querySelectorAll(".tc").forEach(b=>b.classList.toggle("on",b.dataset.t===theme))}
-function applySet(){try{if(lastSt)renderGuess()}catch(e){}const h=document.documentElement;if(set.lite){h.dataset.lite="on";h.dataset.fx="off";h.classList.add("lite")}else{h.removeAttribute("data-lite");h.removeAttribute("data-fx");h.classList.remove("lite")}
+function applySet(){try{if(lastSt)renderGuess()}catch(e){}try{twUi()}catch(e){}const h=document.documentElement;if(set.lite){h.dataset.lite="on";h.dataset.fx="off";h.classList.add("lite")}else{h.removeAttribute("data-lite");h.removeAttribute("data-fx");h.classList.remove("lite")}
   h.dataset.bg=set.bg||"anim";h.style.setProperty("--bgo",(set.dim||100)/100);h.style.setProperty("--rad",(set.rad||20)+"px");document.body.style.zoom=(set.scale||100)/100;document.body.classList.toggle("compact",!!set.compact);$("hcard").style.display=set.hist?"":"none";if(!set.tab)document.title=BASE_T}
 const BASE_T=document.title,saveSet=()=>ls.set(SLUG+"_rq_set",JSON.stringify(set));
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
@@ -675,10 +688,10 @@ $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b){theme=b.dataset.t;l
 $("thb").onclick=()=>$("tmod").classList.add("open");$("tmx").onclick=()=>$("tmod").classList.remove("open");
 $("tmod").onclick=e=>{if(e.target===$("tmod"))$("tmod").classList.remove("open")};
 $("modeb").onclick=()=>{mode=mode==="light"?"dark":"light";ls.set(SLUG+"_rq_mode",mode);applyTheme()};
-function setUi(){["fx","snd","tab","notif","hist","compact","lite","search","eta","guess","fav","soon","stat","autolink"].forEach(k=>$("s-"+k).checked=!!set[k]);$("s-scale").value=set.scale||100;$("s-bg").value=set.bg||"anim";$("s-dim").value=set.dim||100;$("s-rad").value=set.rad||20}
+function setUi(){["fx","snd","tab","notif","hist","compact","lite","search","eta","guess","fav","soon","stat","autolink","tw"].forEach(k=>$("s-"+k).checked=!!set[k]);$("s-scale").value=set.scale||100;$("s-bg").value=set.bg||"anim";$("s-dim").value=set.dim||100;$("s-rad").value=set.rad||20}
 $("setb").onclick=()=>{setUi();$("smod").classList.add("open")};$("smx").onclick=()=>$("smod").classList.remove("open");
 $("smod").onclick=e=>{if(e.target===$("smod"))$("smod").classList.remove("open")};
-["fx","snd","tab","notif","hist","compact","lite","search","eta","guess","fav","soon","stat","autolink"].forEach(k=>$("s-"+k).onchange=async e=>{set[k]=e.target.checked;
+["fx","snd","tab","notif","hist","compact","lite","search","eta","guess","fav","soon","stat","autolink","tw"].forEach(k=>$("s-"+k).onchange=async e=>{set[k]=e.target.checked;
   if(k==="notif"&&set.notif){try{const p=await Notification.requestPermission();if(p!=="granted"){set.notif=false;e.target.checked=false;toast("Браузер не дал разрешение на уведомления")}}catch(x){set.notif=false;e.target.checked=false;toast("Уведомления тут недоступны")}}
   saveSet();applySet();lastKey="";try{renderSt()}catch(e){}});
 $("s-scale").oninput=e=>{set.scale=+e.target.value;saveSet();applySet()};
@@ -704,7 +717,9 @@ function diag(k,extra){const n=$("note");const t=MSG[k]||"";$("note-t").innerHTM
 const code=(new URLSearchParams(location.search).get("r")||ls.get(SLUG+"_rq_code")||"").trim();
 if(code)ls.set(SLUG+"_rq_code",code);
 let peer=null,conn=null,rules={cd:30,maxq:3},showQ=true,online=false,got=false,lastSt=null,lastMsg=0,tries=0,retryT=null,connT=null,hiT=null,outbox=null;const pend={};
-function setOnline(v){online=v;$("air").textContent=v?"● ONLINE":"● ОФФЛАЙН";$("air").classList.toggle("live",v);if(v)diag("ok")}
+var liveF,twCh="",twOn,altI=null,rawSt=null;
+function airUi(){const a=$("air"),idle=online&&liveF===false;a.textContent=!online?"● ОФФЛАЙН":idle?"● НЕ В ЭФИРЕ":"● В ЭФИРЕ";a.classList.toggle("live",online&&!idle);a.classList.toggle("idle",idle);a.title=!online?"Панель стримера не на связи. Нажми, чтобы переподключиться":idle?"Стримера нет в эфире, но заказы принимаются":"Стример в эфире"}
+function setOnline(v){online=v;airUi();if(v)diag("ok")}
 function start(){
   clearTimeout(retryT);
   if(!code){diag("nocode");$("queue").innerHTML='<div class="empty">Нет кода стримера в ссылке.</div>';return}
@@ -729,15 +744,52 @@ setInterval(()=>{if(online&&Date.now()-lastMsg>12000){setOnline(false);diag("clo
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!online&&code)reconnect()});
 addEventListener("online",()=>{if(!online&&code)reconnect()});
 function onMsg(m){if(!m||typeof m!=="object")return;lastMsg=Date.now();
-  if(m.t==="hello"){hallV=null;got=true;clearTimeout(connT);clearInterval(hiT);rules=m.rules||rules;showQ=m.showQ!==false;setOnline(true);$("stats").textContent=m.name?"Канал: "+m.name:"";rulesUi();
+  if(m.t==="hello"){hallV=null;got=true;clearTimeout(connT);clearInterval(hiT);rules=m.rules||rules;showQ=m.showQ!==false;liveF=m.live;twCh=String(m.ch||m.name||"");twOn=m.tw!==false;altI=m.alt||null;setOnline(true);try{twUi();altUi()}catch(e){}$("stats").textContent=m.name?"Канал: "+m.name:"";rulesUi();
     if(outbox&&Date.now()-outbox.t<300000){const o=outbox;outbox=null;say("Соединились — отправляю заказ…");doSend(o)}}
-  else if(m.t==="st"){if(!online){got=true;setOnline(true)}const k=JSON.stringify(m);lastSt=m;if(k!==lastKey){lastKey=k;renderSt()}if(m.hv!==undefined&&m.hv!==hallV)askHall()}
+  else if(m.t==="st"){if(!online){got=true;setOnline(true)}const k=JSON.stringify(m);rawSt=m;lastSt=fixSt(JSON.parse(k));if(m.live!==undefined&&m.live!==liveF){liveF=m.live;airUi()}if(k!==lastKey){lastKey=k;renderSt()}if(m.hv!==undefined&&m.hv!==hallV)askHall()}
   else if(m.t==="ack"){const f=pend[m.rid];if(f)f(m)}
   else if(m.t==="hall"){hall=Array.isArray(m.l)?m.l:null;if($("hq").value)hSearch();dupCheck()}
   else if(m.t==="msg"){toast(String(m.x||""))}
+  else if(m.t==="reset"){mine=[];saveMine();myG={};awarded={};score=0;ls.set(SLUG+"_rq_score","0");stat={n:0};ls.set(SLUG+"_rq_stat",JSON.stringify(stat));hall=null;hallV=null;prevCur=null;prevR={};liked={};lastKey="";try{renderSt()}catch(e){}toast("Эфир начат заново: очередь и история сброшены")}
   else if(m.t==="bye"){setOnline(false);diag("offline");retry()}}
 function rulesUi(){$("rules").textContent="Можно держать в очереди до "+(rules.maxq||3)+" заказов, пауза между заказами "+(rules.cd||0)+" с."+(rules.mod?" Заказы проходят проверку стримером.":"")}
 
+/* ===== v26: названия вместо ссылок, зеркало, Twitch ===== */
+var MAINO="https://xkohbfm.vercel.app",nmC=new Map(),nmP=new Set(),nmF=new Set();
+const isU=s=>/^https?:\/\//i.test(String(s||"").trim());
+function siteOf(u){u=String(u||"");return/youtu\.?be/i.test(u)?"YouTube":/spotify/i.test(u)?"Spotify":/soundcloud/i.test(u)?"SoundCloud":/music\.yandex/i.test(u)?"Яндекс Музыка":/deezer/i.test(u)?"Deezer":/music\.apple|itunes/i.test(u)?"Apple Music":"Трек по ссылке"}
+function fmtName(t,a){t=String(t||"").replace(/\s*[\(\[][^\)\]]*(official|video|audio|lyrics|клип|\bHD\b|4K)[^\)\]]*[\)\]]/ig,"").replace(/\s*\|.*$/,"").replace(/\s{2,}/g," ").trim();
+  a=String(a||"").replace(/\s*[-–—]\s*(Topic|Тема)$/i,"").replace(/VEVO$/i,"").replace(/\s*(Official|Music|Records)$/i,"").trim();
+  if(a&&t.endsWith(" by "+a))t=t.slice(0,-(" by "+a).length);
+  if(/\s[-–—]\s/.test(t))return t.replace(/\s[-–—]\s/," – ");if(a&&!t.toLowerCase().includes(a.toLowerCase()))return a+" – "+t;return t}
+const apiBases=()=>[...(/^https?:$/.test(location.protocol)?[""]:[]),...(MAINO&&location.origin!==MAINO?[MAINO]:[])];
+async function resolveName(u){const enc=encodeURIComponent(u),yt=u.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/)([\w-]{11})/),urls=[];let t=null,a="";
+  if(yt){const w="https://www.youtube.com/watch?v="+yt[1];urls.push("https://www.youtube.com/oembed?format=json&url="+encodeURIComponent(w),"https://noembed.com/embed?url="+encodeURIComponent(w))}
+  else if(/open\.spotify\.com/.test(u))urls.push("https://open.spotify.com/oembed?url="+enc);
+  else if(/soundcloud\.com/.test(u))urls.push("https://soundcloud.com/oembed?format=json&url="+enc);
+  for(const x of urls){const j=await getJ(x,4000);if(j&&j.title){t=String(j.title);a=String(j.author_name||"");break}}
+  if(!t){for(const b of apiBases()){const j=await getJ(b+"/api/meta?url="+enc,7000);if(j&&j.ok&&j.title){t=String(j.title);a=String(j.author||"");break}}}
+  return t?fmtName(t,a):null}
+function nmQ(u){if(nmP.has(u))return;nmP.add(u);resolveName(u).then(v=>{if(v)nmC.set(u,v);else nmF.add(u);
+  if(rawSt){try{lastSt=fixSt(JSON.parse(JSON.stringify(rawSt)))}catch(e){}}lastKey="";try{renderSt()}catch(e){}try{renderMine()}catch(e){}}).catch(()=>{})}
+function fixSt(m){const f=x=>{if(x&&typeof x.n==="string"&&isU(x.n)){const u=x.n,c=nmC.get(u);x.n=c||"🎵 "+siteOf(u);if(!c)nmQ(u)}return x};
+  if(m.cur)f(m.cur);(m.q||[]).forEach(f);(m.h||[]).forEach(f);return m}
+function mineName(o){const st=lastSt;
+  if(st){const id=String(o.id),f=(st.cur&&String(st.cur.id)===id&&st.cur)||(st.h||[]).find(x=>String(x.id)===id)||(st.q||[]).find(x=>String(x.id)===id);
+    if(f&&f.n&&!isU(f.n)&&f.n.indexOf("🎵")!==0){o.n=f.n;return o.n}}
+  if(o.n)return o.n;if(!isU(o.text))return o.text;
+  const c=nmC.get(o.text);if(c){o.n=c;return c}
+  if(nmF.has(o.text))return"🎵 "+siteOf(o.text);nmQ(o.text);return"🎵 "+siteOf(o.text)+" · загружаю название…"}
+function twUi(){const c=$("twc");if(!c)return;const ok=twOn!==false&&set.tw!==false&&/^\w{3,25}$/.test(twCh);c.hidden=!ok;if(!ok){c.open=false;c.dataset.l="";$("twb").innerHTML=""}}
+$("twc").addEventListener("toggle",()=>{const c=$("twc"),b=$("twb");if(!c.open){b.innerHTML="";c.dataset.l="";return}if(c.dataset.l===twCh)return;c.dataset.l=twCh;
+  const h=encodeURIComponent(location.hostname),ch=encodeURIComponent(twCh),dk=document.documentElement.dataset.mode==="light"?"":"&darkpopout";
+  b.innerHTML='<div class="tw-p"><iframe src="https://player.twitch.tv/?channel='+ch+'&parent='+h+'&muted=true&autoplay=false" allowfullscreen loading="lazy" title="Стрим Twitch"></iframe></div>'+
+    '<div class="tw-c"><iframe src="https://www.twitch.tv/embed/'+ch+'/chat?parent='+h+dk+'" loading="lazy" title="Чат Twitch"></iframe></div>'+
+    '<div class="hint" style="margin-top:8px">Чтобы писать в чат, войди в Twitch прямо в окне чата. <a href="https://www.twitch.tv/popout/'+ch+'/chat?popout=" target="_blank" rel="noopener">Чат в новой вкладке ↗</a> · <a href="https://www.twitch.tv/'+ch+'" target="_blank" rel="noopener">Канал на Twitch ↗</a></div>'});
+function altUi(){const el=$("alt");if(!el)return;let a=altI;try{if(a)ls.set(SLUG+"_rq_alt",JSON.stringify(a));else a=JSON.parse(ls.get(SLUG+"_rq_alt")||"null")}catch(e){}
+  const here=location.origin,other=a&&(a.m&&a.m!==here?a.m:(a.r&&a.r.indexOf(here)!==0?a.r:""));
+  if(!other||!code){el.innerHTML="";return}el.innerHTML='Сайт не открывается или тормозит? Попробуй <a href="'+esc(other+"/request.html?r="+code)+'">вторую ссылку</a> ('+esc(other.replace(/^https:\/\//,""))+").";}
+try{altUi()}catch(e){}
 /* --- мои заказы --- */
 let mine=[];try{mine=JSON.parse(ls.get(SLUG+"_rq_mine")||"[]")}catch(e){}
 const saveMine=()=>ls.set(SLUG+"_rq_mine",JSON.stringify(mine.slice(0,15)));
@@ -751,7 +803,7 @@ function statusOf(o){const st=lastSt;if(st){if(st.cur&&String(st.cur.id)===Strin
   if(Date.now()-o.t<15000)return'<span class="tag soft">отправлено</span>';
   return'<span class="tag soft">в очереди</span>'}
 function renderMine(){const el=$("mine");if(!mine.length){el.innerHTML='<div class="empty">Пока ничего не заказывал.</div>';return}
-  el.innerHTML=mine.map((o,i)=>'<div class="item"><div style="min-width:0"><div class="t">'+esc(o.text)+'</div></div><div class="ir">'+statusOf(o)+'<button class="reo ghost" data-re="'+i+'" title="Заказать снова">↻</button></div></div>').join("");saveMine()}
+  el.innerHTML=mine.map((o,i)=>'<div class="item"><div style="min-width:0"><div class="t">'+esc(mineName(o))+'</div></div><div class="ir">'+statusOf(o)+'<button class="reo ghost" data-re="'+i+'" title="Заказать снова">↻</button></div></div>').join("");saveMine()}
 $("mine").onclick=e=>{const b=e.target.closest("button[data-re]");if(!b)return;const o=mine[+b.dataset.re];if(!o)return;$("f-t").value=o.text;picked=null;$("ordc").scrollIntoView({behavior:"smooth",block:"center"});$("f-t").focus();toast("Нажми «Заказать», чтобы повторить")};
 
 /* --- очередь, «сейчас играет», история --- */
@@ -835,7 +887,7 @@ function doSend(o){
   p.then(a=>{delete pend[rid];$("send").disabled=false;
     if(!a)return say("Стример не ответил. Попробуй ещё раз",1);
     if(!a.ok)return say(a.why||"Заказ не принят",1);
-    picked=null;stat.n=(stat.n||0)+1;ls.set(SLUG+"_rq_stat",JSON.stringify(stat));ls.set(SLUG+"_rq_last",String(Date.now()));addMine({id:a.id,text:o.text,t:Date.now(),pending:!!a.pending});
+    picked=null;stat.n=(stat.n||0)+1;ls.set(SLUG+"_rq_stat",JSON.stringify(stat));ls.set(SLUG+"_rq_last",String(Date.now()));addMine({id:a.id,text:o.text,n:isU(o.text)?"":o.text,t:Date.now(),pending:!!a.pending});
     $("f-t").value="";$("f-c").value="";
     say(a.pending?"Заказ отправлен на проверку ✓":"Принято! "+(a.pos?"Ты #"+a.pos+" в очереди"+(set.eta?" ("+etaTxt(a.pos)+")":"")+". ":"")+"🎵");burst();chime();renderSt()})}
 async function send(){if($("send").disabled)return;
@@ -880,7 +932,7 @@ function afterSt(){const m=lastSt||{},c=m.cur;
   $("favc").style.display=set.fav?"":"none";if(set.fav)renderFav();
   if(set.soon&&showQ&&m.q){const ids=new Set(mine.map(o=>String(o.id)));m.q.slice(0,2).forEach((x,i)=>{const k=String(x.id);if(ids.has(k)&&!soonDone[k]){soonDone[k]=1;const t=i===0?"⏰ Твой трек следующий!":"⏰ Твой трек через один";toast(t);chime();try{if(set.notif&&document.hidden&&Notification.permission==="granted")new Notification(NAME+": "+t,{body:x.n})}catch(e){}}})}
   const ms=$("mst");if(set.stat){const rated=mine.filter(o=>o.r),avg=rated.length?(rated.reduce((a,o)=>a+o.r,0)/rated.length).toFixed(1):"",best=rated.slice().sort((a,b)=>b.r-a.r)[0];
-    ms.innerHTML=(stat.n?'<span class="tag soft">📦 заказов: '+stat.n+"</span>":"")+(avg?'<span class="tag soft">⭐ средняя: '+avg+"</span>":"")+(best?'<span class="tag soft">🏆 '+esc(best.text.length>26?best.text.slice(0,26)+"…":best.text)+" · "+best.r+"</span>":"")}else ms.innerHTML=""}
+    ms.innerHTML=(stat.n?'<span class="tag soft">📦 заказов: '+stat.n+"</span>":"")+(avg?'<span class="tag soft">⭐ средняя: '+avg+"</span>":"")+(best?'<span class="tag soft">🏆 '+esc((nm=>nm.length>26?nm.slice(0,26)+"…":nm)(mineName(best)))+" · "+best.r+"</span>":"")}else ms.innerHTML=""}
 
 /* ===== v25: автопоиск ссылки на трек по названию ===== */
 const ytC=new Map(),YTP=["https://pipedapi.kavin.rocks","https://pipedapi.adminforge.de","https://api.piped.private.coffee"],YTI=["https://inv.nadeko.net","https://invidious.nerdvpn.de","https://yewtu.be"];

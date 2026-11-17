@@ -208,6 +208,17 @@ html[data-mode=light] .vhs{display:none!important}
 .vhs .osd.bl{left:24px;bottom:22px;line-height:1.5}.vhs .osd.br{right:24px;bottom:22px}
 html[data-fx=off] .vhs .nz,html[data-fx=off] .vhs .tr,html[data-fx=off] .vhs .vg{animation:none}
 /* settings, on-air, stage */
+#chbtn,#cobtn,#xfer{display:none!important}
+#chatdock{position:fixed;left:10px;top:76px;bottom:10px;width:320px;z-index:3;display:flex;flex-direction:column;border:1px solid var(--ln);border-radius:16px;background:var(--card);overflow:hidden}
+#chatdock[hidden]{display:none}#chatdock .cdh{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--ln)}
+#chatdock .cdb{display:flex;gap:6px;align-items:center}#chatdock .cdb a{color:var(--mut);text-decoration:none;font-size:14px;cursor:pointer}#chatdock .cdb button{padding:2px 8px}
+#chatdock .cdw{flex:1;min-height:0}#chatdock iframe{width:100%;height:100%;border:0;display:block}
+body.cdock main{margin-left:max(340px,calc((100vw - 1280px)/2));margin-right:0}
+@media(max-width:1099px){#chatdock{display:none!important}body.cdock main{margin:auto}}
+.stats{flex:1;text-align:center}
+#live{font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:.3px;white-space:nowrap}
+#live.on{color:#fff;background:linear-gradient(135deg,#e5254a,#b8173a);border-color:#e5254a;box-shadow:0 0 14px -3px rgba(229,37,74,.7)}
+#live .lt{margin-left:7px;padding-left:9px;border-left:1px solid rgba(255,255,255,.4)}
 .air{font-size:11px;font-weight:800;letter-spacing:1.5px;padding:5px 11px;border-radius:99px;border:1px solid var(--ln);color:var(--mut)}
 .air.on{color:#fff;background:#e5254a;border-color:#e5254a;animation:glow 1.3s ease-in-out infinite alternate}
 @keyframes glow{from{box-shadow:0 0 0 0 rgba(229,37,74,.6)}to{box-shadow:0 0 16px 4px rgba(229,37,74,.6)}}
@@ -481,7 +492,6 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
 #cochat .row{display:flex;gap:6px;margin:0}#cochat input{flex:1}
 .fxe{position:fixed;bottom:70px;z-index:80;pointer-events:none;animation:fxUp 2.7s cubic-bezier(.2,.7,.3,1) forwards;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
 @keyframes fxUp{0%{transform:translateY(0) scale(.3);opacity:0}12%{opacity:1;transform:translateY(-30px) scale(1.2)}100%{transform:translateY(-62vh) scale(1) rotate(12deg);opacity:0}}
-#upt{font-size:12.5px;opacity:.8;cursor:pointer;padding:3px 9px;border-radius:99px;border:1px solid var(--ln);white-space:nowrap}
 .hfind{width:100%;margin:0 0 8px;padding:8px 12px;border-radius:12px}
 </style>
 <script>
@@ -508,10 +518,11 @@ function done(m){clean();if(m)alert(m);location.reload()}
 <header>
   <div class="logo"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>KOHbツ<b>.FM</b></div>
   <div class="stats" id="stats"></div>
-  <div class="hr"><span class="air" id="bl" style="display:none">🕶 СЛЕПОЕ</span><span class="air" id="air">● ON AIR</span><button id="brk" class="ghost" title="Перерыв (K)">☕</button><button id="soon" class="ghost" title="Скоро начнём (L)">⏳</button><button id="fin" class="ghost" title="Конец стрима: итоги вечера в оверлее (E)">🏁</button><button id="chbtn" class="ghost" title="Чат в оверлее: показать / убрать (C)">💬</button><button id="cobtn" class="ghost" title="Коллаб: вести эфир вдвоём с другом">🤝</button><button id="sum" class="ghost">🏆 Итоги</button><button id="exp" class="ghost">📋 Плейлист</button><button id="xfer" class="ghost" title="Скопировать ссылку для другого браузера (с твоими данными)">🔗</button><button id="gear" class="ghost" title="Настройки" aria-label="Настройки">⚙️</button></div>
+  <div class="hr"><span class="air" id="bl" style="display:none">🕶 СЛЕПОЕ</span><span class="air" id="air" title="ON AIR («в эфире»): табло как в радиостудии. Горит, пока играет трек. Кнопка «В эфире» рядом показывает зрителям сайта, что идёт стрим">● ON AIR</span><button id="live" class="ghost" title="Нажми, когда начнёшь стрим: зрители на сайте заказов увидят «В эфире»">⚪ Не в эфире</button><button id="brk" class="ghost" title="Перерыв (K)">☕</button><button id="soon" class="ghost" title="Скоро начнём (L)">⏳</button><button id="fin" class="ghost" title="Конец стрима: итоги вечера в оверлее (E)">🏁</button><button id="chbtn" class="ghost" title="Чат в оверлее: показать / убрать (C)">💬</button><button id="cobtn" class="ghost" title="Коллаб: вести эфир вдвоём с другом">🤝</button><button id="sum" class="ghost">🏆 Итоги</button><button id="exp" class="ghost">📋 Плейлист</button><button id="xfer" class="ghost" title="Скопировать ссылку для другого браузера (с твоими данными)">🔗</button><button id="gear" class="ghost" title="Настройки" aria-label="Настройки">⚙️</button></div>
 </header>
 <div id="cobar"><span id="cotx"></span><span class="cometa"><span id="coping" title="Задержка связи"></span><span id="cotm" title="Время вместе"></span></span><span class="sp"></span><span class="corx" id="corx" style="display:none"><button data-fx="🔥" title="Огонь">🔥</button><button data-fx="👏" title="Аплодисменты">👏</button><button data-fx="😂" title="Смешно">😂</button><button data-fx="😮" title="Ого">😮</button><button data-fx="❤️" title="Люблю">❤️</button><button data-fx="💀" title="Умер">💀</button><button data-fx="🎧" title="Качает">🎧</button></span><button id="cochatb" class="ghost" title="Мини-чат с другом" hidden>💬</button><button id="coleave" class="ghost" hidden>Выйти</button></div>
 <div id="cochat"><div id="colog"></div><div class="row"><input type="text" id="coin" maxlength="140" placeholder="Сообщение другу…" autocomplete="off"><button id="cosend">➤</button></div></div>
+<aside id="chatdock" hidden><div class="cdh"><span>💬 Чат Twitch</span><span class="cdb"><a id="cd-pop" target="_blank" rel="noopener" title="Открыть чат в отдельном окне">↗</a><button id="cd-x" class="ghost" title="Скрыть (вернуть можно в настройках)">✕</button></span></div><div class="cdw" id="cd-w"></div></aside>
 <main>
   <section class="col">
     <div class="card">
@@ -579,6 +590,7 @@ function done(m){clean();if(m)alert(m);location.reload()}
   <details><summary>💬 Чат Twitch (заявки) <small>команды, лимиты</small></summary><div class="sb">
     <div class="fld"><label for="c-bot">Принимать заявки из чата</label><input type="checkbox" id="c-bot"></div>
     <div class="fld"><label for="c-chan">Канал</label><input type="text" id="c-chan" placeholder="например, xk0hb"></div>
+    <div class="fld"><label for="c-chatdock">💬 Чат Twitch слева от плеера<small>виден при ширине окна от 1100 px; писать можно после входа в Twitch прямо в окне чата</small></label><input type="checkbox" id="c-chatdock"></div>
     <div class="fld"><label for="c-cmds">Команды</label><input type="text" id="c-cmds"></div>
     <div class="fld"><label for="c-autolink">🔗 Искать ссылку по названию<small>заявка без ссылки сама находит видео на YouTube; плеер заиграет её</small></label><input type="checkbox" id="c-autolink"></div>
     <div class="fld"><label for="c-maxq">Заявок от зрителя в очереди</label><input type="number" id="c-maxq" min="1" max="20"></div>
@@ -637,13 +649,17 @@ function done(m){clean();if(m)alert(m);location.reload()}
   <details id="pub-sec"><summary>🌐 Сайт заказов <span class="beta">НОВОЕ</span> <small>зрители заказывают треки на отдельной странице</small></summary><div class="sb">
     <div class="hint">Страница <b>request.html</b> лежит рядом с панелью. Зрители открывают ссылку, выбирают тему, вводят ник и трек, и заказ попадает в твою очередь. Панель должна быть открыта.</div>
     <div class="fld"><label for="c-pubon">🌐 Принимать заказы с сайта</label><input type="checkbox" id="c-pubon"></div>
-    <div class="fld"><label for="pub-url">Ссылка для зрителей<small>вставь её в описание стрима или в команду !сайт</small></label><input type="text" id="pub-url" class="cocode" readonly placeholder="включи приём заказов"></div>
-    <div class="row"><button id="pub-copy">📋 Скопировать ссылку</button><button id="pub-new" class="ghost">🔑 Новый код ссылки</button></div>
+    <div class="fld"><label for="pub-url">🌍 Основная ссылка<small>для зрителей из Украины, Европы и других стран; вставь в описание стрима или в команду !сайт</small></label><input type="text" id="pub-url" class="cocode" readonly placeholder="включи приём заказов"></div>
+    <div class="fld"><label for="c-pubmirror">🇷🇺 Зеркало для РФ<small>адрес второй копии сайта на другом хостинге, например https://xkohb-fm.pages.dev (без /request.html)</small></label><input type="text" id="c-pubmirror" maxlength="120" placeholder="https://…"></div>
+    <div class="fld"><label for="pub-url2">🇷🇺 Ссылка для зрителей из РФ<small>появится, когда укажешь зеркало</small></label><input type="text" id="pub-url2" class="cocode" readonly placeholder="укажи адрес зеркала выше"></div>
+    <div class="row"><button id="pub-copy">📋 Основная</button><button id="pub-copy2" class="ghost">📋 Для РФ</button><button id="pub-new" class="ghost">🔑 Новый код ссылки</button></div>
+    <div class="hint">Зеркало — тот же репозиторий, подключённый ко второму хостингу (Cloudflare Pages, Netlify, GitHub Pages). Код ссылки у обеих одинаковый, заказы приходят в одну очередь. Панель держи открытой на любой из копий.</div>
     <div class="fld"><label for="c-pubq">📋 Показывать зрителям очередь</label><input type="checkbox" id="c-pubq"></div>
     <div class="fld"><label for="c-pubpause">⏸ Пауза заказов<small>страница работает, но новые заказы не принимаются</small></label><input type="checkbox" id="c-pubpause"></div>
     <div class="fld"><label for="c-pubmsg">📢 Сообщение для зрителей<small>показывается наверху страницы заказов</small></label><input type="text" id="c-pubmsg" maxlength="160" placeholder="например: сегодня только русский рэп"></div>
     <div class="fld"><label for="c-pubfx">🔥 Реакции и ❤ от зрителей<small>летят на панели и в оверлее</small></label><input type="checkbox" id="c-pubfx"></div>
     <div class="fld"><label for="c-pubguess">🎯 Игра «Угадай оценку» на странице<small>зрители угадывают твою оценку</small></label><input type="checkbox" id="c-pubguess"></div>
+    <div class="fld"><label for="c-pubtw">📺 Стрим и чат Twitch на странице<small>зрители смотрят стрим и пишут в чат, не уходя с сайта (писать можно после входа в Twitch внутри чата)</small></label><input type="checkbox" id="c-pubtw"></div>
     <div class="fld"><label for="c-pubmod">🕵 Все заказы с сайта на проверку<small>сначала попадают в «На проверке»</small></label><input type="checkbox" id="c-pubmod"></div>
     <div class="row" style="align-items:center"><span class="dot" id="pub-dot"></span><span id="pub-st" class="hint"></span></div>
     <div class="hint">Держи вкладку панели открытой, чтобы браузер не «усыплял» её: иначе зрители увидят «оффлайн». После обновления страницы (F5) приём возвращается сам за 10–40 секунд.</div>
@@ -653,9 +669,14 @@ function done(m){clean();if(m)alert(m);location.reload()}
     <div class="fld"><label for="c-fxtab">🏷 Трек и очередь в названии вкладки</label><input type="checkbox" id="c-fxtab"></div>
     <div class="fld"><label for="c-fxreq">🔔 Звук новой заявки</label><input type="checkbox" id="c-fxreq"></div>
     <div class="fld"><label for="c-fxauto">⏭ Авто-следующий<small>когда трек закончился и оценён: через 3 с, Esc отменяет (только YouTube)</small></label><input type="checkbox" id="c-fxauto"></div>
-    <div class="fld"><label for="c-fxup">⏱ Часы эфира в шапке<small>клик по часам сбрасывает</small></label><input type="checkbox" id="c-fxup"></div>
+    <div class="fld"><label for="c-fxup">⏱ Время эфира на кнопке «В эфире»<small>идёт, пока кнопка включена</small></label><input type="checkbox" id="c-fxup"></div>
     <div class="fld"><label for="c-fxfind">🔎 Поиск по истории</label><input type="checkbox" id="c-fxfind"></div>
     <div class="fld"><label for="c-fxundo">↶ Ctrl+Z возвращает предыдущий трек</label><input type="checkbox" id="c-fxundo"></div>
+  </div></details>
+  <details id="dg-sec"><summary>🛠 Диагностика <small>проверка связи, версия сайта</small></summary><div class="sb">
+    <div class="hint">Если что-то не работает (особенно из РФ), нажми «Проверить связь» и пришли отчёт разработчику.</div>
+    <div class="row"><button id="dg-run">▶ Проверить связь</button><button id="dg-copy" class="ghost">📋 Скопировать отчёт</button></div>
+    <pre id="dg-out" class="hint" style="white-space:pre-wrap;margin:8px 0 0"></pre>
   </div></details>
   <details id="co-sec"><summary>🤝 Коллаб <span class="beta">БЕТА</span> <small>общая очередь, оценки, синхронный плеер, экран партнёра</small></summary><div class="sb">
     <div class="hint">⚠ <b>БЕТА</b>: функция в тестировании, возможны ошибки. Если что-то зависло, обнови страницу: связь с другом восстановится сама.</div>
@@ -710,7 +731,8 @@ function done(m){clean();if(m)alert(m);location.reload()}
   <div class="hint">Яндекс Музыка не даёт сторонним сайтам добавлять треки без своей авторизации. «Яндекс» и «Spotify» открывают поиск трека, а CSV можно загрузить в сервис переноса плейлистов. «Плейлист на YouTube» открывает очередь из YouTube-треков (до 50): в ней можно нажать «Сохранить плейлист» вручную. Не-YouTube ссылки туда не попадают.</div>
 </div></div>
 <div class="toast" id="toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script src="peerjs.min.js"></script>
+<script>window.Peer||document.write('<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"><\/script>')</script>
 <script>window.Peer||document.write('<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"><\/script>');window.Peer||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"><\/script>')</script>
 <script>window.SFX_KEY="kohb_cfg"</script>
 <script src="sfx.js"></script>
@@ -747,10 +769,10 @@ const fmt=t=>{t=Math.max(0,t|0);return(t/60|0)+":"+String(t%60).padStart(2,"0")}
 const sc=document.createElement("script");sc.src="https://www.youtube.com/iframe_api";document.head.appendChild(sc);
 window.onYouTubeIframeAPIReady=()=>{ytReady=true;if(pending){mountYT(pending);pending=null}};
 function mountYT(id){
-  player=new YT.Player("yt",{videoId:id,width:"100%",height:"100%",playerVars:{autoplay:1,rel:0,playsinline:1,modestbranding:1},events:{
-    onReady:e=>{applyVol();e.target.playVideo();grab()},
+  player=new YT.Player("yt",{videoId:id,width:"100%",height:"100%",playerVars:{autoplay:1,rel:0,playsinline:1,modestbranding:1,controls:0,cc_load_policy:0,iv_load_policy:3,disablekb:1,fs:0},events:{
+    onReady:e=>{applyVol();try{e.target.unloadModule("captions");e.target.unloadModule("cc")}catch(x){}e.target.playVideo();grab()},
     onError:e=>{toast("YouTube не играет это видео (код "+e.data+")");if(e.data===101||e.data===150)embedFail()},
-    onStateChange:e=>{playing=e.data===1;if(e.data===0)try{autoNx()}catch(x){}if(e.data===1&&S.current&&S.current.noemb){S.current.noemb=false;save()}$("pp").textContent=playing?"⏸":"▶";grab();setLive();bcast()}}});
+    onStateChange:e=>{{const y=$("yt");if(y)y.style.visibility=e.data===0?"hidden":"";if(e.data===1)try{e.target.unloadModule("captions")}catch(x){}}playing=e.data===1;if(e.data===0)try{autoNx()}catch(x){}if(e.data===1&&S.current&&S.current.noemb){S.current.noemb=false;save()}$("pp").textContent=playing?"⏸":"▶";grab();setLive();bcast()}}});
 }
 /* видео без встраивания (101/150): автозамена на другую версию через YouTube Data API (нужен ключ в настройках) */
 const noEmbedMsg='Автор запретил встраивать это видео.<br>Нажми <b>O</b> — трек откроется на YouTube';
@@ -761,7 +783,7 @@ function embedFail(){
   stageMsg('Автор запретил встраивать это видео.<br>Иногда помогает обновить плеер, или нажми <b>O</b> — трек откроется на YouTube.<div class="row" style="justify-content:center;margin-top:10px"><button data-retry="1">↻ Обновить плеер</button><button data-open="1">↗ Открыть в новой вкладке</button><button data-scr="1">📺 Открыть и показать в оверлее</button></div>');
   if(c){c.noemb=true;save();coverFor(c,true)}
 }
-function grab(){try{const d=player.getVideoData(),c=S.current;if(!d||!c||!d.title)return;if(!c.title||(!c.author&&d.author)){c.title=c.title||d.title;c.author=c.author||d.author||"";c.name=plName(c);save();renderNow(false);renderLists()}}catch(e){}}
+function grab(){try{const d=player.getVideoData(),c=S.current;if(!d||!c||!d.title)return;if(!c.title||(!c.author&&d.author)){c.title=c.title||d.title;c.author=c.author||d.author||"";c.name=plRaw(c);save();renderNow(false);renderLists()}}catch(e){}}
 function applyVol(){
   $("vol").value=vol;$("vl").textContent=muted?"mute":vol+"%";$("mute").textContent=muted||vol==0?"🔇":vol<40?"🔉":"🔊";
   if(player&&player.setVolume){try{player.setVolume(vol);muted?player.mute():player.unMute()}catch(e){}}
@@ -809,9 +831,9 @@ function renderNow(resetNote){
 }
 function renderLists(){qmKick();try{sitePush()}catch(e){}
   $("pcard").hidden=!S.pending.length;$("pc").textContent=S.pending.length||"";
-  $("pend").innerHTML=S.pending.map(x=>`<div class="item"><div style="min-width:0"><div class="t">${esc(x.title?plName(x):x.text)}</div><div class="m">${cfg.blind?"???":"@"+esc(x.nick)}</div></div><div class="row" style="flex-wrap:nowrap"><button data-ok="${x.id}" title="Принять">✓</button><button data-no="${x.id}" title="Отклонить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join("");
+  $("pend").innerHTML=S.pending.map(x=>`<div class="item"><div style="min-width:0"><div class="t">${esc(plQ(x))}</div><div class="m">${cfg.blind?"???":"@"+esc(x.nick)}</div></div><div class="row" style="flex-wrap:nowrap"><button data-ok="${x.id}" title="Принять">✓</button><button data-no="${x.id}" title="Отклонить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join("");
   const q=S.queue;$("qc").textContent=q.length?q.length:"";$("nx").classList.toggle("ping",!!q.length&&!S.current);
-  $("queue").innerHTML=q.length?q.map(x=>`<div class="item" draggable="true" data-qid="${x.id}"><div style="min-width:0"><div class="t">${x.don?"💰 ":""}${esc(x.title?plName(x):x.text)}</div><div class="m">${cfg.blind?"@???":"@"+esc(x.nick)}${x.comment?" · "+esc(x.comment):""}</div></div><div class="row" style="flex-wrap:nowrap"><button data-don="${x.id}" title="Донат: сыграть сразу после текущего">${x.don?"💰":"$"}</button><button data-go="${x.id}" title="Играть сейчас">▶</button><button data-d="${x.id}" title="Удалить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join(""):'<div class="empty">Очередь пуста — добавь заявку из чата.</div>';
+  $("queue").innerHTML=q.length?q.map(x=>`<div class="item" draggable="true" data-qid="${x.id}"><div style="min-width:0"><div class="t">${x.don?"💰 ":""}${esc(plQ(x))}</div><div class="m">${cfg.blind?"@???":"@"+esc(x.nick)}${x.comment?" · "+esc(x.comment):""}</div></div><div class="row" style="flex-wrap:nowrap"><button data-don="${x.id}" title="Донат: сыграть сразу после текущего">${x.don?"💰":"$"}</button><button data-go="${x.id}" title="Играть сейчас">▶</button><button data-d="${x.id}" title="Удалить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join(""):'<div class="empty">Очередь пуста — добавь заявку из чата.</div>';
   $("hist").innerHTML=S.history.length?S.history.map(h=>`<div class="item"><div style="min-width:0"><div class="t">${esc(plName(h))}</div><div class="m">@${esc(h.nick)}${h.note?" · "+esc(h.note):""}${h.tags&&h.tags.length?" · "+esc(h.tags.join(", ")):""}${h.vn?" · 💬 "+h.vavg:""}${h.pl?" · ♥":""}${h.skipped?" · пропущен":""}</div></div><div class="sc" style="color:${h.rating?col(h.rating):"var(--mut)"}">${h.rating??"–"}</div></div>`).join(""):'<div class="empty">Пока пусто.</div>';
   const all=[S.current,...S.history].filter(x=>x),r=all.filter(x=>x.rating);
   renderStats();$("stats").innerHTML=`Треков: <b>${all.length}</b> · Средняя оценка: <b>${r.length?(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):"–"}</b>`;
@@ -830,7 +852,7 @@ const archGet=()=>{try{const a=JSON.parse(ls.get("kohb_arch")||"[]");return Arra
 function archSave(){if(CO.role==="guest")return;const t=[S.current,...S.history].filter(x=>x&&x.rating).map(x=>({n:plName(x),r:x.rating,nick:x.nick||"аноним",tg:x.tags||[],v:x.vavg||null}));if(!t.length)return;
   if(!S.evId)S.evId=Date.now();const a=archGet().filter(e=>e.id!==S.evId);a.push({id:S.evId,d:S.evId,t});ls.set("kohb_arch",JSON.stringify(a.slice(-60)))}
 function finish(sk){if(sk)undoMk();if(S.current)S.history.unshift({...S.current,skipped:!!sk});S.current=null;archSave()}
-function start(item){undoMk(item);finish();votes={};endPick=null;if(brk.on){brk={on:false,until:0};brkUi()}S.current={...item,rating:null,note:"",pl:false,t0:Date.now()};snd("jingle");S.current.name=plName(S.current);save();show()}
+function start(item){undoMk(item);finish();votes={};endPick=null;if(brk.on){brk={on:false,until:0};brkUi()}S.current={...item,rating:null,note:"",pl:false,t0:Date.now()};snd("jingle");S.current.name=plRaw(S.current);save();show()}
 function next(){if(CO.role==="guest")return coCmd("next");if(S.queue.length)start(S.queue.shift());else toast("Очередь пуста")}
 function skip(){if(CO.role==="guest")return S.current&&coCmd("skip");if(!S.current)return;finish(true);save();show()}
 function rate(n){const c=S.current;if(!c)return;if(CO.role==="guest")coSend({t:"rate",r:n,id:c.id});c.rating=n;save();renderNow(false);renderLists();if(n===10){snd("horn");snd("applause")}else if(n===9)snd("applause");else if(n===1)snd("fail");
@@ -871,9 +893,9 @@ $("clr").onclick=()=>{if(CO.role==="guest")return toast("Сначала выйд
 
 function clearAll(){
   if(CO.role==="guest"){toast("Сначала выйди из коллаба");return false}
-  if(!confirm("Очистить ВСЁ?\nОчередь, «На проверке», историю, текущий трек и архив эфиров («За 30 дней» / «За всё время»). Настройки, тема и фото ведущего останутся. Это нельзя отменить."))return false;
+  if(!confirm("Очистить ВСЁ?\nОчередь, «На проверке», историю, текущий трек и архив эфиров («За 30 дней» / «За всё время»). Настройки, тема и фото ведущего останутся. У зрителей на сайте заказов тоже всё сбросится. Это нельзя отменить."))return false;
   ls.set("kohb_arch","[]");votes={};brk={on:false,until:0};brkUi();
-  S=fixS();save();show();toast("Всё очищено ✓");return true}
+  S=fixS();save();show();try{siteReset()}catch(e){}toast("Всё очищено ✓");return true}
 $("clr-all").onclick=()=>{if(clearAll())$("modal").classList.remove("open")};
 const CFGK="kohb_cfg";
 let cfg={chan:"",bot:false,cmds:"!заказ,!sr,!order",maxq:2,cd:30,clean:true,copy:"names",fxBg:true,fxBurst:true,ovq:true,snd:"panel",blind:false,banNicks:"",banWords:"",conf:true,sndVol:25,room:"",maxMin:8,lenSkip:true,compact:false,scrAudio:false,scrW:880,ovChat:true,chatUrl:"",chatRev:0,chX:0,chY:0,chW:520,chH:560,ovFx:true,ovLogo:true,accent:"",scale:100,hideStats:false,hideHist:false,hideKbd:false,donWord:"донат",tagList:"🔥 Качает, 💤 Скучный, 😄 Весёлый, 😢 Грустный, 😎 Прикольный, 👎 Не очень, ⚖️ 50/50",qpList:"Добавлен в плейлист, Прикольный, Мимо, Не зацепило",lite:false,coName:"",coCtl:true,coOpen:false,coKey:"",mode:"dark"};
@@ -887,6 +909,8 @@ if(cfg.pubInit===undefined){cfg.pubInit=1;cfg.pubOn=false;cfg.pubQ=true;cfg.pubM
 if(cfg.alInit===undefined){cfg.alInit=1;cfg.autoLink=true;cfgSave()}
 if(cfg.pubInit2===undefined){cfg.pubInit2=1;cfg.pubFx=true;cfg.pubPause=false;cfg.pubMsg="";cfgSave()}
 if(cfg.pubInit3===undefined){cfg.pubInit3=1;cfg.pubGuess=true;cfgSave()}
+if(cfg.dockInit===undefined){cfg.dockInit=1;cfg.chatDock=true;cfgSave()}
+if(cfg.pubInit4===undefined){cfg.pubInit4=1;cfg.pubTw=true;cfg.pubLive=false;cfg.pubMirror="";cfgSave()}
 if(!cfg.coKey||cfg.coKey.length<8){cfg.coKey=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,8);cfgSave()}
 function applyCfg(){document.documentElement.dataset.mode=cfg.mode==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):cfg.mode==="light"?"light":"dark";document.documentElement.dataset.fx=cfg.fxBg?"on":"off";document.documentElement.dataset.compact=cfg.compact?"on":"off";document.documentElement.dataset.lite=cfg.lite?"on":"off";
   {const H=document.documentElement;H.dataset.hs=cfg.hideStats?"on":"off";H.dataset.hh=cfg.hideHist?"on":"off";H.dataset.hk=cfg.hideKbd?"on":"off";
@@ -901,7 +925,7 @@ function cleanTitle(t){
   t=t.replace(/\s*[-–—|:]?\s*(?:official\s+)?(?:music\s+|lyric\s+)?(?:video|audio|clip|visuali[sz]er)\s*$/i,"");
   return t.replace(/\s*\|.*$/,"").replace(/\s{2,}/g," ").replace(/[\s\-–—|:]+$/,"").trim();
 }
-function plName(x){
+function plRaw(x){
   if(!x)return"";
   if(!x.title)return isUrl(x.text)?x.text:cleanTitle(x.text);
   const t=cleanTitle(x.title),a=(x.author||"").replace(/\s*[-–—]\s*(Topic|Тема)$/i,"").replace(/VEVO$/i,"").replace(/\s*(Official|Music|Records)$/i,"").trim();
@@ -909,7 +933,11 @@ function plName(x){
   if(a&&!t.toLowerCase().includes(a.toLowerCase()))return a+" – "+t;
   return t;
 }
-const plOut=x=>cfg.copy==="links"?x.text:plName(x);
+/* v26: вместо голой ссылки показываем «🎵 YouTube»; сама ссылка остаётся в x.text для плеера и экспорта */
+function urlLabel(x){const t=String(x&&x.text||x||""),s=/youtu\.?be/i.test(t)?"YouTube":/spotify/i.test(t)?"Spotify":/soundcloud/i.test(t)?"SoundCloud":/music\.yandex/i.test(t)?"Яндекс Музыка":/deezer/i.test(t)?"Deezer":/music\.apple|itunes/i.test(t)?"Apple Music":"Трек по ссылке";return"🎵 "+s}
+function plName(x){const n=plRaw(x);return isUrl(n)?urlLabel(x):n}
+const plQ=x=>x.title?plName(x):(isUrl(x.text)?urlLabel(x):x.text);
+const plOut=x=>cfg.copy==="links"?x.text:plRaw(x);
 function setLive(){const c=S.current;document.body.classList.toggle("live",!!c&&(playing||!ytId(c.text)));$("air").classList.toggle("on",!!c)}
 /* Twitch chat (anonymous read-only IRC) */
 let ws=null,wsT=null;const lastReq={};
@@ -954,15 +982,15 @@ function onChat(tags,login,msg){
 /* settings UI */
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t)};
-[["c-coname","coName","s"],["c-autolink","autoLink","b"],["c-pubon","pubOn","b"],["c-pubguess","pubGuess","b"],["c-pubpause","pubPause","b"],["c-pubmsg","pubMsg","s"],["c-pubfx","pubFx","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
+[["c-coname","coName","s"],["c-autolink","autoLink","b"],["c-pubon","pubOn","b"],["c-pubguess","pubGuess","b"],["c-pubpause","pubPause","b"],["c-pubmsg","pubMsg","s"],["c-pubfx","pubFx","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-pubtw","pubTw","b"],["c-chatdock","chatDock","b"],["c-pubmirror","pubMirror","s"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
   const el=$(id);if(ty==="b")el.checked=!!cfg[k];else el.value=cfg[k];
   el.onchange=()=>{cfg[k]=ty==="b"?el.checked:ty==="n"?+el.value:el.value.trim();if(k==="chan"){cfg.chan=chanName(el.value);el.value=cfg.chan}cfgSave();applyCfg();bcast();
     if(k==="chan"||k==="bot")twConnect();if(k==="blind"){renderNow(false);renderLists()}
-    if(k==="clean"){if(S.current){S.current.name=plName(S.current);save()}renderNow(false);renderLists()}};
+    if(k==="clean"){if(S.current){S.current.name=plRaw(S.current);save()}renderNow(false);renderLists()}};
 });
 let cnT;$("c-coname").addEventListener("input",()=>{clearTimeout(cnT);cnT=setTimeout(()=>{cfg.coName=$("c-coname").value.trim();cfgSave();if(CO.role==="guest")coSend({t:"name",name:coMe()});else coBcast();bcast()},700)});
 $("ttl").title="Нажми, чтобы переименовать трек";$("ttl").style.cursor="pointer";
-$("ttl").onclick=()=>{const c=S.current;if(!c||CO.role==="guest")return;const v=prompt("Название трека (Исполнитель – Название):",plName(c));if(v==null)return;const t=v.trim();if(!t)return;c.title=t;c.author=" ";c.name=t;save();renderNow(false);renderLists();bcast();toast("Название сохранено")};
+$("ttl").onclick=()=>{const c=S.current;if(!c||CO.role==="guest")return;const v=prompt("Название трека (Исполнитель – Название):",plRaw(c));if(v==null)return;const t=v.trim();if(!t)return;c.title=t;c.author=" ";c.name=t;save();renderNow(false);renderLists();bcast();toast("Название сохранено")};
 $("s-search").oninput=e=>{const q=e.target.value.trim().toLowerCase();document.querySelectorAll("#modal details").forEach(d=>{const sm=!q||d.querySelector("summary").textContent.toLowerCase().includes(q);let hit=sm;d.querySelectorAll(".fld").forEach(f=>{const m=sm||f.textContent.toLowerCase().includes(q);f.style.display=m?"":"none";if(m)hit=true});d.style.display=hit?"":"none";if(q&&hit)d.open=true})};
 $("gear").onclick=()=>$("modal").classList.add("open");
 $("mclose").onclick=()=>$("modal").classList.remove("open");
@@ -985,11 +1013,17 @@ $("ov-win").onclick=()=>window.open("/overlay.html?bg=green&"+ovQ(),"kohb_overla
 $("d-exp").onclick=()=>{const b=new Blob([JSON.stringify({S,cfg:(({ytKey,room,coKey,coOpen,pubCode,...r})=>r)(cfg),arch:(()=>{try{return JSON.parse(ls.get("kohb_arch")||"[]")}catch(e){return[]}})()},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="kohb-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 $("d-imp").onclick=()=>$("d-file").click();
 $("d-file").onchange=async e=>{try{const j=JSON.parse(await e.target.files[0].text());if(j.S){S=fixS(j.S);save()}if(Array.isArray(j.arch)&&j.arch.length)ls.set("kohb_arch",JSON.stringify(j.arch.slice(-60)));if(j.cfg){const{room:_r,coKey:_k,coOpen:_o,pubCode:_pc,...jc}=j.cfg;Object.assign(cfg,jc);cfgSave();location.reload();return}show();toast("Импортировано ✓")}catch(x){toast("Не удалось прочитать файл")}};
+/* v26: название по ссылке через сервер (/api/meta), если oEmbed из браузера не ответил */
+const MAINO="https://xkohbfm.vercel.app",DEFCH="xk0hb";
+const APPV="v27";
+async function metaApi(u){const bases=[""];try{if(MAINO&&location.origin!==MAINO)bases.push(MAINO)}catch(e){}
+  for(const b of bases){if(!b&&!/^https?:$/.test(location.protocol))continue;try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),6000),r=await fetch(b+"/api/meta?url="+encodeURIComponent(u),{signal:ctl.signal});clearTimeout(tm);if(!r.ok)continue;const j=await r.json();if(j&&j.ok&&j.title)return j}catch(e){}}return null}
 /* oEmbed: название и обложка для Spotify / SoundCloud */
 async function ytMeta(x){const id=ytId(x.text);if(!id||x.author)return false;const u="https://www.youtube.com/watch?v="+id;
   for(const f of["https://www.youtube.com/oembed?format=json&url=","https://noembed.com/embed?url="]){
     try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),3000),j=await(await fetch(f+encodeURIComponent(u),{signal:ctl.signal})).json();clearTimeout(tm);
-      if(j.author_name){x.author=j.author_name;if(!x.title&&j.title)x.title=j.title;x.name=plName(x);return true}}catch(e){}}
+      if(j.author_name){x.author=j.author_name;if(!x.title&&j.title)x.title=j.title;x.name=plRaw(x);return true}}catch(e){}}
+  {const j=await metaApi(u);if(j&&j.title){x.author=j.author||" ";if(!x.title)x.title=j.title;x.name=plRaw(x);return true}}
   return false}
 async function metaAny(x){
   if(!x||x.title||!isUrl(x.text))return false;
@@ -1004,7 +1038,8 @@ async function metaAny(x){
       if(m){const j=await(await fetch("https://api.music.yandex.net/tracks/"+m[1],{signal:ctl.signal})).json();clearTimeout(tm);const r=j&&j.result&&j.result[0];if(r&&r.title){x.title=r.title;x.author=(r.artists||[]).map(a=>a.name).join(", ")}}
       else clearTimeout(tm)}
   }catch(e){}
-  if(x.title){x.name=plName(x);return true}return false}
+  if(!x.title){const j=await metaApi(t);if(j&&j.title){x.title=j.title;x.author=j.author||" ";x.thumb=x.thumb||j.thumb||""}}
+  if(x.title){x.name=plRaw(x);return true}return false}
 
 /* ===== v25: автопоиск ссылки для заявок без ссылки ===== */
 async function qLink(){if(CO.role==="guest"||cfg.autoLink===false)return;const seen=window._qlS=window._qlS||new Set();let ch=false;
@@ -1031,17 +1066,17 @@ async function ytFind0(q){let items=null;const enc=encodeURIComponent(q);
   return items&&items.length?ytPick(items,q):null}
 function ytFind(q){q=String(q||"").trim();const k=q.toLowerCase();if(ytC.has(k))return ytC.get(k);const p=ytFind0(q).catch(()=>null);ytC.set(k,p);p.then(v=>{if(!v)ytC.delete(k)});return p}
 function qmKick(){try{clearTimeout(window._qmT);window._qmT=setTimeout(qMeta,400)}catch(e){}}
-async function qMeta(){if(CO.role==="guest")return;try{await qLink()}catch(e){}const seen=window._qmS=window._qmS||new Set();let ch=false;
-  const list=[...S.queue,...S.pending].filter(x=>x&&!x.title&&isUrl(x.text)&&!seen.has(x.id)).slice(0,6);
-  for(const x of list){seen.add(x.id);if(await metaAny(x))ch=true}
-  if(ch){save();renderLists();bcast()}}
+async function qMeta(){if(CO.role==="guest")return;try{await qLink()}catch(e){}const seen=window._qmS=window._qmS||new Map();let ch=false,again=false;
+  const list=[...S.queue,...S.pending].filter(x=>x&&!x.title&&isUrl(x.text)&&!x.mf&&(seen.get(x.id)||0)<3&&Date.now()>=(x._mn||0)).slice(0,6);
+  for(const x of list){const n=(seen.get(x.id)||0)+1;seen.set(x.id,n);if(await metaAny(x))ch=true;else if(n>=3)x.mf=1;else{x._mn=Date.now()+8000*n;again=true}}
+  if(ch||list.some(x=>x.mf)){save();renderLists();bcast()}if(again)setTimeout(qmKick,9000)}
 async function enrichPl(){const r=await Promise.all(plItems().map(ytMeta)),ch=r.some(Boolean);if(ch)save();return ch}
 async function meta(c){if(c&&!isUrl(c.text))coverFor(c);if(c&&isUrl(c.text)&&!ytId(c.text)&&!c.title){metaAny(c).then(ok=>{if(ok&&S.current&&S.current.id===c.id){save();renderNow(false);renderLists();bcast();coverFor(S.current)}})}if(c&&ytId(c.text)&&!c.author){const id=c.id;setTimeout(async()=>{if(S.current&&S.current.id===id&&!S.current.author&&await ytMeta(S.current)){save();renderNow(false);renderLists()}},4000);return}
   if(!c||c.title||!isUrl(c.text)||ytId(c.text))return;let u=null;
   if(/open\.spotify\.com/.test(c.text))u="https://open.spotify.com/oembed?url="+encodeURIComponent(c.text);else if(/soundcloud\.com/.test(c.text))u="https://soundcloud.com/oembed?format=json&url="+encodeURIComponent(c.text);
   if(!u)return;const id=c.id;
   try{const j=await(await fetch(u)).json();if(!S.current||S.current.id!==id||!j.title)return;const a=j.author_name||"";let t=String(j.title);if(a&&t.endsWith(" by "+a))t=t.slice(0,-(" by "+a).length);
-    Object.assign(S.current,{title:t,author:a,thumb:j.thumbnail_url||""});S.current.name=plName(S.current);save();renderNow(false);renderLists()}catch(e){}}
+    Object.assign(S.current,{title:t,author:a,thumb:j.thumbnail_url||""});S.current.name=plRaw(S.current);save();renderNow(false);renderLists()}catch(e){}}
 /* таймер трека */
 setInterval(()=>{const c=S.current;let t="",p=0;if(c){try{if(player&&player.getDuration&&player.getDuration()>0){const d=player.getDuration(),cu=player.getCurrentTime();t=fmt(cu)+" / "+fmt(d);p=cu/d*100}}catch(e){}if(!t)t="⏱ "+fmt((Date.now()-(c.t0||Date.now()))/1000)}$("tm").textContent=t;$("pg").style.width=Math.min(100,p)+"%"},500);
 $("prog").onclick=e=>{try{const d=player.getDuration();if(d>0){const r=e.currentTarget.getBoundingClientRect();player.seekTo(d*(e.clientX-r.left)/r.width,true);setTimeout(bcast,400)}}catch(x){}};
@@ -1051,7 +1086,7 @@ addEventListener("storage",e=>{if(e.key!==KEY)return;const old=S.current&&S.curr
 $("t-j").onclick=()=>window.SFX&&SFX.jingle();$("t-a").onclick=()=>window.SFX&&SFX.applause();$("t-h").onclick=()=>window.SFX&&SFX.horn();
 /* итоги вечера */
 const plItems=()=>[S.current,...S.history].filter(x=>x&&x.pl);
-const splitN=x=>{const n=plName(x),m=n.match(/^(.+?)\s[–-]\s(.+)$/);return isUrl(n)?["",n]:m?[m[1],m[2]]:["",n]};
+const splitN=x=>{const n=plRaw(x),m=n.match(/^(.+?)\s[–-]\s(.+)$/);return isUrl(n)?["",n]:m?[m[1],m[2]]:["",n]};
 function fit(g,t,w){if(g.measureText(t).width<=w)return t;while(t.length>1&&g.measureText(t+"…").width>w)t=t.slice(0,-1);return t+"…"}
 const STORY_PAL={obsidian:["#3d7bff","#8fd0ff","#04050a"],ruby:["#e0115f","#ff9ab8","#14030a"],turq:["#00bfa6","#ffd98a","#021614"],copper:["#d9772b","#f5d0a9","#130a05"],indigo:["#5b4bff","#c0b8ff","#07041c"],pine:["#2e9d62","#e0d3a8","#04110a"],contrast:["#ff6a00","#00b4ff","#050a14"],tropics:["#ff4f9a","#19e6a6","#06130f"],rosegold:["#e0a39a","#f7d9cf","#150b0b"],ultraviolet:["#7c3aed","#22d3ee","#08031a"],empire:["#c1121f","#ffd166","#0d0204"],oled:["#00e5ff","#7af0ff","#000000"],olive:["#a9b665","#e0c97f","#0b0d06"],kohb:["#ff3341","#e9e9ee","#09090a"],neon:["#ff2bd6","#00e5ff","#1a0938"],space:["#7c9cff","#c39bff","#0a102a"],lagoon:["#2fe3b0","#6ad6ff","#062c2a"],sakura:["#ff7eb6","#ffc2dd","#2c1322"],matrix:["#00ff7f","#b6ff5e","#02140a"],retro:["#b79cff","#8c6bff","#0e0a16"],volcano:["#ff3b3b","#ff9a8a","#280a0a"],platinum:["#e4e8f0","#b4bdd0","#14161e"],stage:["#ffe11a","#fff59a","#221c06"],aurora:["#4dffb0","#8f7bff","#04141b"],sunset:["#ff8a5c","#ffd36b","#3a1148"],frost:["#7fdcff","#d4f1ff","#0b2233"],toxic:["#c6ff00","#00ffa3","#050804"],gold:["#f5c451","#fff0b3","#0b0804"],lavender:["#cdb4ff","#9fd0ff","#120e1f"],peach:["#ffb38a","#ffd9a8","#1c1110"],candy:["#ff8fd0","#8fe3ff","#190f22"],midnight:["#9db4ff","#ffe7a0","#0c1636"],cocoa:["#e0a77a","#f6e0c8","#150e0b"],carbon:["#00d9ff","#ff2e63","#050506"],abyss:["#6f8cff","#00f5d4","#03152b"],eclipse:["#ffb347","#ff5e62","#0b0707"],nebula:["#c77dff","#ff6bd6","#12072a"],noir:["#e9e9e9","#9aa0a6","#0c0c0c"],storm:["#8ab4f8","#cfe0ff","#0b1424"],radar:["#ffb000","#ff6a00","#150f03"],cinema:["#ffd166","#ef476f","#1c0c10"],flow:["#ff7ab8","#7ab8ff","#1a0a40"],arcade:["#ffe600","#00e5ff","#0a0f3a"]};
 let photoImg=null,storyArgs=null,sumTag="";
@@ -1100,7 +1135,7 @@ function openSum(){
   <h3>Кураторы вечера (треков с оценкой 8+)</h3><table class="tbl">${curators.map(c=>`<tr><td>@${esc(c[0])}</td><td style="font-weight:800">${c[1]}</td></tr>`).join("")||"<tr><td>Пока нет</td></tr>"}</table>`;
   storyArgs=[topAll,avg,rt.length,all.length,curators];drawStory(...storyArgs);
   const pl=plItems();
-  $("xbody").innerHTML=pl.length?pl.map(x=>{const n=plName(x),q=encodeURIComponent(isUrl(n)?(x.title||n):n);return`<div class="item"><div class="t">${esc(n)}</div><div class="row" style="flex-wrap:nowrap"><a class="lnk" target="_blank" rel="noopener" href="https://music.yandex.ru/search?text=${q}">Яндекс</a><a class="lnk" target="_blank" rel="noopener" href="https://open.spotify.com/search/${q}">Spotify</a></div></div>`}).join(""):'<div class="empty">В плейлисте пока пусто (кнопка P).</div>';
+  $("xbody").innerHTML=pl.length?pl.map(x=>{const n=plRaw(x),q=encodeURIComponent(isUrl(n)?(x.title||n):n);return`<div class="item"><div class="t">${esc(n)}</div><div class="row" style="flex-wrap:nowrap"><a class="lnk" target="_blank" rel="noopener" href="https://music.yandex.ru/search?text=${q}">Яндекс</a><a class="lnk" target="_blank" rel="noopener" href="https://open.spotify.com/search/${q}">Spotify</a></div></div>`}).join(""):'<div class="empty">В плейлисте пока пусто (кнопка P).</div>';
   $("smodal").classList.add("open");
 }
 function openAll(days){
@@ -1118,7 +1153,7 @@ function openAll(days){
 }
 
 function updVotes(){const c=S.current;if(!c)return;const v=Object.values(votes);c.vn=v.length;c.vavg=v.length?+(v.reduce((a,x)=>a+x,0)/v.length).toFixed(1):null;save();renderNow(false)}
-function brkUi(){ls.set("kohb_brk",JSON.stringify(brk));$("brk").classList.toggle("on",brk.on&&brk.kind==="break");$("soon").classList.toggle("on",brk.on&&brk.kind==="soon");$("fin").classList.toggle("on",brk.on&&brk.kind==="end")}
+function brkUi(){try{if(brk.on&&brk.kind==="end"&&cfg.pubLive){cfg.pubLive=false;cfg.pubLiveT=0;cfgSave();liveUi();sitePush()}}catch(e){}ls.set("kohb_brk",JSON.stringify(brk));$("brk").classList.toggle("on",brk.on&&brk.kind==="break");$("soon").classList.toggle("on",brk.on&&brk.kind==="soon");$("fin").classList.toggle("on",brk.on&&brk.kind==="end")}
 let endPick=null;
 const rankR=l=>l.map((x,i)=>[x,i]).sort((a,b)=>b[0].rating-a[0].rating||a[1]-b[1]).map(a=>a[0]);
 function podTop(r){const ch=(endPick||[]).map(id=>id?r.find(x=>String(x.id)===String(id)):null),pool=rankR(r.filter(x=>!ch.includes(x))),t3=[0,1,2].map(i=>ch[i]||pool.shift()).filter(Boolean);return[...t3,...pool].slice(0,5).map(x=>({n:plName(x),r:x.rating}))}
@@ -1372,7 +1407,9 @@ setTimeout(coUi,300);
 var pub=null,pubConns=[],pubErr="",pubTries=0,siteG={id:"",map:{}};
 const PUBPFX="kohbfm-r-",PUBICE={config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:"stun:global.stun.twilio.com:3478"},{urls:["turn:eu-0.turn.peerjs.com:3478","turn:us-0.turn.peerjs.com:3478"],username:"peerjs",credential:"peerjsp"},{urls:["turn:openrelay.metered.ca:80","turn:openrelay.metered.ca:443","turns:openrelay.metered.ca:443?transport=tcp"],username:"openrelayproject",credential:"openrelayproject"}],sdpSemantics:"unified-plan"}};
 const pubUrl=()=>location.origin+"/request.html?r="+cfg.pubCode;
-function pubUi(){const n=pubConns.filter(c=>c.open).length,st=$("pub-st"),d=$("pub-dot"),u=$("pub-url");if(u)u.value=cfg.pubOn?pubUrl():"";
+const pubMir=()=>{const m=String(cfg.pubMirror||"").trim().replace(/\/+$/,"").replace(/\/request\.html.*$/i,"");return/^https:\/\/[\w.-]+(:\d+)?(\/[\w.\/-]*)?$/i.test(m)?m:""};
+const pubUrl2=()=>pubMir()?pubMir()+"/request.html?r="+cfg.pubCode:"";
+function pubUi(){const n=pubConns.filter(c=>c.open).length,st=$("pub-st"),d=$("pub-dot"),u=$("pub-url");if(u)u.value=cfg.pubOn?pubUrl():"";const u2=$("pub-url2");if(u2)u2.value=cfg.pubOn?pubUrl2():"";
   if(st){st.textContent=!cfg.pubOn?"выключено":pubErr||(pub&&pub.open&&!pub.disconnected?(n?"зрителей на странице: "+n:"приём открыт, ждём зрителей"):"подключаюсь…");d.className="dot"+(cfg.pubOn&&!pubErr&&pub&&pub.open&&!pub.disconnected?" ok":"")}}
 function pubStop(){try{pubConns.forEach(c=>{try{c.send({t:"bye"});c.close()}catch(e){}})}catch(e){}pubConns=[];try{pub&&!pub.destroyed&&pub.destroy()}catch(e){}pub=null}
 function pubStart(){
@@ -1390,11 +1427,14 @@ function pubStart(){
   }catch(e){pubErr="ошибка запуска";pubUi();setTimeout(()=>{if(cfg.pubOn)pubStart()},8000)}}
 function pubWatch(){try{if(!cfg.pubOn)return;if(!pub||pub.destroyed)return pubStart();if(pub.disconnected){try{pub.reconnect()}catch(e){}setTimeout(()=>{if(cfg.pubOn&&pub&&pub.disconnected)pubStart()},6000)}}catch(e){}}
 setInterval(pubWatch,15000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)pubWatch()});
-function siteHello(){return{t:"hello",name:cfg.chan||"",rules:{cd:cfg.cd,maxq:cfg.maxq,mod:!!cfg.pubMod},showQ:cfg.pubQ!==false}}
+function siteLive(){let b="";try{b=brk.on?brk.kind:""}catch(e){}return!!cfg.pubLive&&b!=="end"}
+function siteHello(){return{t:"hello",name:cfg.chan||"",rules:{cd:cfg.cd,maxq:cfg.maxq,mod:!!cfg.pubMod},showQ:cfg.pubQ!==false,ch:cfg.chan||DEFCH,tw:cfg.pubTw!==false,live:siteLive(),alt:{m:location.origin,r:pubMir()}}}
+function siteHelloAll(){pubConns=pubConns.filter(c=>c.open);pubConns.forEach(c=>{try{c.send(siteHello())}catch(e){}})}
+function siteReset(){siteG={id:"",map:{}};pubConns=pubConns.filter(c=>c.open);pubConns.forEach(c=>{try{c.send({t:"reset"})}catch(e){}});sitePush()}
 function siteState(){const c=S.current,bl=cfg.blind,nk=x=>bl?"???":x.nick;let b="";try{b=brk.on?brk.kind:""}catch(e){}
   const rated=S.history.filter(h=>h.rating),gv=(siteG.id&&c&&String(c.id)===siteG.id&&!c.rating)?Object.values(siteG.map):[];
-  return{t:"st",cur:c?{n:plName(c),by:nk(c),id:c.id,r:c.rating||0,lk:c.lk||0}:null,
-    q:cfg.pubQ===false?[]:S.queue.slice(0,40).map(x=>({id:x.id,n:x.title?plName(x):x.text,by:nk(x),don:!!x.don})),n:S.queue.length,brk:b,
+  return{t:"st",live:siteLive(),cur:c?{n:plName(c),by:nk(c),id:c.id,r:c.rating||0,lk:c.lk||0}:null,
+    q:cfg.pubQ===false?[]:S.queue.slice(0,40).map(x=>({id:x.id,n:plQ(x),by:nk(x),don:!!x.don})),n:S.queue.length,brk:b,
     h:S.history.slice(0,40).map(h=>({id:h.id,n:plName(h),by:nk(h),r:h.rating||0,pl:h.pl?1:0,sk:h.skipped?1:0})),
     avg:rated.length?+(rated.reduce((a,h)=>a+h.rating,0)/rated.length).toFixed(2):0,cnt:rated.length,
     msg:String(cfg.pubMsg||"").slice(0,160),paused:!!cfg.pubPause,fx:cfg.pubFx!==false,gs:cfg.pubGuess!==false,vw:pubConns.filter(x=>x.open).length,hv:S.history.length*2+(S.current&&S.current.rating?1:0),gavg:gv.length?+(gv.reduce((a,b)=>a+b,0)/gv.length).toFixed(1):0,gn:gv.length}}
@@ -1402,8 +1442,8 @@ function sitePush(){if(!pubConns.length)return;pubConns=pubConns.filter(c=>c.ope
 function siteReq(c,m){
   if(!m||typeof m!=="object")return;
   if(m.t==="hi"){try{c.send(siteHello());c.send(siteState())}catch(e){}return}
-  if(m.t==="hall"){const now=Date.now();if(c._ha&&now-c._ha<4000)return;c._ha=now;const seen=new Set(),l=[],add=(n,r,k)=>{n=String(n||"").trim();const key=n.toLowerCase();if(!n||seen.has(key))return;seen.add(key);l.push([n.slice(0,160),r||0,k])};
-    S.history.forEach(h=>add(plName(h),h.rating,h.skipped?2:0));archGet().slice().reverse().forEach(e=>(e.t||[]).forEach(t=>add(t.n,t.r,e.id===S.evId?0:1)));
+  if(m.t==="hall"){const now=Date.now();if(c._ha&&now-c._ha<4000)return;c._ha=now;const seen=new Set(),l=[],add=(n,r,k)=>{n=String(n||"").trim();const key=n.toLowerCase();if(!n||isUrl(n)||n.startsWith("🎵")||seen.has(key))return;seen.add(key);l.push([n.slice(0,160),r||0,k])};
+    S.history.forEach(h=>add(plRaw(h),h.rating,h.skipped?2:0));archGet().slice().reverse().forEach(e=>(e.t||[]).forEach(t=>add(t.n,t.r,e.id===S.evId?0:1)));
     try{c.send({t:"hall",l:l.slice(0,1500)})}catch(e){}return}
   const nm=v=>String(v||"").replace(/[^\w\u0400-\u04ff.-]/g,"").slice(0,25);
   if(m.t==="fx"){if(cfg.pubFx===false)return;const now=Date.now();c._fx=(c._fx||[]).filter(t=>now-t<10000);if(c._fx.length>=8)return;const e=String(m.e||"");if(!["🔥","👏","😂","❤️","💀","🎧","😮","🎉"].includes(e))return;c._fx.push(now);rxAdd(e,nm(m.nick)||"зритель");return}
@@ -1471,6 +1511,34 @@ $("tx-copy").onclick=async()=>{const v=$("tx-url").value;try{await navigator.cli
 
 $("c-pubmsg").addEventListener("change",()=>sitePush());$("c-pubpause").addEventListener("change",()=>sitePush());
 $("pub-copy").onclick=async()=>{if(!cfg.pubOn)return toast("Сначала включи приём заказов");try{await navigator.clipboard.writeText(pubUrl());toast("Ссылка для зрителей скопирована ✓")}catch(e){$("pub-url").select();toast("Выдели и скопируй вручную")}};
+$("pub-copy2").onclick=async()=>{if(!cfg.pubOn)return toast("Сначала включи приём заказов");if(!pubUrl2())return toast("Сначала укажи адрес зеркала");try{await navigator.clipboard.writeText(pubUrl2());toast("Ссылка для зрителей из РФ скопирована ✓")}catch(e){$("pub-url2").select();toast("Выдели и скопируй вручную")}};
+$("c-pubtw").addEventListener("change",siteHelloAll);$("c-pubmirror").addEventListener("change",()=>{pubUi();siteHelloAll()});
+/* v26: кнопка «В эфире» (видна зрителям на сайте заказов; выключается сама при «🏁 Конец стрима») */
+function liveUi(){const b=$("live");if(!b)return;const on=!!cfg.pubLive;if(on&&!cfg.pubLiveT){cfg.pubLiveT=Date.now();cfgSave()}b.classList.toggle("on",on);
+  let t="";if(on&&cfg.fxUp!==false&&cfg.pubLiveT){const d=Math.max(0,Math.floor((Date.now()-cfg.pubLiveT)/1000));t='<span class="lt">'+Math.floor(d/3600)+":"+String(Math.floor(d%3600/60)).padStart(2,"0")+":"+String(d%60).padStart(2,"0")+"</span>"}
+  const k=(on?"1":"0")+t;if(b._k!==k){b._k=k;b.innerHTML=(on?"🔴 В эфире":"⚪ Не в эфире")+t}
+  b.title=on?"Зрители на сайте видят «В эфире». Нажми, чтобы закончить эфир":"Нажми, когда начнёшь стрим: зрители на сайте увидят «В эфире», пойдёт время эфира"}
+$("live").onclick=()=>{cfg.pubLive=!cfg.pubLive;cfg.pubLiveT=cfg.pubLive?Date.now():0;cfgSave();liveUi();sitePush();siteHelloAll();toast(cfg.pubLive?"🔴 Зрители видят: ты в эфире":"⚪ Зрители видят: ты не в эфире")};
+setInterval(()=>{if(cfg.pubLive&&!document.hidden)liveUi()},1000);liveUi();
+/* v27: чат Twitch слева от плеера */
+function dockUi(){const d=$("chatdock");if(!d)return;const ch=String(cfg.chan||DEFCH||"").trim(),ok=cfg.chatDock!==false&&/^\w{3,25}$/.test(ch)&&/^https?:$/.test(location.protocol);
+  document.body.classList.toggle("cdock",ok);d.hidden=!ok;const w=$("cd-w"),k=ok?ch:"";if(w.dataset.k===k)return;w.dataset.k=k;if(!ok){w.innerHTML="";return}
+  w.innerHTML='<iframe src="https://www.twitch.tv/embed/'+encodeURIComponent(ch)+'/chat?parent='+encodeURIComponent(location.hostname)+'&darkpopout" title="Чат Twitch" loading="lazy"></iframe>';$("cd-pop").href="https://www.twitch.tv/popout/"+encodeURIComponent(ch)+"/chat?popout="}
+$("cd-x").onclick=()=>{cfg.chatDock=false;cfgSave();$("c-chatdock").checked=false;dockUi()};$("c-chatdock").addEventListener("change",dockUi);$("c-chan").addEventListener("change",dockUi);dockUi();
+/* v27: диагностика связи */
+const dgT=(p,ms)=>Promise.race([p,new Promise(r=>setTimeout(()=>r("таймаут"),ms))]);
+async function dgRun(){const out=$("dg-out"),L=[],put=(ok,n,d)=>{L.push((ok===null?"ℹ️ ":ok?"✅ ":"❌ ")+n+(d?" — "+d:""));out.textContent=L.join("\n")};
+  L.push("Версия "+APPV+" · "+location.origin+" · "+((navigator.userAgent||"").match(/(Edg|Chrome|Firefox|Safari)\/[\d.]+/)||["браузер ?"])[0]);out.textContent=L.join("\n");$("dg-run").disabled=true;
+  try{put(!!window.Peer,"Библиотека PeerJS",window.Peer?"загружена":"не загрузилась (CDN недоступен: положи peerjs.min.js рядом с index.html)");
+    if(window.Peer){const t0=Date.now(),r=await dgT(new Promise(res=>{let p;try{p=new Peer(undefined,{config:PUBICE.config})}catch(e){return res("ошибка")}p.on("open",()=>{res(true);try{p.destroy()}catch(e){}});p.on("error",e=>{res(e&&e.type||"ошибка");try{p.destroy()}catch(x){}})}),9000);put(r===true,"Сервер синхронизации PeerJS (оверлей, сайт заказов)",r===true?(Date.now()-t0)+" мс":String(r))}
+    {const t0=Date.now(),r=await dgT(new Promise(res=>{let w;try{w=new WebSocket("wss://irc-ws.chat.twitch.tv")}catch(e){return res("ошибка")}w.onopen=()=>{res(true);try{w.close()}catch(e){}};w.onerror=()=>res("не открылось")}),7000);put(r===true,"Чат Twitch (заявки из чата)",r===true?(Date.now()-t0)+" мс":String(r))}
+    {const t0=Date.now(),r=await dgT(fetch("https://www.youtube.com/generate_204",{mode:"no-cors",cache:"no-store"}).then(()=>true,()=>"нет доступа"),7000);put(r===true,"YouTube",r===true?(Date.now()-t0)+" мс":String(r))}
+    {const j=await metaApi("https://www.youtube.com/watch?v=dQw4w9WgXcQ");put(j?true:null,"Сервер названий /api/meta",j?"работает":"недоступен (названия возьмутся из oEmbed)")}
+    put(conns.filter(c=>c.open).length?true:null,"Оверлей OBS",conns.filter(c=>c.open).length?"подключён":"не подключён (нормально, если OBS не запущен)");
+    put(cfg.pubOn?!!(pub&&pub.open&&!pub.disconnected):null,"Сайт заказов",cfg.pubOn?(pub&&pub.open&&!pub.disconnected?"приём открыт, зрителей: "+pubConns.filter(c=>c.open).length:"не подключился к серверу синхронизации"):"выключен");
+  }catch(e){put(false,"Ошибка проверки",String(e&&e.message||e))}
+  L.push("Готово");out.textContent=L.join("\n");$("dg-run").disabled=false}
+$("dg-run").onclick=dgRun;$("dg-copy").onclick=async()=>{try{await navigator.clipboard.writeText($("dg-out").textContent||"Сначала нажми «Проверить связь»");toast("Отчёт скопирован ✓")}catch(e){toast("Выдели текст и скопируй вручную")}};
 $("pub-new").onclick=()=>{if(!confirm("Создать новую ссылку для зрителей? Старая перестанет работать."))return;cfg.pubCode=Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>(b%36).toString(36)).join("");cfgSave();pubStart();toast("Новая ссылка готова")};
 setTimeout(pubStart,700);
 /* ===== перенос данных в другой браузер ===== */
@@ -1493,11 +1561,7 @@ $("xfer").onclick=xferLink;$("xf-copy").onclick=xferLink;
 /* ---- плюшки (всё выключается в настройках) ---- */
 const BASE_T=document.title;
 setInterval(()=>{try{if(!cfg.fxTab){if(document.title!==BASE_T)document.title=BASE_T;return}const c=S.current;document.title=(c?(playing?"▶ ":"⏸ ")+plName(c)+" · ":"")+(S.queue.length?"очередь "+S.queue.length+" · ":"")+BASE_T}catch(e){}},1500);
-const UPK=KEY.replace(/_fm_v1$/,"")+"_up0";
-(function(){const st=$("stats");if(!st)return;const el=document.createElement("span");el.id="upt";el.title="Время в эфире. Клик — сбросить";st.insertAdjacentElement("afterend",el);
-  el.onclick=()=>{if(confirm("Сбросить часы эфира?")){ls.set(UPK,String(Date.now()));tick()}};
-  function tick(){if(!cfg.fxUp){el.style.display="none";return}el.style.display="";let t0=+ls.get(UPK);if(!t0){t0=Date.now();ls.set(UPK,String(t0))}const d=Math.max(0,Math.floor((Date.now()-t0)/1000));el.textContent="⏱ "+Math.floor(d/3600)+":"+String(Math.floor(d%3600/60)).padStart(2,"0")+":"+String(d%60).padStart(2,"0")}
-  tick();setInterval(tick,1000)})();
+
 addEventListener("pointerdown",()=>{window._la=Date.now()},true);addEventListener("keydown",()=>{window._la=Date.now()},true);
 setInterval(()=>{try{const n=S.queue.length+S.pending.length;if(window._qn!==undefined&&n>window._qn&&cfg.fxReq&&CO.role!=="guest"&&Date.now()-(window._la||0)>1500)snd("pop");window._qn=n}catch(e){}},700);
 function autoNx(){const c=S.current;if(!cfg.fxAuto||CO.role==="guest"||!c)return;if(!c.rating){toast("Трек закончился: поставь оценку");return}toast("⏭ Следующий через 3 с (Esc — отмена)");const id=c.id;clearTimeout(window._anx);window._anx=setTimeout(()=>{window._anx=0;if(S.current&&S.current.id===id)next()},3000)}
@@ -1538,7 +1602,7 @@ async function coverFor(c,force){
   if(!c||(c.cover&&!force)||cfBusy===String(c.id))return;cfBusy=String(c.id);
   try{
     if(ytId(c.text)&&!c.title)await ytMeta(c);
-    const n=plName(c);if(!n||isUrl(n))return;
+    const n=plRaw(c);if(!n||isUrl(n))return;
     const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),5000);
     const j=await(await fetch("https://itunes.apple.com/search?media=music&entity=song&limit=1&term="+encodeURIComponent(n.replace(/\s[–-]\s/," ")),{signal:ctl.signal})).json();clearTimeout(tm);
     const u=j.results&&j.results[0]&&j.results[0].artworkUrl100;
