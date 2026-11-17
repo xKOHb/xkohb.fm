@@ -511,12 +511,46 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
 body.compact .item{padding:6px 0}
 body.compact .card{padding:13px}
 body.compact .m{display:none}
+.sr{display:none;margin:-4px 0 10px;border:1px solid var(--ln);border-radius:14px;background:color-mix(in srgb,var(--bg) 92%,#fff);backdrop-filter:blur(14px);overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,.35);animation:in .2s}
+.sr.on{display:block}
+.sr .row2{display:flex;align-items:center;gap:10px;padding:8px 10px;cursor:pointer;border-top:1px solid var(--ln)}
+.sr .row2:first-child{border-top:0}
+.sr .row2:hover,.sr .row2.act{background:color-mix(in srgb,var(--ac) 13%,transparent)}
+.sr img{width:44px;height:44px;border-radius:8px;object-fit:cover;flex:none;background:var(--in)}
+.sr .tx{min-width:0;flex:1}.sr .tx b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr .tx span{display:block;font-size:12.5px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr .pv{padding:5px 11px;flex:none}.sr .st{padding:12px;font-size:13px;color:var(--mut)}
+.gs{display:none;margin-top:12px}.gs.on{display:block}
+.gs .gl{font-size:12.5px;color:var(--mut);margin-bottom:6px}
+.gs .gb{display:grid;grid-template-columns:repeat(10,1fr);gap:4px}
+.gs .gb button{padding:8px 0;font-weight:800;border-radius:9px;border-width:2px}
+.gs .gb button.pick{background:var(--ac);color:#1a1008;transform:scale(1.1)}
+.skl{height:46px;border-radius:12px;margin:8px 0;background:linear-gradient(90deg,var(--in),color-mix(in srgb,var(--ac) 12%,var(--in)),var(--in));background-size:200% 100%;animation:shimmerS 1.4s linear infinite}
+@keyframes shimmerS{to{background-position:-200% 0}}
+.chipz{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:4px 10px;border-radius:99px;border:1px solid var(--ln);color:var(--mut);white-space:nowrap}
+.chipz:empty{display:none}
+.fab{position:fixed;right:14px;bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:30;padding:12px 18px;border-radius:99px;font-weight:800;box-shadow:0 8px 28px -6px var(--ac);display:none}
+@media(max-width:900px){.fab.on{display:block;animation:in .3s}}
+.reo{padding:3px 9px;font-size:13px;flex:none}
+.eta{font-size:12px;color:var(--mut);white-space:nowrap}
+.ir{display:flex;gap:8px;align-items:center;flex:none}
 .rq-foot{text-align:center;color:var(--mut);font-size:12.5px;padding:6px 0 26px}
 .fxe{position:fixed;bottom:70px;z-index:80;pointer-events:none;animation:fxUp 2.7s cubic-bezier(.2,.7,.3,1) forwards;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
 @keyframes fxUp{0%{transform:translateY(0) scale(.3);opacity:0}12%{opacity:1;transform:translateY(-30px) scale(1.2)}100%{transform:translateY(-62vh) scale(1) rotate(12deg);opacity:0}}
 .spin{display:inline-block;animation:spn 1s linear infinite}
 @keyframes spn{to{transform:rotate(360deg)}}
 .sheet input[type=range]{width:150px;margin:0}
+
+/* v24 */
+.qrow{display:flex;gap:8px;margin:0 0 8px}.qrow button{flex:1;font-size:13px}
+.fv{padding:3px 9px;font-size:16px;line-height:1.2;margin-right:6px;border-radius:10px;flex:none}.fv:hover{color:var(--ac2)}
+#favb{margin:8px 0 0;font-size:15px;width:max-content}
+.mst{display:flex;flex-wrap:wrap;gap:6px;margin:-4px 0 10px}.mst:empty{display:none}
+.card{transition:border-color .25s,box-shadow .25s}.card:hover{border-color:color-mix(in srgb,var(--ac) 35%,var(--ln))}
+#ordc{border-color:color-mix(in srgb,var(--ac) 28%,var(--ln))}
+.sr .row2 .src{font-size:10px;letter-spacing:.5px;text-transform:uppercase;color:var(--mut);margin-left:6px}
+.sr .row2{transition:background .15s}
+.lnkok{font-size:12px;color:var(--ac2);margin:-4px 0 8px;display:none}.lnkok.on{display:block}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
 <script>window.Peer||document.write('<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"><\/script>');window.Peer||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"><\/script>')</script>
@@ -526,7 +560,7 @@ body.compact .m{display:none}
 <header>
   <div class="logo"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>KOHbツ<b>.FM</b></div>
   <div class="stats" id="stats"></div>
-  <div class="hr"><span class="air" id="air" title="Нажми, чтобы переподключиться">● ОФФЛАЙН</span><button id="modeb" class="ghost" title="Светлая / тёмная тема">🌓</button><button id="thb" class="ghost" title="Выбрать тему">🎨</button><button id="setb" class="ghost" title="Настройки страницы">⚙️</button></div>
+  <div class="hr"><span class="chipz" id="vw" title="Зрителей на странице"></span><span class="chipz" id="sc" title="Твои очки за угаданные оценки"></span><span class="air" id="air" title="Нажми, чтобы переподключиться">● ОФФЛАЙН</span><button id="modeb" class="ghost" title="Светлая / тёмная тема">🌓</button><button id="thb" class="ghost" title="Выбрать тему">🎨</button><button id="setb" class="ghost" title="Настройки страницы">⚙️</button></div>
 </header>
 <main>
   <section class="col">
@@ -536,22 +570,27 @@ body.compact .m{display:none}
       <div class="info"><div class="disc" aria-hidden="true"></div><div style="min-width:0"><span class="chip" id="np-chip">ждём эфир</span><h1 id="np-t" style="margin:6px 0 2px">—</h1><div class="m np-by" id="np-by"></div></div></div>
       <div class="np-r" id="np-r"><span class="big" id="np-rv"></span><span class="m" id="np-rl">оценка ведущего</span></div>
       <div class="np-wait" id="np-wait"></div>
+      <div class="gs" id="gs"><div class="gl" id="gl">🎯 Угадай оценку ведущего</div><div class="gb" id="gb"></div></div>
       <div class="rxbar" id="rxbar"><button data-e="🔥" title="Огонь">🔥</button><button data-e="👏" title="Аплодисменты">👏</button><button data-e="😂" title="Смешно">😂</button><button data-e="😮" title="Ого">😮</button><button data-e="💀" title="Умер">💀</button><button data-e="🎧" title="Качает">🎧</button><button data-e="🎉" title="Ура">🎉</button><button class="lk" id="likeb" title="Понравился трек">❤ 0</button></div>
     </div>
-    <div class="card">
+    <div class="card" id="ordc">
       <h2>Заказать трек</h2>
       <div class="rq-note" id="note"><span id="note-t"></span><br><button id="recon">🔄 Переподключиться</button></div>
       <input type="text" id="f-n" placeholder="Твой ник на Twitch" maxlength="25" autocomplete="nickname">
-      <input type="text" id="f-t" placeholder="Ссылка (YouTube, Spotify…) или «Исполнитель – Название»" maxlength="300" autocomplete="off">
+      <input type="text" id="f-t" placeholder="Начни вводить название или вставь ссылку" maxlength="300" autocomplete="off">
+      <div class="sr" id="sr"></div>
       <input type="text" id="f-c" placeholder="Комментарий (необязательно)" maxlength="200" autocomplete="off">
+      <div class="lnkok" id="lnkok">🔗 Ссылка распознана: название подтянется само</div>
+      <div class="qrow" id="qrow"><button id="rndb" class="ghost" type="button">🎲 Удиви меня: хит эфира</button></div>
       <button class="p" id="send" style="width:100%">+ Заказать</button>
       <div class="rq-res" id="res"></div>
       <div class="hint" id="rules" style="margin-top:10px"></div>
     </div>
   </section>
   <section class="col">
-    <div class="card"><h2>Очередь <span id="qc"></span></h2><div id="queue"><div class="empty">Подключаюсь к стримеру…</div></div></div>
-    <div class="card"><h2>Мои заказы</h2><div id="mine"><div class="empty">Пока ничего не заказывал.</div></div></div>
+    <div class="card"><h2>Очередь <span id="qc"></span></h2><div id="queue"><div class="skl"></div><div class="skl"></div><div class="skl"></div></div></div>
+    <div class="card"><h2>Мои заказы</h2><div class="mst" id="mst"></div><div id="mine"><div class="empty">Пока ничего не заказывал.</div></div></div>
+    <div class="card" id="favc" style="display:none"><h2>⭐ Избранное <span id="favn"></span></h2><div id="favl"></div></div>
     <div class="card" id="hcard"><h2>История эфира <span id="hc"></span></h2>
       <div class="chips" id="hchips"></div>
       <div class="hsort"><button id="hs-t" class="on">По времени</button><button id="hs-r">По оценке</button></div>
@@ -566,12 +605,20 @@ body.compact .m{display:none}
   <div class="fld"><label for="s-snd">🔔 Звуки<small>заказ принят, мой трек заиграл</small></label><input type="checkbox" id="s-snd"></div>
   <div class="fld"><label for="s-tab">🏷 Трек в названии вкладки</label><input type="checkbox" id="s-tab"></div>
   <div class="fld"><label for="s-notif">📣 Уведомление, когда играет мой трек<small>браузер спросит разрешение</small></label><input type="checkbox" id="s-notif"></div>
+  <div class="fld"><label for="s-search">🔎 Поиск трека при вводе<small>подсказки с обложками и фрагментом для прослушивания</small></label><input type="checkbox" id="s-search"></div>
+  <div class="fld"><label for="s-guess">🎯 Игра «Угадай оценку»<small>угадывай оценку ведущего и копи очки</small></label><input type="checkbox" id="s-guess"></div>
+  <div class="fld"><label for="s-eta">⏱ Примерное время ожидания в очереди</label><input type="checkbox" id="s-eta"></div>
+  <div class="fld"><label for="s-fav">⭐ Избранное<small>сохраняй треки звёздочкой и заказывай снова в один клик</small></label><input type="checkbox" id="s-fav"></div>
+  <div class="fld"><label for="s-rnd">🎲 «Удиви меня»<small>случайный хит эфира одним нажатием</small></label><input type="checkbox" id="s-rnd"></div>
+  <div class="fld"><label for="s-soon">⏰ Предупреждать, когда мой трек почти на очереди</label><input type="checkbox" id="s-soon"></div>
+  <div class="fld"><label for="s-stat">📊 Моя статистика<small>сколько заказал, средняя оценка, лучший трек</small></label><input type="checkbox" id="s-stat"></div>
   <div class="fld"><label for="s-hist">📜 Показывать историю эфира</label><input type="checkbox" id="s-hist"></div>
   <div class="fld"><label for="s-compact">📏 Компактный вид</label><input type="checkbox" id="s-compact"></div>
   <div class="fld"><label for="s-lite">🪶 Лёгкий режим<small>без анимированного фона (для слабых телефонов)</small></label><input type="checkbox" id="s-lite"></div>
   <div class="fld"><label for="s-scale">🔠 Размер интерфейса</label><input type="range" id="s-scale" min="85" max="125" step="5"></div>
   <div class="row" style="margin-top:12px"><button id="s-reset" class="ghost">↺ Сбросить мои заказы и настройки</button></div>
 </div></div>
+<button class="p fab" id="fab">➕ Заказать</button>
 <div class="toast" id="toast"></div>
 <script>
 const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -582,10 +629,10 @@ const ICE={config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun
 const rc=r=>"hsl("+Math.round((Math.max(1,Math.min(10,r))-1)*13.3)+",82%,56%)";
 /* --- тема и настройки --- */
 let theme=ls.get(SLUG+"_rq_theme")||DEF,mode=ls.get(SLUG+"_rq_mode")||"dark";
-const SET_DEF={fx:true,snd:true,tab:true,notif:false,hist:true,compact:false,lite:false,scale:100};
+const SET_DEF={fx:true,snd:true,tab:true,notif:false,hist:true,compact:false,lite:false,scale:100,search:true,eta:true,guess:true,fav:true,rnd:true,soon:true,stat:true};
 let set=Object.assign({},SET_DEF);try{Object.assign(set,JSON.parse(ls.get(SLUG+"_rq_set")||"{}"))}catch(e){}
 function applyTheme(){if(!THEMES.some(t=>t[0]===theme))theme=DEF;const h=document.documentElement;h.dataset.theme=theme;h.dataset.mode=mode;document.querySelectorAll(".tc").forEach(b=>b.classList.toggle("on",b.dataset.t===theme))}
-function applySet(){const h=document.documentElement;if(set.lite){h.dataset.lite="on";h.dataset.fx="off";h.classList.add("lite")}else{h.removeAttribute("data-lite");h.removeAttribute("data-fx");h.classList.remove("lite")}
+function applySet(){try{if(lastSt)renderGuess()}catch(e){}const h=document.documentElement;if(set.lite){h.dataset.lite="on";h.dataset.fx="off";h.classList.add("lite")}else{h.removeAttribute("data-lite");h.removeAttribute("data-fx");h.classList.remove("lite")}
   document.body.style.zoom=(set.scale||100)/100;document.body.classList.toggle("compact",!!set.compact);$("hcard").style.display=set.hist?"":"none";if(!set.tab)document.title=BASE_T}
 const BASE_T=document.title,saveSet=()=>ls.set(SLUG+"_rq_set",JSON.stringify(set));
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
@@ -593,14 +640,14 @@ $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b){theme=b.dataset.t;l
 $("thb").onclick=()=>$("tmod").classList.add("open");$("tmx").onclick=()=>$("tmod").classList.remove("open");
 $("tmod").onclick=e=>{if(e.target===$("tmod"))$("tmod").classList.remove("open")};
 $("modeb").onclick=()=>{mode=mode==="light"?"dark":"light";ls.set(SLUG+"_rq_mode",mode);applyTheme()};
-function setUi(){["fx","snd","tab","notif","hist","compact","lite"].forEach(k=>$("s-"+k).checked=!!set[k]);$("s-scale").value=set.scale||100}
+function setUi(){["fx","snd","tab","notif","hist","compact","lite","search","eta","guess","fav","rnd","soon","stat"].forEach(k=>$("s-"+k).checked=!!set[k]);$("s-scale").value=set.scale||100}
 $("setb").onclick=()=>{setUi();$("smod").classList.add("open")};$("smx").onclick=()=>$("smod").classList.remove("open");
 $("smod").onclick=e=>{if(e.target===$("smod"))$("smod").classList.remove("open")};
-["fx","snd","tab","notif","hist","compact","lite"].forEach(k=>$("s-"+k).onchange=async e=>{set[k]=e.target.checked;
+["fx","snd","tab","notif","hist","compact","lite","search","eta","guess","fav","rnd","soon","stat"].forEach(k=>$("s-"+k).onchange=async e=>{set[k]=e.target.checked;
   if(k==="notif"&&set.notif){try{const p=await Notification.requestPermission();if(p!=="granted"){set.notif=false;e.target.checked=false;toast("Браузер не дал разрешение на уведомления")}}catch(x){set.notif=false;e.target.checked=false;toast("Уведомления тут недоступны")}}
-  saveSet();applySet()});
+  saveSet();applySet();lastKey="";try{renderSt()}catch(e){}});
 $("s-scale").oninput=e=>{set.scale=+e.target.value;saveSet();applySet()};
-$("s-reset").onclick=()=>{if(!confirm("Сбросить настройки страницы и список моих заказов?"))return;[SLUG+"_rq_set",SLUG+"_rq_mine",SLUG+"_rq_last",SLUG+"_rq_theme",SLUG+"_rq_mode"].forEach(ls.del);location.reload()};
+$("s-reset").onclick=()=>{if(!confirm("Сбросить настройки страницы и список моих заказов?"))return;[SLUG+"_rq_set",SLUG+"_rq_fav",SLUG+"_rq_stat",SLUG+"_rq_mine",SLUG+"_rq_last",SLUG+"_rq_theme",SLUG+"_rq_mode"].forEach(ls.del);location.reload()};
 addEventListener("keydown",e=>{if(e.key==="Escape"){$("tmod").classList.remove("open");$("smod").classList.remove("open")}});
 applyTheme();applySet();
 function toast(t){const o=$("toast");o.textContent=t;o.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>o.classList.remove("show"),2400)}
@@ -649,7 +696,7 @@ addEventListener("online",()=>{if(!online&&code)reconnect()});
 function onMsg(m){if(!m||typeof m!=="object")return;lastMsg=Date.now();
   if(m.t==="hello"){got=true;clearTimeout(connT);clearInterval(hiT);rules=m.rules||rules;showQ=m.showQ!==false;setOnline(true);$("stats").textContent=m.name?"Канал: "+m.name:"";rulesUi();
     if(outbox&&Date.now()-outbox.t<300000){const o=outbox;outbox=null;say("Соединились — отправляю заказ…");doSend(o)}}
-  else if(m.t==="st"){if(!online){got=true;setOnline(true)}lastSt=m;renderSt()}
+  else if(m.t==="st"){if(!online){got=true;setOnline(true)}const k=JSON.stringify(m);lastSt=m;if(k!==lastKey){lastKey=k;renderSt()}}
   else if(m.t==="ack"){const f=pend[m.rid];if(f)f(m)}
   else if(m.t==="msg"){toast(String(m.x||""))}
   else if(m.t==="bye"){setOnline(false);diag("offline");retry()}}
@@ -661,17 +708,19 @@ const saveMine=()=>ls.set(SLUG+"_rq_mine",JSON.stringify(mine.slice(0,15)));
 function addMine(o){mine.unshift(o);mine=mine.slice(0,15);saveMine();renderMine()}
 function statusOf(o){const st=lastSt;if(st){if(st.cur&&String(st.cur.id)===String(o.id)){o.seen=1;return'<span class="tag">▶ ИГРАЕТ</span>'}
   const h=(st.h||[]).find(x=>String(x.id)===String(o.id));if(h){o.seen=1;o.r=h.r;return h.sk?'<span class="tag soft">пропущен</span>':(h.r?'<span class="rt" style="background:'+rc(h.r)+'">'+h.r+"/10</span>":'<span class="tag soft">сыграно ✓</span>')}
-  const i=(st.q||[]).findIndex(x=>String(x.id)===String(o.id));if(i>-1){o.seen=1;return'<span class="tag soft">в очереди #'+(i+1)+"</span>"}}
+  const i=(st.q||[]).findIndex(x=>String(x.id)===String(o.id));if(i>-1){o.seen=1;return'<span class="tag soft">в очереди #'+(i+1)+(set.eta?" · "+etaTxt(i+1):"")+"</span>"}}
   if(o.r)return'<span class="rt" style="background:'+rc(o.r)+'">'+o.r+"/10</span>";
   if(o.seen)return'<span class="tag soft">сыграно ✓</span>';
   if(o.pending&&Date.now()-o.t<600000)return'<span class="tag soft">на проверке</span>';
   if(Date.now()-o.t<15000)return'<span class="tag soft">отправлено</span>';
   return'<span class="tag soft">в очереди</span>'}
 function renderMine(){const el=$("mine");if(!mine.length){el.innerHTML='<div class="empty">Пока ничего не заказывал.</div>';return}
-  el.innerHTML=mine.map(o=>'<div class="item"><div style="min-width:0"><div class="t">'+esc(o.text)+"</div></div>"+statusOf(o)+"</div>").join("");saveMine()}
+  el.innerHTML=mine.map((o,i)=>'<div class="item"><div style="min-width:0"><div class="t">'+esc(o.text)+'</div></div><div class="ir">'+statusOf(o)+'<button class="reo ghost" data-re="'+i+'" title="Заказать снова">↻</button></div></div>').join("");saveMine()}
+$("mine").onclick=e=>{const b=e.target.closest("button[data-re]");if(!b)return;const o=mine[+b.dataset.re];if(!o)return;$("f-t").value=o.text;picked=null;$("ordc").scrollIntoView({behavior:"smooth",block:"center"});$("f-t").focus();toast("Нажми «Заказать», чтобы повторить")};
 
 /* --- очередь, «сейчас играет», история --- */
-let hsort="t",prevCur=null,prevR={},liked={};
+let hsort="t",prevCur=null,prevR={},liked={},lastKey="";
+function etaTxt(pos){const m=Math.round((pos-1)*3.5+((lastSt&&lastSt.cur)?1.5:0));return m<=1?"следующий":"≈ "+m+" мин"}
 function renderSt(){const m=lastSt;if(!m)return;
   const c=m.cur,ids=new Set(mine.map(o=>String(o.id)));
   $("np-chip").textContent=c?"СЕЙЧАС ИГРАЕТ":m.brk==="break"?"ПЕРЕРЫВ":m.brk==="soon"?"СКОРО НАЧНЁМ":m.brk==="end"?"КОНЕЦ СТРИМА":"ПАУЗА В ЭФИРЕ";
@@ -682,10 +731,13 @@ function renderSt(){const m=lastSt;if(!m)return;
   /* мой трек заиграл / оценён */
   if(c&&ids.has(String(c.id))){if(prevCur!==c.id){toast("🎧 Твой трек играет!");chime();burst(8);try{if(set.notif&&document.hidden&&Notification.permission==="granted")new Notification(NAME+": твой трек играет!",{body:c.n})}catch(e){}}
     if(c.r&&prevR[c.id]!==c.r){toast("🎉 Ведущий оценил твой трек: "+c.r+"/10");burst(c.r>=9?20:10);beep(c.r>=9?1175:784,.25)}}
-  prevCur=c?c.id:null;if(c)prevR[c.id]=c.r;
+  if(c&&c.r&&myG[c.id]&&!awarded[c.id]){awarded[c.id]=1;const d=Math.abs(myG[c.id]-c.r),pts=d===0?3:d===1?1:0;score+=pts;ls.set(SLUG+"_rq_score",String(score));
+    toast(d===0?"🎯 Точно в цель! +3 очка":d===1?"👍 Почти: оценка "+c.r+", +1 очко":"Оценка "+c.r+": мимо, повезёт в следующий раз");if(pts){burst(pts===3?18:8);beep(pts===3?1175:880,.2)}}
+  prevCur=c?c.id:null;if(c)prevR[c.id]=c.r;renderGuess();
+  const vw=$("vw");vw.textContent=m.vw>0?"👥 "+m.vw:"";const sc=$("sc");sc.textContent=(set.guess&&m.gs!==false&&(score>0||Object.keys(myG).length))?"🎯 "+score:"";
   $("qc").textContent=m.n||"";
   if(!showQ)$("queue").innerHTML='<div class="empty">Ведущий скрыл очередь. Заказов в очереди: '+(m.n||0)+"</div>";
-  else $("queue").innerHTML=(m.q&&m.q.length)?m.q.map((x,i)=>'<div class="item'+(ids.has(String(x.id))?" me":"")+'"><div style="min-width:0"><div class="t">'+(x.don?"💰 ":"")+(i+1)+". "+esc(x.n)+'</div><div class="m">@'+esc(x.by||"")+"</div></div>"+(ids.has(String(x.id))?'<span class="tag">ТВОЙ</span>':"")+"</div>").join(""):'<div class="empty">Очередь пуста: закажи первым!</div>';
+  else $("queue").innerHTML=(m.q&&m.q.length)?m.q.map((x,i)=>'<div class="item'+(ids.has(String(x.id))?" me":"")+'"><div style="min-width:0"><div class="t">'+(x.don?"💰 ":"")+(i+1)+". "+esc(x.n)+'</div><div class="m">@'+esc(x.by||"")+'</div></div><div class="ir">'+(set.eta?'<span class="eta">'+etaTxt(i+1)+"</span>":"")+(ids.has(String(x.id))?'<span class="tag">ТВОЙ</span>':"")+"</div></div>").join(""):'<div class="empty">Очередь пуста: закажи первым!</div>';
   /* баннер */
   const ban=$("ban");let bt="";if(m.paused)bt="⏸ Заказы на паузе. Загляни чуть позже!";if(m.msg)bt=(bt?bt+" · ":"")+"📢 "+m.msg;ban.textContent=bt;ban.classList.toggle("on",!!bt);
   $("rxbar").style.display=m.fx===false?"none":"";
@@ -694,11 +746,44 @@ function renderSt(){const m=lastSt;if(!m)return;
   const best=h.filter(x=>x.r).sort((a,b)=>b.r-a.r)[0];
   $("hchips").innerHTML=m.cnt?'<span class="tag soft">⭐ средняя '+m.avg+'</span><span class="tag soft">оценено '+m.cnt+"</span>"+(best?'<span class="tag soft">🏆 '+esc(best.n.length>34?best.n.slice(0,34)+"…":best.n)+" · "+best.r+"</span>":""):"";
   let hl=h.slice();if(hsort==="r")hl=hl.filter(x=>x.r).sort((a,b)=>b.r-a.r);
-  $("hist").innerHTML=hl.length?hl.map(x=>'<div class="item'+(ids.has(String(x.id))?" me":"")+(x.sk?" sk":"")+'"><div style="min-width:0"><div class="t">'+esc(x.n)+'</div><div class="m">@'+esc(x.by||"")+(x.pl?" · 💜 в плейлисте":"")+(x.sk?" · пропущен":"")+"</div></div>"+(x.r?'<span class="rt" style="background:'+rc(x.r)+'">'+x.r+"/10</span>":'<span class="tag soft">—</span>')+"</div>").join(""):'<div class="empty">Пока пусто: ведущий ещё не оценил ни одного трека.</div>';
+  $("hist").innerHTML=hl.length?hl.map(x=>'<div class="item'+(ids.has(String(x.id))?" me":"")+(x.sk?" sk":"")+'"><div style="min-width:0"><div class="t">'+esc(x.n)+'</div><div class="m">@'+esc(x.by||"")+(x.pl?" · 💜 в плейлисте":"")+(x.sk?" · пропущен":"")+"</div></div>"+favBtn(x.n)+(x.r?'<span class="rt" style="background:'+rc(x.r)+'">'+x.r+"/10</span>":'<span class="tag soft">—</span>')+"</div>").join(""):'<div class="empty">Пока пусто: ведущий ещё не оценил ни одного трека.</div>';
   renderMine();
-  if(set.tab)document.title=(c?"▶ "+c.n+" · ":"")+BASE_T}
+  if(set.tab)document.title=(c?"▶ "+c.n+" · ":"")+BASE_T;try{afterSt()}catch(e){}}
 $("hs-t").onclick=()=>{hsort="t";$("hs-t").classList.add("on");$("hs-r").classList.remove("on");renderSt()};
 $("hs-r").onclick=()=>{hsort="r";$("hs-r").classList.add("on");$("hs-t").classList.remove("on");renderSt()};
+
+/* --- игра «Угадай оценку» --- */
+let myG={},awarded={},score=+ls.get(SLUG+"_rq_score")||0;
+$("gb").innerHTML=[1,2,3,4,5,6,7,8,9,10].map(n=>'<button data-g="'+n+'" style="border-color:'+rc(n)+'">'+n+"</button>").join("");
+$("gb").onclick=e=>{const b=e.target.closest("button[data-g]");if(!b)return;const c=lastSt&&lastSt.cur;if(!c||c.r||myG[c.id]||!online||!conn||!conn.open)return;myG[c.id]=+b.dataset.g;try{conn.send({t:"guess",id:c.id,g:+b.dataset.g,nick:($("f-n").value||"").trim()})}catch(x){}one("🎯");renderGuess()};
+function renderGuess(){const g=$("gs"),m=lastSt||{},c=m.cur,on=!!(set.guess&&m.gs!==false&&c&&!c.r);g.classList.toggle("on",on);if(!on)return;
+  $("gl").textContent=myG[c.id]?"🎯 Твой прогноз: "+myG[c.id]+(m.gn?" · зрители ждут ~"+m.gavg+" ("+m.gn+")":""):"🎯 Угадай оценку ведущего"+(m.gn?" · зрители ждут ~"+m.gavg:"");
+  [...$("gb").children].forEach(b=>{b.classList.toggle("pick",myG[c.id]===+b.dataset.g);b.disabled=!!myG[c.id]})}
+
+/* --- поиск трека (iTunes) --- */
+let srTok=0,srT=null,srItems=[],srAct=-1,picked=null,au=null,auBtn=null;
+const isUrlQ=s=>/^(https?:\/\/|www\.)/i.test(s.trim());
+function srClose(){$("sr").classList.remove("on");srAct=-1}
+function srStopAu(){try{au&&au.pause()}catch(e){}au=null;if(auBtn){auBtn.textContent="▶";auBtn=null}}
+function srPick(i){const x=srItems[i];if(!x)return;const v=x.artistName+" – "+x.trackName;$("f-t").value=v;picked={text:v,cover:x.artworkUrl100||""};srClose();srStopAu();$("f-c").focus()}
+async function srRun(q){const tok=++srTok,box=$("sr");box.innerHTML='<div class="st">🔎 Ищу…</div>';box.classList.add("on");
+  const get=async cc=>{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),6000);try{const r=await fetch("https://itunes.apple.com/search?media=music&entity=song&limit=6&country="+cc+"&term="+encodeURIComponent(q),{signal:ctl.signal});clearTimeout(tm);const j=await r.json();return j.results||[]}catch(e){clearTimeout(tm);return null}};
+  const [a,b,dz]=await Promise.all([get("RU"),get("US"),getDz(q)]);if(tok!==srTok)return;
+  if(a===null&&b===null&&dz===null){box.innerHTML='<div class="st">Поиск сейчас недоступен. Вставь ссылку или напиши «Исполнитель – Название».</div>';return}
+  const seen=new Set(),out=[];mix(dz||[],a||[],b||[]).forEach(x=>{if(!x.trackName)return;const k=(x.artistName+"|"+x.trackName).toLowerCase();if(seen.has(k))return;seen.add(k);out.push(x)});
+  srItems=out.slice(0,10);srAct=-1;
+  box.innerHTML=srItems.length?srItems.map((x,i)=>'<div class="row2" data-i="'+i+'"><img src="'+esc(String(x.artworkUrl60||"").replace("http://","https://"))+'" alt="" loading="lazy"><div class="tx"><b>'+esc(x.trackName)+"</b><span>"+esc(x.artistName)+(x.collectionName?" · "+esc(x.collectionName):"")+"</span></div>"+(x.previewUrl?'<button class="pv ghost" data-p="'+i+'" title="Послушать фрагмент">▶</button>':"")+"</div>").join(""):'<div class="st">Ничего не нашёл. Попробуй иначе или вставь ссылку.</div>'}
+$("sr").onclick=e=>{const p=e.target.closest("button[data-p]");if(p){e.stopPropagation();const x=srItems[+p.dataset.p];if(!x||!x.previewUrl)return;if(auBtn===p){srStopAu();return}srStopAu();try{au=new Audio(x.previewUrl);au.volume=.7;au.play().catch(()=>{});auBtn=p;p.textContent="⏸";au.onended=srStopAu}catch(err){}return}
+  const r=e.target.closest(".row2");if(r)srPick(+r.dataset.i)};
+$("f-t").addEventListener("input",()=>{clearTimeout(srT);const q=$("f-t").value.trim();if(!set.search||q.length<3||isUrlQ(q)){srTok++;srClose();return}srT=setTimeout(()=>srRun(q),450)});
+$("f-t").addEventListener("keydown",e=>{const on=$("sr").classList.contains("on")&&srItems.length;
+  if(on&&(e.key==="ArrowDown"||e.key==="ArrowUp")){e.preventDefault();srAct=(srAct+(e.key==="ArrowDown"?1:-1)+srItems.length)%srItems.length;[...$("sr").querySelectorAll(".row2")].forEach((r,i)=>r.classList.toggle("act",i===srAct));return}
+  if(e.key==="Enter"){if(on&&srAct>=0){e.preventDefault();srPick(srAct);return}srClose();send()}
+  if(e.key==="Escape")srClose()});
+document.addEventListener("click",e=>{if(!e.target.closest("#sr")&&e.target!==$("f-t"))srClose()});
+/* --- кнопка «Заказать» на телефоне --- */
+try{new IntersectionObserver(es=>{$("fab").classList.toggle("on",!es[0].isIntersecting)},{threshold:.15}).observe($("ordc"))}catch(e){}
+$("fab").onclick=()=>{$("ordc").scrollIntoView({behavior:"smooth",block:"center"});setTimeout(()=>$("f-t").focus(),400)};
 
 /* --- реакции --- */
 let lastFx=0;
@@ -710,26 +795,59 @@ function doSend(o){
   const rid=Date.now()+"_"+Math.random().toString(36).slice(2,6);
   $("send").disabled=true;
   const p=new Promise(res=>{pend[rid]=res;setTimeout(()=>res(null),9000)});
-  try{conn.send({t:"req",rid,nick:o.nick,text:o.text,comment:o.comment})}catch(e){delete pend[rid];$("send").disabled=false;return say("Не удалось отправить. Нажми «Переподключиться»",1)}
+  try{conn.send({t:"req",rid,nick:o.nick,text:o.text,comment:o.comment,cover:o.cover||""})}catch(e){delete pend[rid];$("send").disabled=false;return say("Не удалось отправить. Нажми «Переподключиться»",1)}
   p.then(a=>{delete pend[rid];$("send").disabled=false;
     if(!a)return say("Стример не ответил. Попробуй ещё раз",1);
     if(!a.ok)return say(a.why||"Заказ не принят",1);
-    ls.set(SLUG+"_rq_last",String(Date.now()));addMine({id:a.id,text:o.text,t:Date.now(),pending:!!a.pending});
+    picked=null;stat.n=(stat.n||0)+1;ls.set(SLUG+"_rq_stat",JSON.stringify(stat));ls.set(SLUG+"_rq_last",String(Date.now()));addMine({id:a.id,text:o.text,t:Date.now(),pending:!!a.pending});
     $("f-t").value="";$("f-c").value="";
-    say(a.pending?"Заказ отправлен на проверку ✓":"Принято! "+(a.pos?"Ты #"+a.pos+" в очереди. ":"")+"🎵");burst();chime();renderSt()})}
+    say(a.pending?"Заказ отправлен на проверку ✓":"Принято! "+(a.pos?"Ты #"+a.pos+" в очереди"+(set.eta?" ("+etaTxt(a.pos)+")":"")+". ":"")+"🎵");burst();chime();renderSt()})}
 function send(){
   const nick=$("f-n").value.trim().replace(/^@/,""),text=$("f-t").value.trim(),comment=$("f-c").value.trim();
   if(nick.length<2)return say("Укажи свой ник на Twitch",1);
   if(text.length<2)return say("Вставь ссылку или напиши название трека",1);
   const left=(rules.cd||0)-(Date.now()-(+ls.get(SLUG+"_rq_last")||0))/1000;if(left>0)return say("Подожди ещё "+Math.ceil(left)+" с",1);
-  ls.set(SLUG+"_nick_rq",nick);ls.set(SLUG+"_rq_nick",nick);
+  const cover=(picked&&picked.text===text)?picked.cover:"";srClose();srStopAu();ls.set(SLUG+"_nick_rq",nick);ls.set(SLUG+"_rq_nick",nick);
   if(!online||!conn||!conn.open){
     if(!code)return say("В ссылке нет кода стримера",1);
-    outbox={nick,text,comment,t:Date.now()};say("Пока нет связи. Заказ отправлю автоматически, как только соединимся (держи страницу открытой).");reconnect();return}
-  doSend({nick,text,comment})}
+    outbox={nick,text,comment,cover,t:Date.now()};say("Пока нет связи. Заказ отправлю автоматически, как только соединимся (держи страницу открытой).");reconnect();return}
+  doSend({nick,text,comment,cover})}
 $("send").onclick=send;
-[$("f-t"),$("f-c"),$("f-n")].forEach(e=>e.addEventListener("keydown",ev=>{if(ev.key==="Enter")send()}));
+[$("f-c"),$("f-n")].forEach(e=>e.addEventListener("keydown",ev=>{if(ev.key==="Enter")send()}));
 $("f-n").value=ls.get(SLUG+"_rq_nick")||"";
+
+/* ===== v24: Deezer-поиск, избранное, «удиви меня», предупреждение об очереди, статистика ===== */
+function jp(url,ms){return new Promise(res=>{const cb="dz"+Math.random().toString(36).slice(2),s=document.createElement("script");let done=0;
+  const fin=v=>{if(done)return;done=1;try{delete window[cb]}catch(e){window[cb]=undefined}s.remove();res(v)};
+  window[cb]=d=>fin(d);s.onerror=()=>fin(null);setTimeout(()=>fin(null),ms||6000);s.src=url+(url.includes("?")?"&":"?")+"output=jsonp&callback="+cb;document.head.appendChild(s)})}
+async function getDz(q){const j=await jp("https://api.deezer.com/search?limit=8&q="+encodeURIComponent(q),6000);if(!j||!Array.isArray(j.data))return null;
+  return j.data.filter(x=>x&&x.title).map(x=>({trackName:x.title,artistName:(x.artist&&x.artist.name)||"",collectionName:(x.album&&x.album.title)||"",artworkUrl60:(x.album&&x.album.cover_small)||"",artworkUrl100:(x.album&&x.album.cover_medium)||"",previewUrl:x.preview||""}))}
+function mix(...arrs){const o=[],n=Math.max(0,...arrs.map(l=>l.length));for(let i=0;i<n;i++)arrs.forEach(l=>{if(l[i])o.push(l[i])});return o}
+
+let fav=[];try{fav=JSON.parse(ls.get(SLUG+"_rq_fav")||"[]")}catch(e){}
+let stat={n:0};try{Object.assign(stat,JSON.parse(ls.get(SLUG+"_rq_stat")||"{}"))}catch(e){}
+const soonDone={},saveFav=()=>ls.set(SLUG+"_rq_fav",JSON.stringify(fav.slice(0,40))),isFav=t=>fav.some(f=>f.n===t);
+const favBtn=n=>set.fav?'<button class="fv ghost" data-fav="'+esc(n)+'" title="В избранное">'+(isFav(n)?"★":"☆")+"</button>":"";
+function toggleFav(t){if(!t)return;const i=fav.findIndex(f=>f.n===t);if(i>-1){fav.splice(i,1);toast("Убрано из избранного")}else{fav.unshift({n:t,t:Date.now()});fav=fav.slice(0,40);toast("⭐ Добавлено в избранное")}saveFav();lastKey="";renderSt()}
+function renderFav(){$("favn").textContent=fav.length||"";$("favl").innerHTML=fav.length?fav.map((f,i)=>'<div class="item"><div style="min-width:0"><div class="t">'+esc(f.n)+'</div></div><div class="ir"><button class="reo ghost" data-fo="'+i+'" title="Заказать">↻</button><button class="reo ghost" data-fd="'+i+'" title="Убрать">✕</button></div></div>').join(""):'<div class="empty">Нажми ☆ у трека, чтобы сохранить его сюда.</div>'}
+$("favl").onclick=e=>{const o=e.target.closest("button[data-fo]"),d=e.target.closest("button[data-fd]");
+  if(o){const f=fav[+o.dataset.fo];if(!f)return;$("f-t").value=f.n;picked=null;srClose();$("ordc").scrollIntoView({behavior:"smooth",block:"center"});$("f-t").focus();toast("Нажми «Заказать»")}
+  else if(d){fav.splice(+d.dataset.fd,1);saveFav();renderFav();lastKey="";renderSt()}};
+$("hist").onclick=e=>{const b=e.target.closest("button[data-fav]");if(b)toggleFav(b.dataset.fav)};
+{const fb=document.createElement("button");fb.id="favb";fb.className="ghost";fb.title="В избранное";fb.style.display="none";fb.textContent="☆";$("np-wait").after(fb);
+ fb.onclick=()=>{const c=lastSt&&lastSt.cur;if(c)toggleFav(c.n)}}
+$("rndb").onclick=()=>{const m=lastSt||{},busy=new Set([...(m.q||[]).map(x=>x.n),m.cur&&m.cur.n]);
+  let pool=(m.h||[]).filter(x=>x.r>=8&&!x.sk&&!busy.has(x.n));if(!pool.length)pool=fav.filter(f=>!busy.has(f.n));
+  if(!pool.length)return toast("Пока нет подходящих хитов: введи название сам 🙂");
+  const x=pool[Math.floor(Math.random()*pool.length)];$("f-t").value=x.n;picked=null;srClose();toast("🎲 "+x.n+": жми «Заказать»");$("f-c").focus()};
+$("f-t").addEventListener("input",()=>$("lnkok").classList.toggle("on",isUrlQ($("f-t").value)));
+function afterSt(){const m=lastSt||{},c=m.cur;
+  const fb=$("favb");if(fb){fb.style.display=(set.fav&&c)?"":"none";const on=!!(c&&isFav(c.n));fb.textContent=on?"★ В избранном":"☆ В избранное";fb.classList.toggle("on",on)}
+  $("favc").style.display=set.fav?"":"none";if(set.fav)renderFav();
+  $("qrow").style.display=set.rnd?"":"none";
+  if(set.soon&&showQ&&m.q){const ids=new Set(mine.map(o=>String(o.id)));m.q.slice(0,2).forEach((x,i)=>{const k=String(x.id);if(ids.has(k)&&!soonDone[k]){soonDone[k]=1;const t=i===0?"⏰ Твой трек следующий!":"⏰ Твой трек через один";toast(t);chime();try{if(set.notif&&document.hidden&&Notification.permission==="granted")new Notification(NAME+": "+t,{body:x.n})}catch(e){}}})}
+  const ms=$("mst");if(set.stat){const rated=mine.filter(o=>o.r),avg=rated.length?(rated.reduce((a,o)=>a+o.r,0)/rated.length).toFixed(1):"",best=rated.slice().sort((a,b)=>b.r-a.r)[0];
+    ms.innerHTML=(stat.n?'<span class="tag soft">📦 заказов: '+stat.n+"</span>":"")+(avg?'<span class="tag soft">⭐ средняя: '+avg+"</span>":"")+(best?'<span class="tag soft">🏆 '+esc(best.text.length>26?best.text.slice(0,26)+"…":best.text)+" · "+best.r+"</span>":"")}else ms.innerHTML=""}
 renderMine();start();
 </script>
 </body>
