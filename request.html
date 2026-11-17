@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%23111'/%3E%3Ccircle cx='50' cy='50' r='34' fill='none' stroke='%23333' stroke-width='3'/%3E%3Ccircle cx='50' cy='50' r='16' fill='%23ff3341'/%3E%3Ccircle cx='50' cy='50' r='3' fill='%23111'/%3E%3C/svg%3E">
 <title>KOHbツ.FM: заказ трека</title>
-<meta name="description" content="Закажи трек на радио-стриме KOHbツ.FM: выбери тему, введи ник и ссылку.">
+<meta name="description" content="Закажи трек на радио-стриме KOHbツ.FM: выбери тему, введи ник и ссылку. Смотри очередь и оценки ведущего.">
 <meta property="og:title" content="KOHbツ.FM: заказ трека">
 <meta property="og:description" content="Закажи трек на радио-стриме: ссылка или название, и он попадёт в очередь ведущего.">
 <style>
@@ -479,41 +479,72 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
 
 /* ===== страница заказов ===== */
 .air.live{background:var(--ac);color:#1a1008;border-color:transparent;box-shadow:0 0 14px -2px var(--ac)}
+.air{cursor:pointer}
 .rq-res{margin-top:10px;padding:10px 14px;border-radius:12px;font-size:14px;display:none;animation:in .3s}
 .rq-res.ok{display:block;background:color-mix(in srgb,#3ddc84 18%,transparent);border:1px solid #3ddc84}
 .rq-res.err{display:block;background:color-mix(in srgb,#ff5c5c 16%,transparent);border:1px solid #ff5c5c}
-.rq-note{display:none;margin:0 0 12px;padding:10px 14px;border-radius:12px;border:1px dashed var(--ln);color:var(--mut);font-size:13.5px}
+.rq-note{display:none;margin:0 0 12px;padding:10px 14px;border-radius:12px;border:1px dashed var(--ln);color:var(--mut);font-size:13.5px;line-height:1.45}
 .rq-note.on{display:block}
+.rq-note button{margin-top:8px;padding:6px 12px;font-size:13px}
+.rq-ban{display:none;margin:0 0 12px;padding:11px 16px;border-radius:14px;background:linear-gradient(135deg,color-mix(in srgb,var(--ac) 30%,transparent),color-mix(in srgb,var(--ac2) 22%,transparent));border:1px solid color-mix(in srgb,var(--ac) 50%,transparent);font-weight:600;animation:in .4s}
+.rq-ban.on{display:block}
 .item.me{background:color-mix(in srgb,var(--ac) 12%,transparent);border-radius:12px;padding-left:10px;padding-right:10px}
 .tag{font-size:11px;font-weight:800;letter-spacing:1px;padding:3px 9px;border-radius:99px;background:var(--ac);color:#1a1008;white-space:nowrap}
 .tag.soft{background:var(--in);color:var(--mut);border:1px solid var(--ln)}
 .np-by{opacity:.8}
+.rt{font-weight:900;font-size:15px;min-width:38px;text-align:center;padding:4px 9px;border-radius:10px;color:#111;white-space:nowrap;flex:none}
+.np-r{display:none;align-items:center;gap:10px;margin-top:10px}
+.np-r.on{display:flex}
+.np-r .big{font-size:34px;font-weight:900;line-height:1;padding:8px 16px;border-radius:16px;color:#111;animation:rtPop .7s cubic-bezier(.2,1.6,.4,1)}
+@keyframes rtPop{0%{transform:scale(.3) rotate(-12deg);opacity:0}100%{transform:scale(1) rotate(0);opacity:1}}
+.np-wait{margin-top:8px;color:var(--mut);font-size:13px}
+.rxbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;align-items:center}
+.rxbar button{padding:5px 10px;font-size:18px;border-radius:12px;line-height:1.2;transition:transform .18s cubic-bezier(.3,1.7,.5,1)}
+.rxbar button:hover{transform:scale(1.25) translateY(-2px)}
+.rxbar button:active{transform:scale(.9)}
+.rxbar .lk{margin-left:auto;font-size:14px;font-weight:700}
+.rxbar .lk.on{background:var(--ac);color:#1a1008;border-color:transparent}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.hsort{display:flex;gap:6px;margin:0 0 8px}
+.hsort button{padding:5px 11px;font-size:12.5px}
+.sk{opacity:.5}
+body.compact .item{padding:6px 0}
+body.compact .card{padding:13px}
+body.compact .m{display:none}
+.rq-foot{text-align:center;color:var(--mut);font-size:12.5px;padding:6px 0 26px}
 .fxe{position:fixed;bottom:70px;z-index:80;pointer-events:none;animation:fxUp 2.7s cubic-bezier(.2,.7,.3,1) forwards;filter:drop-shadow(0 4px 10px rgba(0,0,0,.45))}
 @keyframes fxUp{0%{transform:translateY(0) scale(.3);opacity:0}12%{opacity:1;transform:translateY(-30px) scale(1.2)}100%{transform:translateY(-62vh) scale(1) rotate(12deg);opacity:0}}
-.rq-foot{text-align:center;color:var(--mut);font-size:12.5px;padding:6px 0 26px}
+.spin{display:inline-block;animation:spn 1s linear infinite}
+@keyframes spn{to{transform:rotate(360deg)}}
+.sheet input[type=range]{width:150px;margin:0}
 </style>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>window.Peer||document.write('<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"><\/script>');window.Peer||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"><\/script>')</script>
 </head>
 <body>
 <div class="bg"></div>
 <header>
   <div class="logo"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>KOHbツ<b>.FM</b></div>
   <div class="stats" id="stats"></div>
-  <div class="hr"><span class="air" id="air">● ОФФЛАЙН</span><button id="modeb" class="ghost" title="Светлая / тёмная тема">🌓</button><button id="thb" class="ghost" title="Выбрать тему">🎨 Тема</button></div>
+  <div class="hr"><span class="air" id="air" title="Нажми, чтобы переподключиться">● ОФФЛАЙН</span><button id="modeb" class="ghost" title="Светлая / тёмная тема">🌓</button><button id="thb" class="ghost" title="Выбрать тему">🎨</button><button id="setb" class="ghost" title="Настройки страницы">⚙️</button></div>
 </header>
 <main>
   <section class="col">
-    <div class="card">
+    <div class="rq-ban" id="ban"></div>
+    <div class="card" id="npc">
       <h2>Сейчас играет</h2>
       <div class="info"><div class="disc" aria-hidden="true"></div><div style="min-width:0"><span class="chip" id="np-chip">ждём эфир</span><h1 id="np-t" style="margin:6px 0 2px">—</h1><div class="m np-by" id="np-by"></div></div></div>
+      <div class="np-r" id="np-r"><span class="big" id="np-rv"></span><span class="m" id="np-rl">оценка ведущего</span></div>
+      <div class="np-wait" id="np-wait"></div>
+      <div class="rxbar" id="rxbar"><button data-e="🔥" title="Огонь">🔥</button><button data-e="👏" title="Аплодисменты">👏</button><button data-e="😂" title="Смешно">😂</button><button data-e="😮" title="Ого">😮</button><button data-e="💀" title="Умер">💀</button><button data-e="🎧" title="Качает">🎧</button><button data-e="🎉" title="Ура">🎉</button><button class="lk" id="likeb" title="Понравился трек">❤ 0</button></div>
     </div>
     <div class="card">
       <h2>Заказать трек</h2>
-      <div class="rq-note" id="note"></div>
+      <div class="rq-note" id="note"><span id="note-t"></span><br><button id="recon">🔄 Переподключиться</button></div>
       <input type="text" id="f-n" placeholder="Твой ник на Twitch" maxlength="25" autocomplete="nickname">
       <input type="text" id="f-t" placeholder="Ссылка (YouTube, Spotify…) или «Исполнитель – Название»" maxlength="300" autocomplete="off">
       <input type="text" id="f-c" placeholder="Комментарий (необязательно)" maxlength="200" autocomplete="off">
-      <button class="p" id="send" style="width:100%" disabled>+ Заказать</button>
+      <button class="p" id="send" style="width:100%">+ Заказать</button>
       <div class="rq-res" id="res"></div>
       <div class="hint" id="rules" style="margin-top:10px"></div>
     </div>
@@ -521,98 +552,181 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
   <section class="col">
     <div class="card"><h2>Очередь <span id="qc"></span></h2><div id="queue"><div class="empty">Подключаюсь к стримеру…</div></div></div>
     <div class="card"><h2>Мои заказы</h2><div id="mine"><div class="empty">Пока ничего не заказывал.</div></div></div>
+    <div class="card" id="hcard"><h2>История эфира <span id="hc"></span></h2>
+      <div class="chips" id="hchips"></div>
+      <div class="hsort"><button id="hs-t" class="on">По времени</button><button id="hs-r">По оценке</button></div>
+      <div id="hist"><div class="empty">Пока пусто: ведущий ещё не оценил ни одного трека.</div></div>
+    </div>
   </section>
 </main>
-<div class="rq-foot">Заказы идут в очередь ведущего. Если страница «оффлайн», стример сейчас не в эфире.</div>
+<div class="rq-foot">Заказы идут в очередь ведущего. Если страница «оффлайн», стример сейчас не в эфире: она подключится сама.</div>
 <div class="modal" id="tmod"><div class="sheet"><div class="shh">🎨 Тема страницы <button id="tmx" class="ghost">✕</button></div><div class="hint" style="margin:6px 0 12px">Тема сохраняется только у тебя.</div><div class="tgrid" id="tgrid"></div></div></div>
+<div class="modal" id="smod"><div class="sheet"><div class="shh">⚙️ Настройки страницы <button id="smx" class="ghost">✕</button></div>
+  <div class="fld"><label for="s-fx">✨ Эффекты<small>конфетти и летящие эмодзи</small></label><input type="checkbox" id="s-fx"></div>
+  <div class="fld"><label for="s-snd">🔔 Звуки<small>заказ принят, мой трек заиграл</small></label><input type="checkbox" id="s-snd"></div>
+  <div class="fld"><label for="s-tab">🏷 Трек в названии вкладки</label><input type="checkbox" id="s-tab"></div>
+  <div class="fld"><label for="s-notif">📣 Уведомление, когда играет мой трек<small>браузер спросит разрешение</small></label><input type="checkbox" id="s-notif"></div>
+  <div class="fld"><label for="s-hist">📜 Показывать историю эфира</label><input type="checkbox" id="s-hist"></div>
+  <div class="fld"><label for="s-compact">📏 Компактный вид</label><input type="checkbox" id="s-compact"></div>
+  <div class="fld"><label for="s-lite">🪶 Лёгкий режим<small>без анимированного фона (для слабых телефонов)</small></label><input type="checkbox" id="s-lite"></div>
+  <div class="fld"><label for="s-scale">🔠 Размер интерфейса</label><input type="range" id="s-scale" min="85" max="125" step="5"></div>
+  <div class="row" style="margin-top:12px"><button id="s-reset" class="ghost">↺ Сбросить мои заказы и настройки</button></div>
+</div></div>
 <div class="toast" id="toast"></div>
 <script>
 const $=id=>document.getElementById(id),esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const SLUG="kohb",PFX="kohbfm-r-",DEF="kohb";
-const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}}};
+const SLUG="kohb",PFX="kohbfm-r-",DEF="kohb",NAME="KOHbツ.FM";
+const ls={get:k=>{try{return localStorage.getItem(k)}catch(e){return null}},set:(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},del:k=>{try{localStorage.removeItem(k)}catch(e){}}};
 const THEMES=[["kohb","KOHbツ","linear-gradient(135deg,#09090a,#3a3a42,#ff3341)"],["neon","Неон","linear-gradient(135deg,#2a0a5e,#ff2bd6 55%,#00e5ff)"],["space","Космос","linear-gradient(135deg,#050816,#7c9cff,#c39bff)"],["lagoon","Лагуна","linear-gradient(135deg,#06201f,#2fe3b0,#6ad6ff)"],["sakura","Сакура","linear-gradient(135deg,#1d0f18,#ff7eb6,#ffc2dd)"],["matrix","Матрица","linear-gradient(135deg,#020a05,#00ff7f)"],["retro","Ретро VHS","linear-gradient(135deg,#060508,#2a1a46,#b79cff)"],["volcano","Вулкан","linear-gradient(135deg,#1a0707,#ff3b3b 60%,#ff9a8a)"],["platinum","Платина","linear-gradient(135deg,#0b0c10,#e4e8f0 70%,#8a94a8)"],["stage","Сцена","linear-gradient(135deg,#100d04,#ffe11a 60%,#fff59a)"],["aurora","Аврора","linear-gradient(135deg,#030a14,#4dffb0 55%,#8f7bff)"],["sunset","Закат","linear-gradient(135deg,#14072a,#8a2b4f 50%,#ff8a5c)"],["frost","Мороз","linear-gradient(135deg,#06121b,#7fdcff 60%,#d4f1ff)"],["toxic","Токсик","linear-gradient(135deg,#050804,#c6ff00 60%,#00ffa3)"],["gold","Золото","linear-gradient(135deg,#0b0804,#f5c451 60%,#fff0b3)"],["noir","Нуар","linear-gradient(135deg,#050505,#2a2a2a 55%,#e9e9e9)"],["storm","Гроза","linear-gradient(135deg,#04060c,#0b1424 55%,#8ab4f8)"],["obsidian","Обсидиан","linear-gradient(135deg,#04050a,#3d7bff 55%,#8fd0ff)"],["ruby","Рубин","linear-gradient(135deg,#14030a,#e0115f 55%,#ff9ab8)"],["turq","Бирюза","linear-gradient(135deg,#021614,#00bfa6 55%,#ffd98a)"],["copper","Медь","linear-gradient(135deg,#130a05,#d9772b 55%,#f5d0a9)"],["indigo","Индиго","linear-gradient(135deg,#07041c,#5b4bff 55%,#c0b8ff)"],["pine","Хвоя","linear-gradient(135deg,#04110a,#2e9d62 55%,#e0d3a8)"],["contrast","Контраст","linear-gradient(135deg,#050a14,#ff6a00 55%,#00b4ff)"],["tropics","Тропики","linear-gradient(135deg,#06130f,#ff4f9a 55%,#19e6a6)"],["rosegold","Розовое золото","linear-gradient(135deg,#150b0b,#e0a39a 55%,#f7d9cf)"],["ultraviolet","Ультрафиолет","linear-gradient(135deg,#08031a,#7c3aed 55%,#22d3ee)"],["empire","Империя","linear-gradient(135deg,#0d0204,#c1121f 55%,#ffd166)"],["oled","OLED","linear-gradient(135deg,#1a1a1a,#00e5ff 55%,#7af0ff)"],["olive","Оливка","linear-gradient(135deg,#0b0d06,#a9b665 55%,#e0c97f)"]];
+const ICE={config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:"stun:global.stun.twilio.com:3478"},{urls:["turn:eu-0.turn.peerjs.com:3478","turn:us-0.turn.peerjs.com:3478"],username:"peerjs",credential:"peerjsp"},{urls:["turn:openrelay.metered.ca:80","turn:openrelay.metered.ca:443","turns:openrelay.metered.ca:443?transport=tcp"],username:"openrelayproject",credential:"openrelayproject"}],sdpSemantics:"unified-plan"}};
+const rc=r=>"hsl("+Math.round((Math.max(1,Math.min(10,r))-1)*13.3)+",82%,56%)";
+/* --- тема и настройки --- */
 let theme=ls.get(SLUG+"_rq_theme")||DEF,mode=ls.get(SLUG+"_rq_mode")||"dark";
+const SET_DEF={fx:true,snd:true,tab:true,notif:false,hist:true,compact:false,lite:false,scale:100};
+let set=Object.assign({},SET_DEF);try{Object.assign(set,JSON.parse(ls.get(SLUG+"_rq_set")||"{}"))}catch(e){}
 function applyTheme(){if(!THEMES.some(t=>t[0]===theme))theme=DEF;const h=document.documentElement;h.dataset.theme=theme;h.dataset.mode=mode;document.querySelectorAll(".tc").forEach(b=>b.classList.toggle("on",b.dataset.t===theme))}
+function applySet(){const h=document.documentElement;if(set.lite){h.dataset.lite="on";h.dataset.fx="off";h.classList.add("lite")}else{h.removeAttribute("data-lite");h.removeAttribute("data-fx");h.classList.remove("lite")}
+  document.body.style.zoom=(set.scale||100)/100;document.body.classList.toggle("compact",!!set.compact);$("hcard").style.display=set.hist?"":"none";if(!set.tab)document.title=BASE_T}
+const BASE_T=document.title,saveSet=()=>ls.set(SLUG+"_rq_set",JSON.stringify(set));
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b){theme=b.dataset.t;ls.set(SLUG+"_rq_theme",theme);applyTheme()}};
 $("thb").onclick=()=>$("tmod").classList.add("open");$("tmx").onclick=()=>$("tmod").classList.remove("open");
 $("tmod").onclick=e=>{if(e.target===$("tmod"))$("tmod").classList.remove("open")};
 $("modeb").onclick=()=>{mode=mode==="light"?"dark":"light";ls.set(SLUG+"_rq_mode",mode);applyTheme()};
-addEventListener("keydown",e=>{if(e.key==="Escape")$("tmod").classList.remove("open")});
-applyTheme();
-function toast(t){const o=$("toast");o.textContent=t;o.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>o.classList.remove("show"),2200)}
-function burst(){for(let i=0;i<12;i++){const el=document.createElement("div");el.className="fxe";el.textContent=["🎵","🎶","🔥","✨","🎧"][i%5];el.style.left=(10+Math.random()*80)+"vw";el.style.fontSize=(24+Math.random()*26)+"px";el.style.animationDelay=(i*60)+"ms";document.body.appendChild(el);setTimeout(()=>el.remove(),3400)}}
-function say(m,bad){const r=$("res");r.className="rq-res "+(bad?"err":"ok");r.textContent=m;clearTimeout(say.t);say.t=setTimeout(()=>r.className="rq-res",bad?5000:7000)}
-function note(m){const n=$("note");n.textContent=m||"";n.classList.toggle("on",!!m)}
+function setUi(){["fx","snd","tab","notif","hist","compact","lite"].forEach(k=>$("s-"+k).checked=!!set[k]);$("s-scale").value=set.scale||100}
+$("setb").onclick=()=>{setUi();$("smod").classList.add("open")};$("smx").onclick=()=>$("smod").classList.remove("open");
+$("smod").onclick=e=>{if(e.target===$("smod"))$("smod").classList.remove("open")};
+["fx","snd","tab","notif","hist","compact","lite"].forEach(k=>$("s-"+k).onchange=async e=>{set[k]=e.target.checked;
+  if(k==="notif"&&set.notif){try{const p=await Notification.requestPermission();if(p!=="granted"){set.notif=false;e.target.checked=false;toast("Браузер не дал разрешение на уведомления")}}catch(x){set.notif=false;e.target.checked=false;toast("Уведомления тут недоступны")}}
+  saveSet();applySet()});
+$("s-scale").oninput=e=>{set.scale=+e.target.value;saveSet();applySet()};
+$("s-reset").onclick=()=>{if(!confirm("Сбросить настройки страницы и список моих заказов?"))return;[SLUG+"_rq_set",SLUG+"_rq_mine",SLUG+"_rq_last",SLUG+"_rq_theme",SLUG+"_rq_mode"].forEach(ls.del);location.reload()};
+addEventListener("keydown",e=>{if(e.key==="Escape"){$("tmod").classList.remove("open");$("smod").classList.remove("open")}});
+applyTheme();applySet();
+function toast(t){const o=$("toast");o.textContent=t;o.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>o.classList.remove("show"),2400)}
+function burst(n){if(!set.fx)return;n=n||12;for(let i=0;i<n;i++){const el=document.createElement("div");el.className="fxe";el.textContent=["🎵","🎶","🔥","✨","🎧"][i%5];el.style.left=(10+Math.random()*80)+"vw";el.style.fontSize=(24+Math.random()*26)+"px";el.style.animationDelay=(i*60)+"ms";document.body.appendChild(el);setTimeout(()=>el.remove(),3400)}}
+function one(e){if(!set.fx)return;const el=document.createElement("div");el.className="fxe";el.textContent=e;el.style.left=(8+Math.random()*84)+"vw";el.style.fontSize=(30+Math.random()*28)+"px";document.body.appendChild(el);setTimeout(()=>el.remove(),2900)}
+let AC=null;function beep(f,d,v){if(!set.snd)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const o=AC.createOscillator(),g=AC.createGain();o.type="sine";o.frequency.value=f||880;g.gain.value=v||.06;o.connect(g);g.connect(AC.destination);o.start();g.gain.exponentialRampToValueAtTime(.0001,AC.currentTime+(d||.14));o.stop(AC.currentTime+(d||.14))}catch(e){}}
+const chime=()=>{beep(660,.14);setTimeout(()=>beep(880,.14),110);setTimeout(()=>beep(1175,.2),230)};
+function say(m,bad){const r=$("res");r.className="rq-res "+(bad?"err":"ok");r.textContent=m;clearTimeout(say.t);say.t=setTimeout(()=>r.className="rq-res",bad?5500:7000)}
+
+/* --- диагностика связи --- */
+const MSG={nocode:"Ссылка неполная: в ней нет кода стримера. Попроси у стримера свежую ссылку для заказов.",
+ nopeer:"Не загрузился модуль связи. Отключи блокировщик рекламы или VPN и нажми «Переподключиться».",
+ connecting:"Подключаюсь к стримеру…",offline:"Стример сейчас не в сети (панель закрыта или спит). Я подключусь сам, как только он появится.",
+ timeout:"Не получается соединиться. Бывает, если мобильный интернет, VPN или рабочая сеть блокируют соединение. Попробуй выключить VPN, переключиться между Wi-Fi и мобильной сетью и нажать «Переподключиться».",
+ closed:"Связь оборвалась, переподключаюсь…",ok:""};
+function diag(k,extra){const n=$("note");const t=MSG[k]||"";$("note-t").innerHTML=(k==="connecting"||k==="closed"?'<span class="spin">⟳</span> ':"")+esc(t)+(extra?" "+esc(extra):"");n.classList.toggle("on",!!t)}
 
 /* --- связь со стримером --- */
 const code=(new URLSearchParams(location.search).get("r")||ls.get(SLUG+"_rq_code")||"").trim();
 if(code)ls.set(SLUG+"_rq_code",code);
-let peer=null,conn=null,rules={cd:30,maxq:3},showQ=true,online=false,lastSt=null,lastMsg=0,tries=0,retryT=null;const pend={};
-function setOnline(v){online=v;$("air").textContent=v?"● ONLINE":"● ОФФЛАЙН";$("air").classList.toggle("live",v);$("send").disabled=!v;if(v)note("");else if(code)note("Стример сейчас не в сети. Страница подключится сама, когда он откроет панель.")}
+let peer=null,conn=null,rules={cd:30,maxq:3},showQ=true,online=false,got=false,lastSt=null,lastMsg=0,tries=0,retryT=null,connT=null,hiT=null,outbox=null;const pend={};
+function setOnline(v){online=v;$("air").textContent=v?"● ONLINE":"● ОФФЛАЙН";$("air").classList.toggle("live",v);if(v)diag("ok")}
 function start(){
-  if(!code){note("Ссылка неполная. Попроси у стримера ссылку для заказов.");$("queue").innerHTML='<div class="empty">Нет кода стримера в ссылке.</div>';return}
-  if(!window.Peer){note("Не загрузился модуль связи. Обнови страницу или отключи блокировщик.");return}
-  try{peer=new Peer();
-    peer.on("open",connect);
-    peer.on("disconnected",()=>{try{peer.reconnect()}catch(e){}});
-    peer.on("error",e=>{if(e.type==="peer-unavailable"){setOnline(false);retry()}else if(["network","server-error","socket-error","socket-closed"].includes(e.type)){setOnline(false);retry(true)}})
-  }catch(e){note("Ошибка запуска связи")}}
-function connect(){clearTimeout(retryT);if(!peer||peer.destroyed||!peer.open)return;try{conn&&conn.close()}catch(e){}
-  const c=conn=peer.connect(PFX+code,{reliable:true,metadata:{rq:1}});
-  c.on("open",()=>{tries=0;lastMsg=Date.now()});c.on("data",onMsg);
-  c.on("close",()=>{if(conn===c){setOnline(false);retry()}});c.on("error",()=>{if(conn===c){setOnline(false);retry()}})}
-function retry(full){clearTimeout(retryT);tries++;retryT=setTimeout(()=>{if(!full&&peer&&!peer.destroyed&&peer.open)connect();else{try{peer&&peer.destroy()}catch(e){}start()}},Math.min(15000,3000+tries*1500))}
-setInterval(()=>{if(online&&Date.now()-lastMsg>12000){setOnline(false);connect()}},3000);
+  clearTimeout(retryT);
+  if(!code){diag("nocode");$("queue").innerHTML='<div class="empty">Нет кода стримера в ссылке.</div>';return}
+  if(!window.Peer){diag("nopeer");return}
+  try{peer&&!peer.destroyed&&peer.destroy()}catch(e){}
+  try{peer=new Peer(undefined,ICE);const p=peer;
+    p.on("open",connect);
+    p.on("disconnected",()=>{try{p.reconnect()}catch(e){}});
+    p.on("error",e=>{if(peer!==p)return;if(e.type==="peer-unavailable"){setOnline(false);diag("offline");retry()}else if(e.type==="browser-incompatible"){diag("nopeer")}else{setOnline(false);retry(true)}})
+  }catch(e){diag("nopeer")}}
+function connect(){clearTimeout(retryT);clearTimeout(connT);clearInterval(hiT);if(!peer||peer.destroyed||!peer.open)return;try{conn&&conn.close()}catch(e){}
+  got=false;const c=conn=peer.connect(PFX+code,{reliable:true,metadata:{rq:1}});if(!online)diag("connecting");
+  c.on("open",()=>{tries=0;lastMsg=Date.now();try{c.send({t:"hi"})}catch(e){}hiT=setInterval(()=>{if(got||conn!==c||!c.open){clearInterval(hiT);return}try{c.send({t:"hi"})}catch(e){}},2500)});
+  c.on("data",onMsg);
+  c.on("close",()=>{if(conn===c){setOnline(false);diag("closed");retry()}});
+  c.on("error",()=>{if(conn===c){setOnline(false);retry()}});
+  connT=setTimeout(()=>{if(conn===c&&!got){setOnline(false);diag("timeout");retry(true)}},14000)}
+function retry(full){clearTimeout(retryT);tries++;retryT=setTimeout(()=>{if(!full&&peer&&!peer.destroyed&&peer.open)connect();else start()},Math.min(12000,2500+tries*1500))}
+function reconnect(){tries=0;setOnline(false);diag("connecting");start()}
+$("recon").onclick=reconnect;$("air").onclick=()=>{if(!online)reconnect()};
+setInterval(()=>{if(online&&Date.now()-lastMsg>12000){setOnline(false);diag("closed");connect()}},3000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!online&&code)reconnect()});
+addEventListener("online",()=>{if(!online&&code)reconnect()});
 function onMsg(m){if(!m||typeof m!=="object")return;lastMsg=Date.now();
-  if(m.t==="hello"){rules=m.rules||rules;showQ=m.showQ!==false;setOnline(true);$("stats").textContent=m.name?"Канал: "+m.name:"";rulesUi()}
-  else if(m.t==="st"){if(!online)setOnline(true);lastSt=m;renderSt()}
-  else if(m.t==="ack"){const f=pend[m.rid];if(f){f(m)}}
+  if(m.t==="hello"){got=true;clearTimeout(connT);clearInterval(hiT);rules=m.rules||rules;showQ=m.showQ!==false;setOnline(true);$("stats").textContent=m.name?"Канал: "+m.name:"";rulesUi();
+    if(outbox&&Date.now()-outbox.t<300000){const o=outbox;outbox=null;say("Соединились — отправляю заказ…");doSend(o)}}
+  else if(m.t==="st"){if(!online){got=true;setOnline(true)}lastSt=m;renderSt()}
+  else if(m.t==="ack"){const f=pend[m.rid];if(f)f(m)}
   else if(m.t==="msg"){toast(String(m.x||""))}
-  else if(m.t==="bye"){setOnline(false);retry()}}
+  else if(m.t==="bye"){setOnline(false);diag("offline");retry()}}
 function rulesUi(){$("rules").textContent="Можно держать в очереди до "+(rules.maxq||3)+" заказов, пауза между заказами "+(rules.cd||0)+" с."+(rules.mod?" Заказы проходят проверку стримером.":"")}
 
 /* --- мои заказы --- */
 let mine=[];try{mine=JSON.parse(ls.get(SLUG+"_rq_mine")||"[]")}catch(e){}
-const saveMine=()=>ls.set(SLUG+"_rq_mine",JSON.stringify(mine.slice(0,12)));
-function addMine(o){mine.unshift(o);mine=mine.slice(0,12);saveMine();renderMine()}
-function statusOf(o){const st=lastSt;if(st){if(st.cur&&String(st.cur.id)===String(o.id)){o.seen=1;return['<span class="tag">▶ ИГРАЕТ</span>',1]}
-  const i=(st.q||[]).findIndex(x=>String(x.id)===String(o.id));if(i>-1){o.seen=1;return['<span class="tag soft">в очереди #'+(i+1)+"</span>",1]}}
-  if(o.seen)return['<span class="tag soft">сыграно ✓</span>',0];
-  if(o.pending&&Date.now()-o.t<600000)return['<span class="tag soft">на проверке</span>',0];
-  if(Date.now()-o.t<15000)return['<span class="tag soft">отправлено</span>',0];
-  return['<span class="tag soft">в очереди</span>',0]}
+const saveMine=()=>ls.set(SLUG+"_rq_mine",JSON.stringify(mine.slice(0,15)));
+function addMine(o){mine.unshift(o);mine=mine.slice(0,15);saveMine();renderMine()}
+function statusOf(o){const st=lastSt;if(st){if(st.cur&&String(st.cur.id)===String(o.id)){o.seen=1;return'<span class="tag">▶ ИГРАЕТ</span>'}
+  const h=(st.h||[]).find(x=>String(x.id)===String(o.id));if(h){o.seen=1;o.r=h.r;return h.sk?'<span class="tag soft">пропущен</span>':(h.r?'<span class="rt" style="background:'+rc(h.r)+'">'+h.r+"/10</span>":'<span class="tag soft">сыграно ✓</span>')}
+  const i=(st.q||[]).findIndex(x=>String(x.id)===String(o.id));if(i>-1){o.seen=1;return'<span class="tag soft">в очереди #'+(i+1)+"</span>"}}
+  if(o.r)return'<span class="rt" style="background:'+rc(o.r)+'">'+o.r+"/10</span>";
+  if(o.seen)return'<span class="tag soft">сыграно ✓</span>';
+  if(o.pending&&Date.now()-o.t<600000)return'<span class="tag soft">на проверке</span>';
+  if(Date.now()-o.t<15000)return'<span class="tag soft">отправлено</span>';
+  return'<span class="tag soft">в очереди</span>'}
 function renderMine(){const el=$("mine");if(!mine.length){el.innerHTML='<div class="empty">Пока ничего не заказывал.</div>';return}
-  el.innerHTML=mine.map(o=>'<div class="item"><div style="min-width:0"><div class="t">'+esc(o.text)+'</div></div>'+statusOf(o)[0]+"</div>").join("");saveMine()}
+  el.innerHTML=mine.map(o=>'<div class="item"><div style="min-width:0"><div class="t">'+esc(o.text)+"</div></div>"+statusOf(o)+"</div>").join("");saveMine()}
 
-/* --- очередь и «сейчас играет» --- */
+/* --- очередь, «сейчас играет», история --- */
+let hsort="t",prevCur=null,prevR={},liked={};
 function renderSt(){const m=lastSt;if(!m)return;
-  const c=m.cur;$("np-chip").textContent=c?"СЕЙЧАС ИГРАЕТ":m.brk==="break"?"ПЕРЕРЫВ":m.brk==="soon"?"СКОРО НАЧНЁМ":m.brk==="end"?"КОНЕЦ СТРИМА":"ПАУЗА В ЭФИРЕ";
+  const c=m.cur,ids=new Set(mine.map(o=>String(o.id)));
+  $("np-chip").textContent=c?"СЕЙЧАС ИГРАЕТ":m.brk==="break"?"ПЕРЕРЫВ":m.brk==="soon"?"СКОРО НАЧНЁМ":m.brk==="end"?"КОНЕЦ СТРИМА":"ПАУЗА В ЭФИРЕ";
   $("np-t").textContent=c?c.n:m.brk==="break"?"Перерыв ☕":m.brk==="end"?"Спасибо, что были с нами ♥":"Скоро следующий трек";
   $("np-by").textContent=c&&c.by?"заказал @"+c.by:(c?"":"самое время заказать трек");
-  const myNick=($("f-n").value||"").trim().toLowerCase(),ids=new Set(mine.map(o=>String(o.id)));
+  const rbox=$("np-r");if(c&&c.r){if($("np-rv").dataset.r!==c.r+"|"+c.id){$("np-rv").dataset.r=c.r+"|"+c.id;$("np-rv").style.animation="none";void $("np-rv").offsetWidth;$("np-rv").style.animation=""}$("np-rv").textContent=c.r+"/10";$("np-rv").style.background=rc(c.r);rbox.classList.add("on");$("np-wait").textContent=""}else{rbox.classList.remove("on");$("np-wait").textContent=c?"Ведущий ещё слушает…":""}
+  const lk=$("likeb");lk.textContent="❤ "+((c&&c.lk)||0);lk.classList.toggle("on",!!(c&&liked[c.id]));lk.disabled=!c;
+  /* мой трек заиграл / оценён */
+  if(c&&ids.has(String(c.id))){if(prevCur!==c.id){toast("🎧 Твой трек играет!");chime();burst(8);try{if(set.notif&&document.hidden&&Notification.permission==="granted")new Notification(NAME+": твой трек играет!",{body:c.n})}catch(e){}}
+    if(c.r&&prevR[c.id]!==c.r){toast("🎉 Ведущий оценил твой трек: "+c.r+"/10");burst(c.r>=9?20:10);beep(c.r>=9?1175:784,.25)}}
+  prevCur=c?c.id:null;if(c)prevR[c.id]=c.r;
   $("qc").textContent=m.n||"";
-  if(!showQ)$("queue").innerHTML='<div class="empty">Ведущий скрыл очередь. В очереди заказов: '+(m.n||0)+"</div>";
+  if(!showQ)$("queue").innerHTML='<div class="empty">Ведущий скрыл очередь. Заказов в очереди: '+(m.n||0)+"</div>";
   else $("queue").innerHTML=(m.q&&m.q.length)?m.q.map((x,i)=>'<div class="item'+(ids.has(String(x.id))?" me":"")+'"><div style="min-width:0"><div class="t">'+(x.don?"💰 ":"")+(i+1)+". "+esc(x.n)+'</div><div class="m">@'+esc(x.by||"")+"</div></div>"+(ids.has(String(x.id))?'<span class="tag">ТВОЙ</span>':"")+"</div>").join(""):'<div class="empty">Очередь пуста: закажи первым!</div>';
-  renderMine()}
+  /* баннер */
+  const ban=$("ban");let bt="";if(m.paused)bt="⏸ Заказы на паузе. Загляни чуть позже!";if(m.msg)bt=(bt?bt+" · ":"")+"📢 "+m.msg;ban.textContent=bt;ban.classList.toggle("on",!!bt);
+  $("rxbar").style.display=m.fx===false?"none":"";
+  /* история */
+  const h=(m.h||[]);$("hc").textContent=h.length||"";
+  const best=h.filter(x=>x.r).sort((a,b)=>b.r-a.r)[0];
+  $("hchips").innerHTML=m.cnt?'<span class="tag soft">⭐ средняя '+m.avg+'</span><span class="tag soft">оценено '+m.cnt+"</span>"+(best?'<span class="tag soft">🏆 '+esc(best.n.length>34?best.n.slice(0,34)+"…":best.n)+" · "+best.r+"</span>":""):"";
+  let hl=h.slice();if(hsort==="r")hl=hl.filter(x=>x.r).sort((a,b)=>b.r-a.r);
+  $("hist").innerHTML=hl.length?hl.map(x=>'<div class="item'+(ids.has(String(x.id))?" me":"")+(x.sk?" sk":"")+'"><div style="min-width:0"><div class="t">'+esc(x.n)+'</div><div class="m">@'+esc(x.by||"")+(x.pl?" · 💜 в плейлисте":"")+(x.sk?" · пропущен":"")+"</div></div>"+(x.r?'<span class="rt" style="background:'+rc(x.r)+'">'+x.r+"/10</span>":'<span class="tag soft">—</span>')+"</div>").join(""):'<div class="empty">Пока пусто: ведущий ещё не оценил ни одного трека.</div>';
+  renderMine();
+  if(set.tab)document.title=(c?"▶ "+c.n+" · ":"")+BASE_T}
+$("hs-t").onclick=()=>{hsort="t";$("hs-t").classList.add("on");$("hs-r").classList.remove("on");renderSt()};
+$("hs-r").onclick=()=>{hsort="r";$("hs-r").classList.add("on");$("hs-t").classList.remove("on");renderSt()};
 
-/* --- отправка --- */
-async function send(){
+/* --- реакции --- */
+let lastFx=0;
+$("rxbar").onclick=e=>{const b=e.target.closest("button[data-e]");if(!b)return;if(!online||!conn||!conn.open)return toast("Нет связи со стримером");if(Date.now()-lastFx<900)return;lastFx=Date.now();one(b.dataset.e);try{conn.send({t:"fx",e:b.dataset.e,nick:($("f-n").value||"").trim()})}catch(x){}};
+$("likeb").onclick=()=>{const c=lastSt&&lastSt.cur;if(!c||liked[c.id]||!online||!conn||!conn.open)return;liked[c.id]=1;one("❤️");try{conn.send({t:"like",id:c.id,nick:($("f-n").value||"").trim()})}catch(x){}$("likeb").classList.add("on")};
+
+/* --- отправка заказа --- */
+function doSend(o){
+  const rid=Date.now()+"_"+Math.random().toString(36).slice(2,6);
+  $("send").disabled=true;
+  const p=new Promise(res=>{pend[rid]=res;setTimeout(()=>res(null),9000)});
+  try{conn.send({t:"req",rid,nick:o.nick,text:o.text,comment:o.comment})}catch(e){delete pend[rid];$("send").disabled=false;return say("Не удалось отправить. Нажми «Переподключиться»",1)}
+  p.then(a=>{delete pend[rid];$("send").disabled=false;
+    if(!a)return say("Стример не ответил. Попробуй ещё раз",1);
+    if(!a.ok)return say(a.why||"Заказ не принят",1);
+    ls.set(SLUG+"_rq_last",String(Date.now()));addMine({id:a.id,text:o.text,t:Date.now(),pending:!!a.pending});
+    $("f-t").value="";$("f-c").value="";
+    say(a.pending?"Заказ отправлен на проверку ✓":"Принято! "+(a.pos?"Ты #"+a.pos+" в очереди. ":"")+"🎵");burst();chime();renderSt()})}
+function send(){
   const nick=$("f-n").value.trim().replace(/^@/,""),text=$("f-t").value.trim(),comment=$("f-c").value.trim();
   if(nick.length<2)return say("Укажи свой ник на Twitch",1);
   if(text.length<2)return say("Вставь ссылку или напиши название трека",1);
   const left=(rules.cd||0)-(Date.now()-(+ls.get(SLUG+"_rq_last")||0))/1000;if(left>0)return say("Подожди ещё "+Math.ceil(left)+" с",1);
-  if(!online||!conn||!conn.open)return say("Нет связи со стримером",1);
-  ls.set(SLUG+"_rq_nick",nick);$("send").disabled=true;
-  const rid=Date.now()+"_"+Math.random().toString(36).slice(2,6);
-  const p=new Promise(res=>{pend[rid]=res;setTimeout(()=>res(null),9000)});
-  try{conn.send({t:"req",rid,nick,text,comment})}catch(e){delete pend[rid];$("send").disabled=!online;return say("Не удалось отправить",1)}
-  const a=await p;delete pend[rid];$("send").disabled=!online;
-  if(!a)return say("Стример не ответил. Попробуй ещё раз",1);
-  if(!a.ok)return say(a.why||"Заказ не принят",1);
-  ls.set(SLUG+"_rq_last",String(Date.now()));addMine({id:a.id,text,t:Date.now(),pending:!!a.pending});
-  $("f-t").value="";$("f-c").value="";
-  say(a.pending?"Заказ отправлен на проверку ✓":"Принято! "+(a.pos?"Ты #"+a.pos+" в очереди. ":"")+"🎵");burst();renderSt()}
+  ls.set(SLUG+"_nick_rq",nick);ls.set(SLUG+"_rq_nick",nick);
+  if(!online||!conn||!conn.open){
+    if(!code)return say("В ссылке нет кода стримера",1);
+    outbox={nick,text,comment,t:Date.now()};say("Пока нет связи. Заказ отправлю автоматически, как только соединимся (держи страницу открытой).");reconnect();return}
+  doSend({nick,text,comment})}
 $("send").onclick=send;
 [$("f-t"),$("f-c"),$("f-n")].forEach(e=>e.addEventListener("keydown",ev=>{if(ev.key==="Enter")send()}));
 $("f-n").value=ls.get(SLUG+"_rq_nick")||"";

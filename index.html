@@ -616,8 +616,12 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
     <div class="fld"><label for="pub-url">Ссылка для зрителей<small>вставь её в описание стрима или в команду !сайт</small></label><input type="text" id="pub-url" class="cocode" readonly placeholder="включи приём заказов"></div>
     <div class="row"><button id="pub-copy">📋 Скопировать ссылку</button><button id="pub-new" class="ghost">🔑 Новый код ссылки</button></div>
     <div class="fld"><label for="c-pubq">📋 Показывать зрителям очередь</label><input type="checkbox" id="c-pubq"></div>
+    <div class="fld"><label for="c-pubpause">⏸ Пауза заказов<small>страница работает, но новые заказы не принимаются</small></label><input type="checkbox" id="c-pubpause"></div>
+    <div class="fld"><label for="c-pubmsg">📢 Сообщение для зрителей<small>показывается наверху страницы заказов</small></label><input type="text" id="c-pubmsg" maxlength="160" placeholder="например: сегодня только русский рэп"></div>
+    <div class="fld"><label for="c-pubfx">🔥 Реакции и ❤ от зрителей<small>летят на панели и в оверлее</small></label><input type="checkbox" id="c-pubfx"></div>
     <div class="fld"><label for="c-pubmod">🕵 Все заказы с сайта на проверку<small>сначала попадают в «На проверке»</small></label><input type="checkbox" id="c-pubmod"></div>
     <div class="row" style="align-items:center"><span class="dot" id="pub-dot"></span><span id="pub-st" class="hint"></span></div>
+    <div class="hint">Держи вкладку панели открытой, чтобы браузер не «усыплял» её: иначе зрители увидят «оффлайн». После обновления страницы (F5) приём возвращается сам за 10–40 секунд.</div>
     <div class="hint">Лимиты (заявок в очереди, пауза между заказами, чёрный список) берутся из раздела про чат Twitch.</div>
   </div></details>
   <details id="fx-sec"><summary>✨ Плюшки <small>удобства, каждую можно выключить</small></summary><div class="sb">
@@ -679,6 +683,7 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
 </div></div>
 <div class="toast" id="toast"></div>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>window.Peer||document.write('<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"><\/script>');window.Peer||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"><\/script>')</script>
 <script>window.SFX_KEY="kohb_cfg"</script>
 <script src="sfx.js"></script>
 <script>
@@ -851,6 +856,7 @@ parseLists();cfg.chan=chanName(cfg.chan);if(!cfg.room){cfg.room=Math.random().to
 if(cfg.coPp===undefined){cfg.coPp=cfg.coNx=cfg.coQu=!!cfg.coCtl;cfg.coAd=true;cfg.coBadge=true;cfg.coRShow=true;cfg.coMod=false;cfgSave()}
 if(cfg.fxInit===undefined){Object.assign(cfg,{fxInit:1,fxTab:true,fxReq:true,fxAuto:false,fxUp:true,fxFind:true,fxUndo:true,coFx:true,coSnd:true,coChat:true});cfgSave()}
 if(cfg.pubInit===undefined){cfg.pubInit=1;cfg.pubOn=false;cfg.pubQ=true;cfg.pubMod=false;cfg.pubCode=Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>(b%36).toString(36)).join("");cfgSave()}
+if(cfg.pubInit2===undefined){cfg.pubInit2=1;cfg.pubFx=true;cfg.pubPause=false;cfg.pubMsg="";cfgSave()}
 if(!cfg.coKey||cfg.coKey.length<8){cfg.coKey=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,8);cfgSave()}
 function applyCfg(){document.documentElement.dataset.mode=cfg.mode==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):cfg.mode==="light"?"light":"dark";document.documentElement.dataset.fx=cfg.fxBg?"on":"off";document.documentElement.dataset.compact=cfg.compact?"on":"off";document.documentElement.dataset.lite=cfg.lite?"on":"off";
   {const H=document.documentElement;H.dataset.hs=cfg.hideStats?"on":"off";H.dataset.hh=cfg.hideHist?"on":"off";H.dataset.hk=cfg.hideKbd?"on":"off";
@@ -918,7 +924,7 @@ function onChat(tags,login,msg){
 /* settings UI */
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t)};
-[["c-coname","coName","s"],["c-pubon","pubOn","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
+[["c-coname","coName","s"],["c-pubon","pubOn","b"],["c-pubpause","pubPause","b"],["c-pubmsg","pubMsg","s"],["c-pubfx","pubFx","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
   const el=$(id);if(ty==="b")el.checked=!!cfg[k];else el.value=cfg[k];
   el.onchange=()=>{cfg[k]=ty==="b"?el.checked:ty==="n"?+el.value:el.value.trim();if(k==="chan"){cfg.chan=chanName(el.value);el.value=cfg.chan}cfgSave();applyCfg();bcast();
     if(k==="chan"||k==="bot")twConnect();if(k==="blind"){renderNow(false);renderLists()}
@@ -1308,31 +1314,47 @@ addEventListener("beforeunload",coFlush);
 setTimeout(coUi,300);
 
 /* ===== сайт заказов для зрителей (request.html) ===== */
-var pub=null,pubConns=[],pubErr="";
-const PUBPFX="kohbfm-r-";
+var pub=null,pubConns=[],pubErr="",pubTries=0;
+const PUBPFX="kohbfm-r-",PUBICE={config:{iceServers:[{urls:"stun:stun.l.google.com:19302"},{urls:"stun:stun1.l.google.com:19302"},{urls:"stun:global.stun.twilio.com:3478"},{urls:["turn:eu-0.turn.peerjs.com:3478","turn:us-0.turn.peerjs.com:3478"],username:"peerjs",credential:"peerjsp"},{urls:["turn:openrelay.metered.ca:80","turn:openrelay.metered.ca:443","turns:openrelay.metered.ca:443?transport=tcp"],username:"openrelayproject",credential:"openrelayproject"}],sdpSemantics:"unified-plan"}};
 const pubUrl=()=>location.origin+"/request.html?r="+cfg.pubCode;
 function pubUi(){const n=pubConns.filter(c=>c.open).length,st=$("pub-st"),d=$("pub-dot"),u=$("pub-url");if(u)u.value=cfg.pubOn?pubUrl():"";
-  if(st){st.textContent=!cfg.pubOn?"выключено":pubErr||(pub&&pub.open?(n?"зрителей на странице: "+n:"приём открыт, ждём зрителей"):"подключаюсь…");d.className="dot"+(cfg.pubOn&&!pubErr&&pub&&pub.open?" ok":"")}}
+  if(st){st.textContent=!cfg.pubOn?"выключено":pubErr||(pub&&pub.open&&!pub.disconnected?(n?"зрителей на странице: "+n:"приём открыт, ждём зрителей"):"подключаюсь…");d.className="dot"+(cfg.pubOn&&!pubErr&&pub&&pub.open&&!pub.disconnected?" ok":"")}}
 function pubStop(){try{pubConns.forEach(c=>{try{c.send({t:"bye"});c.close()}catch(e){}})}catch(e){}pubConns=[];try{pub&&!pub.destroyed&&pub.destroy()}catch(e){}pub=null}
 function pubStart(){
   pubStop();pubErr="";if(!cfg.pubOn){pubUi();return}
-  if(!window.Peer){pubErr="нет связи с сервером синхронизации";pubUi();return}
-  try{const p=pub=new Peer(PUBPFX+cfg.pubCode);
-    p.on("open",()=>{pubErr="";pubUi()});
-    p.on("connection",c=>{c.on("open",()=>{if(pubConns.filter(x=>x.open).length>=60){try{c.send({t:"msg",x:"Слишком много зрителей онлайн, попробуй позже"});c.close()}catch(e){}return}pubConns.push(c);try{c.send(siteHello());c.send(siteState())}catch(e){}pubUi()});
+  if(!window.Peer){pubErr="нет связи с сервером синхронизации (проверь блокировщик/сеть)";pubUi();setTimeout(()=>{if(cfg.pubOn&&!pub)pubStart()},10000);return}
+  try{const p=pub=new Peer(PUBPFX+cfg.pubCode,{config:PUBICE.config});
+    p.on("open",()=>{pubErr="";pubTries=0;pubUi()});
+    p.on("connection",c=>{c.on("open",()=>{if(pubConns.filter(x=>x.open).length>=60){try{c.send({t:"msg",x:"Слишком много зрителей онлайн, попробуй позже"});c.close()}catch(e){}return}pubConns=pubConns.filter(x=>x.open&&x!==c);pubConns.push(c);try{c.send(siteHello());c.send(siteState())}catch(e){}pubUi()});
       c.on("data",m=>siteReq(c,m));const gone=()=>{pubConns=pubConns.filter(x=>x!==c);pubUi()};c.on("close",gone);c.on("error",gone)});
-    p.on("disconnected",()=>{try{p.reconnect()}catch(e){}});
-    p.on("error",e=>{if(e.type==="peer-unavailable"||e.type==="network")return;pubErr=e.type==="unavailable-id"?"код ссылки занят другой панелью: нажми «Новый код ссылки»":"ошибка связи ("+e.type+")";pubUi();if(e.type!=="unavailable-id")setTimeout(()=>{if(cfg.pubOn&&pub===p)pubStart()},6000)})
-  }catch(e){pubErr="ошибка запуска";pubUi()}}
+    p.on("disconnected",()=>{pubUi();try{p.reconnect()}catch(e){}});
+    p.on("error",e=>{if(e.type==="peer-unavailable")return;
+      if(e.type==="unavailable-id"){pubTries++;pubErr=pubTries>6?"код ссылки занят: возможно, панель открыта во второй вкладке":"жду освобождения адреса после обновления страницы…"}
+      else pubErr="ошибка связи ("+e.type+"), переподключаюсь…";
+      pubUi();setTimeout(()=>{if(cfg.pubOn&&pub===p)pubStart()},e.type==="unavailable-id"?5000:6000)})
+  }catch(e){pubErr="ошибка запуска";pubUi();setTimeout(()=>{if(cfg.pubOn)pubStart()},8000)}}
+function pubWatch(){try{if(!cfg.pubOn)return;if(!pub||pub.destroyed)return pubStart();if(pub.disconnected){try{pub.reconnect()}catch(e){}setTimeout(()=>{if(cfg.pubOn&&pub&&pub.disconnected)pubStart()},6000)}}catch(e){}}
+setInterval(pubWatch,15000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)pubWatch()});
 function siteHello(){return{t:"hello",name:cfg.chan||"",rules:{cd:cfg.cd,maxq:cfg.maxq,mod:!!cfg.pubMod},showQ:cfg.pubQ!==false}}
 function siteState(){const c=S.current,bl=cfg.blind,nk=x=>bl?"???":x.nick;let b="";try{b=brk.on?brk.kind:""}catch(e){}
-  return{t:"st",cur:c?{n:plName(c),by:nk(c),id:c.id}:null,q:cfg.pubQ===false?[]:S.queue.slice(0,40).map(x=>({id:x.id,n:x.title?plName(x):x.text,by:nk(x),don:!!x.don})),n:S.queue.length,brk:b}}
+  const rated=S.history.filter(h=>h.rating);
+  return{t:"st",cur:c?{n:plName(c),by:nk(c),id:c.id,r:c.rating||0,lk:c.lk||0}:null,
+    q:cfg.pubQ===false?[]:S.queue.slice(0,40).map(x=>({id:x.id,n:x.title?plName(x):x.text,by:nk(x),don:!!x.don})),n:S.queue.length,brk:b,
+    h:S.history.slice(0,40).map(h=>({id:h.id,n:plName(h),by:nk(h),r:h.rating||0,pl:h.pl?1:0,sk:h.skipped?1:0})),
+    avg:rated.length?+(rated.reduce((a,h)=>a+h.rating,0)/rated.length).toFixed(2):0,cnt:rated.length,
+    msg:String(cfg.pubMsg||"").slice(0,160),paused:!!cfg.pubPause,fx:cfg.pubFx!==false}}
 function sitePush(){if(!pubConns.length)return;pubConns=pubConns.filter(c=>c.open);if(!pubConns.length)return;const m=siteState();pubConns.forEach(c=>{try{c.send(m)}catch(e){}})}
 function siteReq(c,m){
-  if(!m||m.t!=="req")return;
+  if(!m||typeof m!=="object")return;
+  if(m.t==="hi"){try{c.send(siteHello());c.send(siteState())}catch(e){}return}
+  const nm=v=>String(v||"").replace(/[^\w\u0400-\u04ff.-]/g,"").slice(0,25);
+  if(m.t==="fx"){if(cfg.pubFx===false)return;const now=Date.now();c._fx=(c._fx||[]).filter(t=>now-t<10000);if(c._fx.length>=8)return;const e=String(m.e||"");if(!["🔥","👏","😂","❤️","💀","🎧","😮","🎉"].includes(e))return;c._fx.push(now);rxAdd(e,nm(m.nick)||"зритель");return}
+  if(m.t==="like"){if(cfg.pubFx===false||!S.current||String(S.current.id)!==String(m.id))return;c._lk=c._lk||{};if(c._lk[m.id])return;c._lk[m.id]=1;S.current.lk=(S.current.lk||0)+1;rxAdd("❤️",nm(m.nick)||"зритель");sitePush();return}
+  if(m.t!=="req")return;
   const ack=o=>{try{c.send({t:"ack",rid:m.rid,...o})}catch(e){}};
   if(!cfg.pubOn)return ack({ok:false,why:"Приём заказов сейчас выключен"});
-  const nick=String(m.nick||"").replace(/[^\w\u0400-\u04ff.-]/g,"").slice(0,25),text=String(m.text||"").replace(/[\u200b-\u200f\u2060\ufeff]/g,"").trim().slice(0,300),comment=String(m.comment||"").replace(/[\u200b-\u200f\u2060\ufeff]/g,"").trim().slice(0,200);
+  if(cfg.pubPause)return ack({ok:false,why:"Заказы на паузе: загляни чуть позже"});
+  const nick=nm(m.nick),text=String(m.text||"").replace(/[\u200b-\u200f\u2060\ufeff]/g,"").trim().slice(0,300),comment=String(m.comment||"").replace(/[\u200b-\u200f\u2060\ufeff]/g,"").trim().slice(0,200);
   if(nick.length<2)return ack({ok:false,why:"Укажи ник (от 2 символов)"});
   if(text.length<2)return ack({ok:false,why:"Напиши название или вставь ссылку"});
   const bn=lst(cfg.banNicks);if(bn.includes(nick.toLowerCase()))return ack({ok:false,why:"Заказы от этого ника отключены"});
@@ -1348,6 +1370,7 @@ function siteReq(c,m){
   ack({ok:true,id:it.id,pos:S.queue.length})}
 setInterval(()=>{try{sitePush()}catch(e){}},2500);
 $("c-pubon").addEventListener("change",()=>{pubStart()});
+$("c-pubmsg").addEventListener("change",()=>sitePush());$("c-pubpause").addEventListener("change",()=>sitePush());
 $("pub-copy").onclick=async()=>{if(!cfg.pubOn)return toast("Сначала включи приём заказов");try{await navigator.clipboard.writeText(pubUrl());toast("Ссылка для зрителей скопирована ✓")}catch(e){$("pub-url").select();toast("Выдели и скопируй вручную")}};
 $("pub-new").onclick=()=>{if(!confirm("Создать новую ссылку для зрителей? Старая перестанет работать."))return;cfg.pubCode=Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>(b%36).toString(36)).join("");cfgSave();pubStart();toast("Новая ссылка готова")};
 setTimeout(pubStart,700);
