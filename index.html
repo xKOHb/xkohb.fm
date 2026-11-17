@@ -610,6 +610,16 @@ html:not([data-fx=off]) .rate button{transition:transform .2s cubic-bezier(.3,1.
     <div class="fld"><label for="c-copy">Копировать как</label><select id="c-copy"><option value="names">Исполнитель – Название</option><option value="links">Ссылки</option></select></div>
   </div></details>
 
+  <details id="pub-sec"><summary>🌐 Сайт заказов <span class="beta">НОВОЕ</span> <small>зрители заказывают треки на отдельной странице</small></summary><div class="sb">
+    <div class="hint">Страница <b>request.html</b> лежит рядом с панелью. Зрители открывают ссылку, выбирают тему, вводят ник и трек, и заказ попадает в твою очередь. Панель должна быть открыта.</div>
+    <div class="fld"><label for="c-pubon">🌐 Принимать заказы с сайта</label><input type="checkbox" id="c-pubon"></div>
+    <div class="fld"><label for="pub-url">Ссылка для зрителей<small>вставь её в описание стрима или в команду !сайт</small></label><input type="text" id="pub-url" class="cocode" readonly placeholder="включи приём заказов"></div>
+    <div class="row"><button id="pub-copy">📋 Скопировать ссылку</button><button id="pub-new" class="ghost">🔑 Новый код ссылки</button></div>
+    <div class="fld"><label for="c-pubq">📋 Показывать зрителям очередь</label><input type="checkbox" id="c-pubq"></div>
+    <div class="fld"><label for="c-pubmod">🕵 Все заказы с сайта на проверку<small>сначала попадают в «На проверке»</small></label><input type="checkbox" id="c-pubmod"></div>
+    <div class="row" style="align-items:center"><span class="dot" id="pub-dot"></span><span id="pub-st" class="hint"></span></div>
+    <div class="hint">Лимиты (заявок в очереди, пауза между заказами, чёрный список) берутся из раздела про чат Twitch.</div>
+  </div></details>
   <details id="fx-sec"><summary>✨ Плюшки <small>удобства, каждую можно выключить</small></summary><div class="sb">
     <div class="fld"><label for="c-fxtab">🏷 Трек и очередь в названии вкладки</label><input type="checkbox" id="c-fxtab"></div>
     <div class="fld"><label for="c-fxreq">🔔 Звук новой заявки</label><input type="checkbox" id="c-fxreq"></div>
@@ -764,7 +774,7 @@ function renderNow(resetNote){
   if(resetNote)$("note").value=c?c.note||"":"";
   renderTags();
 }
-function renderLists(){qmKick();
+function renderLists(){qmKick();try{sitePush()}catch(e){}
   $("pcard").hidden=!S.pending.length;$("pc").textContent=S.pending.length||"";
   $("pend").innerHTML=S.pending.map(x=>`<div class="item"><div style="min-width:0"><div class="t">${esc(x.title?plName(x):x.text)}</div><div class="m">${cfg.blind?"???":"@"+esc(x.nick)}</div></div><div class="row" style="flex-wrap:nowrap"><button data-ok="${x.id}" title="Принять">✓</button><button data-no="${x.id}" title="Отклонить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join("");
   const q=S.queue;$("qc").textContent=q.length?q.length:"";$("nx").classList.toggle("ping",!!q.length&&!S.current);
@@ -840,6 +850,7 @@ function chanName(v){v=String(v||"").trim().toLowerCase();const m=v.match(/twitc
 parseLists();cfg.chan=chanName(cfg.chan);if(!cfg.room){cfg.room=Math.random().toString(36).slice(2,12);cfgSave()}
 if(cfg.coPp===undefined){cfg.coPp=cfg.coNx=cfg.coQu=!!cfg.coCtl;cfg.coAd=true;cfg.coBadge=true;cfg.coRShow=true;cfg.coMod=false;cfgSave()}
 if(cfg.fxInit===undefined){Object.assign(cfg,{fxInit:1,fxTab:true,fxReq:true,fxAuto:false,fxUp:true,fxFind:true,fxUndo:true,coFx:true,coSnd:true,coChat:true});cfgSave()}
+if(cfg.pubInit===undefined){cfg.pubInit=1;cfg.pubOn=false;cfg.pubQ=true;cfg.pubMod=false;cfg.pubCode=Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>(b%36).toString(36)).join("");cfgSave()}
 if(!cfg.coKey||cfg.coKey.length<8){cfg.coKey=Math.random().toString(36).slice(2,8)+Math.random().toString(36).slice(2,8);cfgSave()}
 function applyCfg(){document.documentElement.dataset.mode=cfg.mode==="auto"?(matchMedia("(prefers-color-scheme: light)").matches?"light":"dark"):cfg.mode==="light"?"light":"dark";document.documentElement.dataset.fx=cfg.fxBg?"on":"off";document.documentElement.dataset.compact=cfg.compact?"on":"off";document.documentElement.dataset.lite=cfg.lite?"on":"off";
   {const H=document.documentElement;H.dataset.hs=cfg.hideStats?"on":"off";H.dataset.hh=cfg.hideHist?"on":"off";H.dataset.hk=cfg.hideKbd?"on":"off";
@@ -907,7 +918,7 @@ function onChat(tags,login,msg){
 /* settings UI */
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t)};
-[["c-coname","coName","s"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
+[["c-coname","coName","s"],["c-pubon","pubOn","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
   const el=$(id);if(ty==="b")el.checked=!!cfg[k];else el.value=cfg[k];
   el.onchange=()=>{cfg[k]=ty==="b"?el.checked:ty==="n"?+el.value:el.value.trim();if(k==="chan"){cfg.chan=chanName(el.value);el.value=cfg.chan}cfgSave();applyCfg();bcast();
     if(k==="chan"||k==="bot")twConnect();if(k==="blind"){renderNow(false);renderLists()}
@@ -935,9 +946,9 @@ $("ch-rst").onclick=()=>{cfg.chatUrl="";$("c-churl").value="";cfg.chatRev=(cfg.c
 $("ov-copy").onclick=async()=>{try{await navigator.clipboard.writeText(ovLink());toast("Ссылка скопирована ✓")}catch(e){toast(ovLink())}};
 $("ov-new").onclick=()=>{if(!confirm("Создать новую ссылку оверлея? Старая перестанет работать, новую нужно вставить в OBS. Комната коллаба тоже закроется."))return;const rnd=n=>Array.from(crypto.getRandomValues(new Uint8Array(n)),b=>(b%36).toString(36)).join("");if(cfg.coOpen)coOpenRoom(false);cfg.room=rnd(12);cfg.coKey=rnd(12);cfgSave();peerStart();coUi();toast("Новая ссылка создана: скопируй её в OBS")};
 $("ov-win").onclick=()=>window.open("/overlay.html?bg=green&"+ovQ(),"kohb_overlay","width=980,height=420");
-$("d-exp").onclick=()=>{const b=new Blob([JSON.stringify({S,cfg:(({ytKey,room,coKey,coOpen,...r})=>r)(cfg),arch:(()=>{try{return JSON.parse(ls.get("kohb_arch")||"[]")}catch(e){return[]}})()},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="kohb-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$("d-exp").onclick=()=>{const b=new Blob([JSON.stringify({S,cfg:(({ytKey,room,coKey,coOpen,pubCode,...r})=>r)(cfg),arch:(()=>{try{return JSON.parse(ls.get("kohb_arch")||"[]")}catch(e){return[]}})()},null,1)],{type:"application/json"}),a=document.createElement("a");a.href=URL.createObjectURL(b);a.download="kohb-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
 $("d-imp").onclick=()=>$("d-file").click();
-$("d-file").onchange=async e=>{try{const j=JSON.parse(await e.target.files[0].text());if(j.S){S=fixS(j.S);save()}if(Array.isArray(j.arch)&&j.arch.length)ls.set("kohb_arch",JSON.stringify(j.arch.slice(-60)));if(j.cfg){const{room:_r,coKey:_k,coOpen:_o,...jc}=j.cfg;Object.assign(cfg,jc);cfgSave();location.reload();return}show();toast("Импортировано ✓")}catch(x){toast("Не удалось прочитать файл")}};
+$("d-file").onchange=async e=>{try{const j=JSON.parse(await e.target.files[0].text());if(j.S){S=fixS(j.S);save()}if(Array.isArray(j.arch)&&j.arch.length)ls.set("kohb_arch",JSON.stringify(j.arch.slice(-60)));if(j.cfg){const{room:_r,coKey:_k,coOpen:_o,pubCode:_pc,...jc}=j.cfg;Object.assign(cfg,jc);cfgSave();location.reload();return}show();toast("Импортировано ✓")}catch(x){toast("Не удалось прочитать файл")}};
 /* oEmbed: название и обложка для Spotify / SoundCloud */
 async function ytMeta(x){const id=ytId(x.text);if(!id||x.author)return false;const u="https://www.youtube.com/watch?v="+id;
   for(const f of["https://www.youtube.com/oembed?format=json&url=","https://noembed.com/embed?url="]){
@@ -1295,6 +1306,52 @@ $("cobtn").onclick=()=>{$("modal").classList.add("open");const d=$("co-sec");if(
 if(cfg.coOpen)CO.role="host";
 addEventListener("beforeunload",coFlush);
 setTimeout(coUi,300);
+
+/* ===== сайт заказов для зрителей (request.html) ===== */
+var pub=null,pubConns=[],pubErr="";
+const PUBPFX="kohbfm-r-";
+const pubUrl=()=>location.origin+"/request.html?r="+cfg.pubCode;
+function pubUi(){const n=pubConns.filter(c=>c.open).length,st=$("pub-st"),d=$("pub-dot"),u=$("pub-url");if(u)u.value=cfg.pubOn?pubUrl():"";
+  if(st){st.textContent=!cfg.pubOn?"выключено":pubErr||(pub&&pub.open?(n?"зрителей на странице: "+n:"приём открыт, ждём зрителей"):"подключаюсь…");d.className="dot"+(cfg.pubOn&&!pubErr&&pub&&pub.open?" ok":"")}}
+function pubStop(){try{pubConns.forEach(c=>{try{c.send({t:"bye"});c.close()}catch(e){}})}catch(e){}pubConns=[];try{pub&&!pub.destroyed&&pub.destroy()}catch(e){}pub=null}
+function pubStart(){
+  pubStop();pubErr="";if(!cfg.pubOn){pubUi();return}
+  if(!window.Peer){pubErr="нет связи с сервером синхронизации";pubUi();return}
+  try{const p=pub=new Peer(PUBPFX+cfg.pubCode);
+    p.on("open",()=>{pubErr="";pubUi()});
+    p.on("connection",c=>{c.on("open",()=>{if(pubConns.filter(x=>x.open).length>=60){try{c.send({t:"msg",x:"Слишком много зрителей онлайн, попробуй позже"});c.close()}catch(e){}return}pubConns.push(c);try{c.send(siteHello());c.send(siteState())}catch(e){}pubUi()});
+      c.on("data",m=>siteReq(c,m));const gone=()=>{pubConns=pubConns.filter(x=>x!==c);pubUi()};c.on("close",gone);c.on("error",gone)});
+    p.on("disconnected",()=>{try{p.reconnect()}catch(e){}});
+    p.on("error",e=>{if(e.type==="peer-unavailable"||e.type==="network")return;pubErr=e.type==="unavailable-id"?"код ссылки занят другой панелью: нажми «Новый код ссылки»":"ошибка связи ("+e.type+")";pubUi();if(e.type!=="unavailable-id")setTimeout(()=>{if(cfg.pubOn&&pub===p)pubStart()},6000)})
+  }catch(e){pubErr="ошибка запуска";pubUi()}}
+function siteHello(){return{t:"hello",name:cfg.chan||"",rules:{cd:cfg.cd,maxq:cfg.maxq,mod:!!cfg.pubMod},showQ:cfg.pubQ!==false}}
+function siteState(){const c=S.current,bl=cfg.blind,nk=x=>bl?"???":x.nick;let b="";try{b=brk.on?brk.kind:""}catch(e){}
+  return{t:"st",cur:c?{n:plName(c),by:nk(c),id:c.id}:null,q:cfg.pubQ===false?[]:S.queue.slice(0,40).map(x=>({id:x.id,n:x.title?plName(x):x.text,by:nk(x),don:!!x.don})),n:S.queue.length,brk:b}}
+function sitePush(){if(!pubConns.length)return;pubConns=pubConns.filter(c=>c.open);if(!pubConns.length)return;const m=siteState();pubConns.forEach(c=>{try{c.send(m)}catch(e){}})}
+function siteReq(c,m){
+  if(!m||m.t!=="req")return;
+  const ack=o=>{try{c.send({t:"ack",rid:m.rid,...o})}catch(e){}};
+  if(!cfg.pubOn)return ack({ok:false,why:"Приём заказов сейчас выключен"});
+  const nick=String(m.nick||"").replace(/[^\w\u0400-\u04ff.-]/g,"").slice(0,25),text=String(m.text||"").replace(/[\u200b-\u200f\u2060\ufeff]/g,"").trim().slice(0,300),comment=String(m.comment||"").replace(/[\u200b-\u200f\u2060\ufeff]/g,"").trim().slice(0,200);
+  if(nick.length<2)return ack({ok:false,why:"Укажи ник (от 2 символов)"});
+  if(text.length<2)return ack({ok:false,why:"Напиши название или вставь ссылку"});
+  const bn=lst(cfg.banNicks);if(bn.includes(nick.toLowerCase()))return ack({ok:false,why:"Заказы от этого ника отключены"});
+  if(lst(cfg.banWords).some(w=>(text+" "+comment).toLowerCase().includes(w)))return ack({ok:false,why:"Этот заказ нельзя принять"});
+  if(isDup(text))return ack({ok:false,why:"Этот трек уже в очереди или играет"});
+  if([...S.queue,...S.pending].filter(q=>q.nick===nick).length>=cfg.maxq)return ack({ok:false,why:"Лимит: "+cfg.maxq+" в очереди. Дождись, пока сыграют"});
+  const left=cfg.cd-(Date.now()-(lastReq[nick]||0))/1000;if(left>0)return ack({ok:false,why:"Подожди ещё "+Math.ceil(left)+" с"});
+  lastReq[nick]=Date.now();
+  const it={id:Date.now()+Math.random(),text,nick,comment,src:"site"},mod=cfg.pubMod||(cfg.conf&&suspicious(text));
+  if(CO.role==="guest"){coSend({t:"add",conf:!!mod,it});toast(cfg.blind?"🌐 заказ отправлен":"🌐 @"+nick+" → в общую очередь");return ack({ok:true,pending:!!mod,id:it.id,pos:0})}
+  if(mod){S.pending.push(it);save();renderLists();toast(cfg.blind?"⚠ заказ с сайта на проверке":"⚠ @"+nick+" (сайт): на проверке");return ack({ok:true,pending:true,id:it.id})}
+  S.queue.push(it);save();renderLists();toast(cfg.blind?"🌐 новый заказ с сайта":"🌐 @"+nick+" → в очередь");
+  ack({ok:true,id:it.id,pos:S.queue.length})}
+setInterval(()=>{try{sitePush()}catch(e){}},2500);
+$("c-pubon").addEventListener("change",()=>{pubStart()});
+$("pub-copy").onclick=async()=>{if(!cfg.pubOn)return toast("Сначала включи приём заказов");try{await navigator.clipboard.writeText(pubUrl());toast("Ссылка для зрителей скопирована ✓")}catch(e){$("pub-url").select();toast("Выдели и скопируй вручную")}};
+$("pub-new").onclick=()=>{if(!confirm("Создать новую ссылку для зрителей? Старая перестанет работать."))return;cfg.pubCode=Array.from(crypto.getRandomValues(new Uint8Array(10)),b=>(b%36).toString(36)).join("");cfgSave();pubStart();toast("Новая ссылка готова")};
+setTimeout(pubStart,700);
+
 /* ---- плюшки (всё выключается в настройках) ---- */
 const BASE_T=document.title;
 setInterval(()=>{try{if(!cfg.fxTab){if(document.title!==BASE_T)document.title=BASE_T;return}const c=S.current;document.title=(c?(playing?"▶ ":"⏸ ")+plName(c)+" · ":"")+(S.queue.length?"очередь "+S.queue.length+" · ":"")+BASE_T}catch(e){}},1500);
