@@ -574,6 +574,13 @@ details.sg{border:1px solid var(--ln);border-radius:14px;margin:0 0 10px;padding
 details.sg summary{cursor:pointer;font-weight:700;padding:10px 0;list-style:none}details.sg summary::-webkit-details-marker{display:none}
 details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
 .sg select{background:var(--in);color:var(--tx);border:1px solid var(--ln);border-radius:10px;padding:7px 10px;font:inherit}
+/* v28 */
+.stats{display:flex;align-items:center;justify-content:center;gap:10px}
+#twc>summary{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.tw-ar{font-size:11px;letter-spacing:1px;color:var(--ac);text-transform:none;white-space:nowrap}#twc[open] .tw-ar{display:none}
+#fb-t{width:100%;box-sizing:border-box;padding:12px 14px;border-radius:12px;border:1px solid var(--ln);background:color-mix(in srgb,var(--bg) 60%,transparent);color:var(--tx);font:inherit;resize:vertical}
+#fb-ty{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}#fb-ty button.on{background:var(--ac);color:#111;border-color:transparent}
+.fbl{display:flex;gap:8px;align-items:center;margin:10px 0;font-size:13px;color:var(--mut)}
 /* v26 */
 .air.idle{background:transparent;color:var(--mut);border-color:var(--ln);box-shadow:none}
 #twc{padding:0;overflow:hidden}#twc[hidden]{display:none}
@@ -584,6 +591,7 @@ details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
 .tw-c{margin-top:10px;height:420px;border-radius:10px;overflow:hidden;background:#0e0e10}.tw-c iframe{width:100%;height:100%;border:0}
 .rq-alt{margin:6px auto 0;max-width:640px;text-align:center;font-size:12px;color:var(--mut)}.rq-alt a{color:var(--ac)}
 </style>
+<script>window.__errs=[];addEventListener("error",function(e){try{window.__errs.push(String(e.message||"").slice(0,120)+" @"+(e.lineno||""));if(window.__errs.length>8)window.__errs.shift()}catch(x){}});addEventListener("unhandledrejection",function(e){try{window.__errs.push("promise: "+String(e.reason&&e.reason.message||e.reason||"").slice(0,120));if(window.__errs.length>8)window.__errs.shift()}catch(x){}})</script>
 <script src="peerjs.min.js"></script>
 <script>window.Peer||document.write('<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"><\/script>')</script>
 <script>window.Peer||document.write('<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"><\/script>');window.Peer||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"><\/script>')</script>
@@ -592,8 +600,8 @@ details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
 <div class="bg"></div>
 <header>
   <div class="logo"><span class="eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>KOHbツ<b>.FM</b></div>
-  <div class="stats" id="stats"></div>
-  <div class="hr"><span class="chipz" id="vw" title="Зрителей на странице"></span><span class="chipz" id="scr" title="Твои очки за угаданные оценки"></span><span class="air" id="air" title="Нажми, чтобы переподключиться">● ОФФЛАЙН</span><button id="modeb" class="ghost" title="Светлая / тёмная тема">🌓</button><button id="thb" class="ghost" title="Выбрать тему">🎨</button><button id="setb" class="ghost" title="Настройки страницы">⚙️</button></div>
+  <div class="stats" id="stats"><span class="air" id="air" title="Нажми, чтобы переподключиться">● ОФФЛАЙН</span><span id="chn"></span></div>
+  <div class="hr"><span class="chipz" id="vw" title="Зрителей на странице"></span><span class="chipz" id="scr" title="Твои очки за угаданные оценки"></span><button id="fbb" class="ghost" title="Идея или ошибка? Напиши ведущему и разработчику">💡</button><button id="modeb" class="ghost" title="Светлая / тёмная тема">🌓</button><button id="thb" class="ghost" title="Выбрать тему">🎨</button><button id="setb" class="ghost" title="Настройки страницы">⚙️</button></div>
 </header>
 <main>
   <section class="col">
@@ -606,7 +614,7 @@ details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
       <div class="gs" id="gs"><div class="gl" id="gl">🎯 Угадай оценку ведущего</div><div class="gb" id="gb"></div></div>
       <div class="rxbar" id="rxbar"><button data-e="🔥" title="Огонь">🔥</button><button data-e="👏" title="Аплодисменты">👏</button><button data-e="😂" title="Смешно">😂</button><button data-e="😮" title="Ого">😮</button><button data-e="💀" title="Умер">💀</button><button data-e="🎧" title="Качает">🎧</button><button data-e="🎉" title="Ура">🎉</button><button class="lk" id="likeb" title="Понравился трек">❤ 0</button></div>
     </div>
-    <details class="card" id="twc" hidden><summary>📺 Стрим и чат Twitch</summary><div class="twb" id="twb"></div></details>
+    <details class="card" id="twc" hidden><summary><span>📺 Смотреть стрим и чат Twitch</span><span class="tw-ar">▾ нажми</span></summary><div class="twb" id="twb"></div></details>
     <div class="card" id="ordc">
       <h2>Заказать трек</h2>
       <div class="rq-note" id="note"><span id="note-t"></span><br><button id="recon">🔄 Переподключиться</button></div>
@@ -636,6 +644,12 @@ details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
 </main>
 <div class="rq-foot">Заказы идут в очередь ведущего. «Оффлайн» значит, что панель стримера закрыта: страница подключится сама. Метку «В эфире» ставит сам стример.</div>
 <div class="rq-alt" id="alt"></div>
+<div class="modal" id="fbm"><div class="sheet"><div class="shh">💡 Идея или ошибка <button id="fbx" class="ghost">✕</button></div>
+  <div class="hint" style="margin:6px 0 10px">Напиши, что улучшить или что сломалось. Это увидит ведущий, а разработчик получит сообщение сам.</div>
+  <div id="fb-ty"><button class="ghost on" data-ft="idea">💡 Идея</button><button class="ghost" data-ft="bug">🐞 Ошибка</button><button class="ghost" data-ft="other">💬 Другое</button></div>
+  <textarea id="fb-t" maxlength="600" rows="5" placeholder="Что случилось или что бы ты хотел(а)?"></textarea>
+  <label class="fbl"><input type="checkbox" id="fb-tech" checked> Приложить технические данные (версия, браузер, последние ошибки)</label>
+  <div class="row"><button id="fb-go" class="p">Отправить</button><span class="hint" id="fb-st"></span></div></div></div>
 <div class="modal" id="tmod"><div class="sheet"><div class="shh">🎨 Тема страницы <button id="tmx" class="ghost">✕</button></div><div class="hint" style="margin:6px 0 12px">Тема сохраняется только у тебя.</div><div class="tgrid" id="tgrid"></div></div></div>
 <div class="modal" id="smod"><div class="sheet"><div class="shh">⚙️ Настройки страницы <button id="smx" class="ghost">✕</button></div>
   <div class="row" style="margin:8px 0 12px"><button id="s-calm" class="ghost" title="Выключает эффекты и звуки, приглушает и успокаивает фон">🌿 Спокойный режим одним нажатием</button></div>
@@ -696,7 +710,7 @@ $("smod").onclick=e=>{if(e.target===$("smod"))$("smod").classList.remove("open")
   saveSet();applySet();lastKey="";try{renderSt()}catch(e){}});
 $("s-scale").oninput=e=>{set.scale=+e.target.value;saveSet();applySet()};
 $("s-reset").onclick=()=>{if(!confirm("Сбросить настройки страницы и список моих заказов?"))return;[SLUG+"_rq_set",SLUG+"_rq_fav",SLUG+"_rq_stat",SLUG+"_rq_mine",SLUG+"_rq_last",SLUG+"_rq_theme",SLUG+"_rq_mode"].forEach(ls.del);location.reload()};
-addEventListener("keydown",e=>{if(e.key==="Escape"){$("tmod").classList.remove("open");$("smod").classList.remove("open")}});
+addEventListener("keydown",e=>{if(e.key==="Escape"){$("tmod").classList.remove("open");$("fbm").classList.remove("open");$("smod").classList.remove("open")}});
 applyTheme();applySet();
 function toast(t){const o=$("toast");o.textContent=t;o.classList.add("show");clearTimeout(toast.t);toast.t=setTimeout(()=>o.classList.remove("show"),2400)}
 function burst(n){if(!set.fx)return;n=n||12;for(let i=0;i<n;i++){const el=document.createElement("div");el.className="fxe";el.textContent=["🎵","🎶","🔥","✨","🎧"][i%5];el.style.left=(10+Math.random()*80)+"vw";el.style.fontSize=(24+Math.random()*26)+"px";el.style.animationDelay=(i*60)+"ms";document.body.appendChild(el);setTimeout(()=>el.remove(),3400)}}
@@ -717,7 +731,7 @@ function diag(k,extra){const n=$("note");const t=MSG[k]||"";$("note-t").innerHTM
 const code=(new URLSearchParams(location.search).get("r")||ls.get(SLUG+"_rq_code")||"").trim();
 if(code)ls.set(SLUG+"_rq_code",code);
 let peer=null,conn=null,rules={cd:30,maxq:3},showQ=true,online=false,got=false,lastSt=null,lastMsg=0,tries=0,retryT=null,connT=null,hiT=null,outbox=null;const pend={};
-var liveF,twCh="",twOn,altI=null,rawSt=null;
+var liveF,twCh="",twOn,altI=null,rawSt=null,devTg="",APPV_R="v28";
 function airUi(){const a=$("air"),idle=online&&liveF===false;a.textContent=!online?"● ОФФЛАЙН":idle?"● НЕ В ЭФИРЕ":"● В ЭФИРЕ";a.classList.toggle("live",online&&!idle);a.classList.toggle("idle",idle);a.title=!online?"Панель стримера не на связи. Нажми, чтобы переподключиться":idle?"Стримера нет в эфире, но заказы принимаются":"Стример в эфире"}
 function setOnline(v){online=v;airUi();if(v)diag("ok")}
 function start(){
@@ -744,7 +758,7 @@ setInterval(()=>{if(online&&Date.now()-lastMsg>12000){setOnline(false);diag("clo
 document.addEventListener("visibilitychange",()=>{if(!document.hidden&&!online&&code)reconnect()});
 addEventListener("online",()=>{if(!online&&code)reconnect()});
 function onMsg(m){if(!m||typeof m!=="object")return;lastMsg=Date.now();
-  if(m.t==="hello"){hallV=null;got=true;clearTimeout(connT);clearInterval(hiT);rules=m.rules||rules;showQ=m.showQ!==false;liveF=m.live;twCh=String(m.ch||m.name||"");twOn=m.tw!==false;altI=m.alt||null;setOnline(true);try{twUi();altUi()}catch(e){}$("stats").textContent=m.name?"Канал: "+m.name:"";rulesUi();
+  if(m.t==="hello"){hallV=null;got=true;clearTimeout(connT);clearInterval(hiT);rules=m.rules||rules;showQ=m.showQ!==false;liveF=m.live;twCh=String(m.ch||m.name||"");twOn=m.tw!==false;altI=m.alt||null;devTg=String(m.dtg||"");setOnline(true);try{twUi();altUi()}catch(e){}$("chn").textContent=m.name?"Канал: "+m.name:"";rulesUi();
     if(outbox&&Date.now()-outbox.t<300000){const o=outbox;outbox=null;say("Соединились — отправляю заказ…");doSend(o)}}
   else if(m.t==="st"){if(!online){got=true;setOnline(true)}const k=JSON.stringify(m);rawSt=m;lastSt=fixSt(JSON.parse(k));if(m.live!==undefined&&m.live!==liveF){liveF=m.live;airUi()}if(k!==lastKey){lastKey=k;renderSt()}if(m.hv!==undefined&&m.hv!==hallV)askHall()}
   else if(m.t==="ack"){const f=pend[m.rid];if(f)f(m)}
@@ -780,8 +794,8 @@ function mineName(o){const st=lastSt;
   if(o.n)return o.n;if(!isU(o.text))return o.text;
   const c=nmC.get(o.text);if(c){o.n=c;return c}
   if(nmF.has(o.text))return"🎵 "+siteOf(o.text);nmQ(o.text);return"🎵 "+siteOf(o.text)+" · загружаю название…"}
-function twUi(){const c=$("twc");if(!c)return;const ok=twOn!==false&&set.tw!==false&&/^\w{3,25}$/.test(twCh);c.hidden=!ok;if(!ok){c.open=false;c.dataset.l="";$("twb").innerHTML=""}}
-$("twc").addEventListener("toggle",()=>{const c=$("twc"),b=$("twb");if(!c.open){b.innerHTML="";c.dataset.l="";return}if(c.dataset.l===twCh)return;c.dataset.l=twCh;
+function twUi(){const c=$("twc");if(!c)return;const ok=twOn!==false&&set.tw!==false&&/^\w{3,25}$/.test(twCh);c.hidden=!ok;if(!ok){c.open=false;c.dataset.l="";$("twb").innerHTML=""}else if(!c.open&&ls.get(SLUG+"_rq_tw")==="1")c.open=true}
+$("twc").addEventListener("toggle",()=>{const c=$("twc"),b=$("twb");try{ls.set(SLUG+"_rq_tw",c.open?"1":"0")}catch(e){}if(!c.open){b.innerHTML="";c.dataset.l="";return}if(c.dataset.l===twCh)return;c.dataset.l=twCh;
   const h=encodeURIComponent(location.hostname),ch=encodeURIComponent(twCh),dk=document.documentElement.dataset.mode==="light"?"":"&darkpopout";
   b.innerHTML='<div class="tw-p"><iframe src="https://player.twitch.tv/?channel='+ch+'&parent='+h+'&muted=true&autoplay=false" allowfullscreen loading="lazy" title="Стрим Twitch"></iframe></div>'+
     '<div class="tw-c"><iframe src="https://www.twitch.tv/embed/'+ch+'/chat?parent='+h+dk+'" loading="lazy" title="Чат Twitch"></iframe></div>'+
@@ -790,6 +804,21 @@ function altUi(){const el=$("alt");if(!el)return;let a=altI;try{if(a)ls.set(SLUG
   const here=location.origin,other=a&&(a.m&&a.m!==here?a.m:(a.r&&a.r.indexOf(here)!==0?a.r:""));
   if(!other||!code){el.innerHTML="";return}el.innerHTML='Сайт не открывается или тормозит? Попробуй <a href="'+esc(other+"/request.html?r="+code)+'">вторую ссылку</a> ('+esc(other.replace(/^https:\/\//,""))+").";}
 try{altUi()}catch(e){}
+/* ===== v28: идея / ошибка ===== */
+var fbT="idea";
+$("fbb").onclick=()=>{$("fb-st").textContent="";$("fbm").classList.add("open")};$("fbx").onclick=()=>$("fbm").classList.remove("open");
+$("fbm").addEventListener("click",e=>{if(e.target.id==="fbm")$("fbm").classList.remove("open");const b=e.target.closest("[data-ft]");if(b){fbT=b.dataset.ft;document.querySelectorAll("#fb-ty button").forEach(x=>x.classList.toggle("on",x===b));$("fb-tech").checked=fbT==="bug"||$("fb-tech").checked}});
+async function fbSend(){const st=$("fb-st"),t=($("fb-t").value||"").trim();if(t.length<5){st.textContent="Напиши хотя бы пару слов";return}
+  if(Date.now()-(+ls.get(SLUG+"_rq_fbt")||0)<30000){st.textContent="Подожди полминуты перед следующим сообщением";return}
+  const nick=($("f-n").value||"").trim().slice(0,25),tech=$("fb-tech").checked?{v:APPV_R,ua:((navigator.userAgent||"").match(/(Edg|YaBrowser|OPR|Chrome|Firefox|Safari)\/[\d.]+/)||[""])[0],os:String(navigator.platform||"").slice(0,20),on:!!online,err:(window.__errs||[]).slice(-5)}:null;
+  const msg={t:"fb",k:fbT,x:t.slice(0,600),nick,tech};$("fb-go").disabled=true;st.textContent="Отправляю…";let toS=false,toD=false;
+  try{if(online&&conn&&conn.open){conn.send(msg);toS=true}}catch(e){}
+  const body=JSON.stringify({slug:SLUG,k:fbT,x:msg.x,nick,tech});
+  for(const b of apiBases().concat(apiBases().length?[]:[MAINO])){try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),8000),r=await fetch(b+"/api/feedback",{method:"POST",headers:{"Content-Type":"text/plain;charset=UTF-8"},body,signal:ctl.signal});clearTimeout(tm);const j=await r.json();if(j&&j.ok){toD=true;break}}catch(e){}}
+  $("fb-go").disabled=false;
+  if(toS||toD){ls.set(SLUG+"_rq_fbt",String(Date.now()));$("fb-t").value="";st.textContent="Отправлено: "+[toS?"ведущему":"",toD?"разработчику":""].filter(Boolean).join(" и ")+" ✓. Спасибо!";setTimeout(()=>$("fbm").classList.remove("open"),2200)}
+  else{try{navigator.clipboard.writeText(t)}catch(e){}st.innerHTML="Не получилось отправить, текст скопирован."+(devTg?' Отправь его <a href="https://t.me/'+esc(devTg)+'" target="_blank" rel="noopener">разработчику в Telegram</a>.':" Отправь его ведущему или разработчику.")}}
+$("fb-go").onclick=fbSend;
 /* --- мои заказы --- */
 let mine=[];try{mine=JSON.parse(ls.get(SLUG+"_rq_mine")||"[]")}catch(e){}
 const saveMine=()=>ls.set(SLUG+"_rq_mine",JSON.stringify(mine.slice(0,15)));

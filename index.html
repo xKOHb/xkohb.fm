@@ -209,11 +209,13 @@ html[data-mode=light] .vhs{display:none!important}
 html[data-fx=off] .vhs .nz,html[data-fx=off] .vhs .tr,html[data-fx=off] .vhs .vg{animation:none}
 /* settings, on-air, stage */
 #chbtn,#cobtn,#xfer{display:none!important}
-#chatdock{position:fixed;left:10px;top:76px;bottom:10px;width:320px;z-index:3;display:flex;flex-direction:column;border:1px solid var(--ln);border-radius:16px;background:var(--card);overflow:hidden}
+#chatdock{position:fixed;left:10px;top:76px;bottom:10px;width:var(--cdw,380px);z-index:3;display:flex;flex-direction:column;border:1px solid var(--ln);border-radius:16px;background:var(--card);overflow:hidden}
 #chatdock[hidden]{display:none}#chatdock .cdh{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--mut);border-bottom:1px solid var(--ln)}
 #chatdock .cdb{display:flex;gap:6px;align-items:center}#chatdock .cdb a{color:var(--mut);text-decoration:none;font-size:14px;cursor:pointer}#chatdock .cdb button{padding:2px 8px}
+.item.hi{cursor:pointer}#unrate[hidden]{display:none}
+#cd-rs{position:absolute;top:0;right:0;bottom:0;width:8px;cursor:ew-resize;z-index:2}#cd-rs:hover{background:color-mix(in srgb,var(--ac) 35%,transparent)}body.cdrag #chatdock iframe{pointer-events:none}body.cdrag{user-select:none}
 #chatdock .cdw{flex:1;min-height:0}#chatdock iframe{width:100%;height:100%;border:0;display:block}
-body.cdock main{margin-left:max(340px,calc((100vw - 1280px)/2));margin-right:0}
+body.cdock main{margin-left:max(calc(var(--cdw,380px) + 20px),calc((100vw - 1280px)/2));margin-right:0}
 @media(max-width:1099px){#chatdock{display:none!important}body.cdock main{margin:auto}}
 .stats{flex:1;text-align:center}
 #live{font-variant-numeric:tabular-nums;font-weight:700;letter-spacing:.3px;white-space:nowrap}
@@ -522,7 +524,7 @@ function done(m){clean();if(m)alert(m);location.reload()}
 </header>
 <div id="cobar"><span id="cotx"></span><span class="cometa"><span id="coping" title="Задержка связи"></span><span id="cotm" title="Время вместе"></span></span><span class="sp"></span><span class="corx" id="corx" style="display:none"><button data-fx="🔥" title="Огонь">🔥</button><button data-fx="👏" title="Аплодисменты">👏</button><button data-fx="😂" title="Смешно">😂</button><button data-fx="😮" title="Ого">😮</button><button data-fx="❤️" title="Люблю">❤️</button><button data-fx="💀" title="Умер">💀</button><button data-fx="🎧" title="Качает">🎧</button></span><button id="cochatb" class="ghost" title="Мини-чат с другом" hidden>💬</button><button id="coleave" class="ghost" hidden>Выйти</button></div>
 <div id="cochat"><div id="colog"></div><div class="row"><input type="text" id="coin" maxlength="140" placeholder="Сообщение другу…" autocomplete="off"><button id="cosend">➤</button></div></div>
-<aside id="chatdock" hidden><div class="cdh"><span>💬 Чат Twitch</span><span class="cdb"><a id="cd-pop" target="_blank" rel="noopener" title="Открыть чат в отдельном окне">↗</a><button id="cd-x" class="ghost" title="Скрыть (вернуть можно в настройках)">✕</button></span></div><div class="cdw" id="cd-w"></div></aside>
+<aside id="chatdock" hidden><div class="cdh"><span>💬 Чат Twitch</span><span class="cdb"><a id="cd-pop" target="_blank" rel="noopener" title="Открыть чат в отдельном окне">↗</a><button id="cd-x" class="ghost" title="Скрыть (вернуть можно в настройках)">✕</button></span></div><div class="cdw" id="cd-w"></div><div id="cd-rs" title="Потяни, чтобы изменить ширину чата"></div></aside>
 <main>
   <section class="col">
     <div class="card">
@@ -540,7 +542,7 @@ function done(m){clean();if(m)alert(m);location.reload()}
       <div class="rl" id="rl"></div>
       <input id="note" placeholder="Заметка к треку…">
       <div class="tags" id="tags"></div>
-      <div class="row"><button id="pl">♡ В плейлист (P)</button><button id="sk">Пропустить (S)</button><button class="p" id="nx" style="margin-left:auto">Следующий → (N)</button></div>
+      <div class="row"><button id="pl">♡ В плейлист (P)</button><button id="sk">Пропустить (S)</button><button id="unrate" class="ghost" hidden title="Снять оценку: трек снова неоценённый, зрители смогут голосовать и угадывать (U)">↺ Снять оценку</button><button class="p" id="nx" style="margin-left:auto">Следующий → (N)</button></div>
     </div>
   </section>
   <section class="col">
@@ -590,6 +592,7 @@ function done(m){clean();if(m)alert(m);location.reload()}
   <details><summary>💬 Чат Twitch (заявки) <small>команды, лимиты</small></summary><div class="sb">
     <div class="fld"><label for="c-bot">Принимать заявки из чата</label><input type="checkbox" id="c-bot"></div>
     <div class="fld"><label for="c-chan">Канал</label><input type="text" id="c-chan" placeholder="например, xk0hb"></div>
+    <div class="fld"><label for="c-chatw">↔ Ширина чата слева<small>можно и просто потянуть за правый край чата</small></label><input type="range" id="c-chatw" min="260" max="560" step="10"></div>
     <div class="fld"><label for="c-chatdock">💬 Чат Twitch слева от плеера<small>виден при ширине окна от 1100 px; писать можно после входа в Twitch прямо в окне чата</small></label><input type="checkbox" id="c-chatdock"></div>
     <div class="fld"><label for="c-cmds">Команды</label><input type="text" id="c-cmds"></div>
     <div class="fld"><label for="c-autolink">🔗 Искать ссылку по названию<small>заявка без ссылки сама находит видео на YouTube; плеер заиграет её</small></label><input type="checkbox" id="c-autolink"></div>
@@ -673,6 +676,12 @@ function done(m){clean();if(m)alert(m);location.reload()}
     <div class="fld"><label for="c-fxfind">🔎 Поиск по истории</label><input type="checkbox" id="c-fxfind"></div>
     <div class="fld"><label for="c-fxundo">↶ Ctrl+Z возвращает предыдущий трек</label><input type="checkbox" id="c-fxundo"></div>
   </div></details>
+  <details id="fb-sec"><summary>💡 Идеи и ошибки от зрителей <small id="fb-n"></small></summary><div class="sb">
+    <div class="hint">Зрители пишут через кнопку 💡 на сайте заказов. Сообщение приходит сюда, а разработчику уходит само, если на сервере настроен Telegram.</div>
+    <div class="fld"><label for="c-devtg">Telegram разработчика<small>@ник: зритель получит ссылку, если автоотправка не прошла (необязательно)</small></label><input type="text" id="c-devtg" maxlength="33" placeholder="@ник"></div>
+    <div id="fb-list" style="margin-top:6px"></div>
+    <div class="row" style="margin-top:8px"><button id="fb-copy">📋 Скопировать всё</button><button id="fb-clr" class="ghost">🗑 Очистить</button></div>
+  </div></details>
   <details id="dg-sec"><summary>🛠 Диагностика <small>проверка связи, версия сайта</small></summary><div class="sb">
     <div class="hint">Если что-то не работает (особенно из РФ), нажми «Проверить связь» и пришли отчёт разработчику.</div>
     <div class="row"><button id="dg-run">▶ Проверить связь</button><button id="dg-copy" class="ghost">📋 Скопировать отчёт</button></div>
@@ -716,6 +725,12 @@ function done(m){clean();if(m)alert(m);location.reload()}
     <div class="hint" id="tx-st" style="margin-top:6px">Перенос идёт напрямую между браузерами. Эта панель должна оставаться открытой. В инкогнито всё стирается при закрытии окна.</div>
   </div></details>
 </div></div>
+<div class="modal" id="edm"><div class="sheet"><div class="shh"><span>✏️ Править трек</span> <button id="ed-x" class="ghost">✕</button></div>
+  <div class="hint" id="ed-s" style="margin:4px 0 10px"></div>
+  <h3>Оценка</h3><div class="rate" id="ed-rate"></div>
+  <h3>Настроение</h3><div class="tags"><div class="tgs" id="ed-tags"></div></div>
+  <h3>Заметка</h3><input id="ed-note" placeholder="Заметка к треку…">
+  <div class="row" style="margin-top:12px"><button id="ed-pl">♡ В плейлист</button><button id="ed-un" class="ghost">↺ Снять оценку</button><button id="ed-ok" class="p" style="margin-left:auto">Готово</button></div></div></div>
 <div class="modal" id="podm"><div class="sheet"><div class="shh">🏁 Конец стрима: пьедестал <button id="podx" class="ghost">✕</button></div>
   <div class="hint" style="margin:4px 0 8px">Выбери, кто займёт 1–3 места в финале. «Авто» берёт лучшие по оценке.</div>
   <div id="podb"></div><div class="row" style="margin-top:12px"><button id="pod-auto">↺ Авто</button><button id="pod-go" class="p">🏁 Показать финал</button></div></div></div>
@@ -818,7 +833,7 @@ function parseLists(){const emo=/^[^\p{L}\p{N}]+$/u;
 function renderTags(){const c=S.current,on=t=>c&&(c.tags||[]).includes(t),d=c?"":" disabled";
   $("tags").innerHTML=`<div class="tgr"><span class="tgl">Настроение</span><div class="tgs">${TAGS.map(([e,t])=>`<button class="tg${on(t)?" on":""}" data-tag="${esc(t)}"${d}>${e?`<i>${esc(e)}</i>`:""}${esc(t)}</button>`).join("")}</div></div>`}
 function renderNow(resetNote){
-  const c=S.current;
+  const c=S.current;try{unrUi()}catch(e){}
   $("ttl").textContent=c?plName(c):"Ничего не играет";
   $("src").textContent=c?src(c.text):"KOHbツ.FM";
   $("sub").textContent=c?`от ${blindNow()?"???":"@"+c.nick}${c.author?" · "+c.author:""}${c.comment&&!blindNow()?" · «"+c.comment+"»":""}`:"Возьми трек из очереди";
@@ -834,7 +849,7 @@ function renderLists(){qmKick();try{sitePush()}catch(e){}
   $("pend").innerHTML=S.pending.map(x=>`<div class="item"><div style="min-width:0"><div class="t">${esc(plQ(x))}</div><div class="m">${cfg.blind?"???":"@"+esc(x.nick)}</div></div><div class="row" style="flex-wrap:nowrap"><button data-ok="${x.id}" title="Принять">✓</button><button data-no="${x.id}" title="Отклонить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join("");
   const q=S.queue;$("qc").textContent=q.length?q.length:"";$("nx").classList.toggle("ping",!!q.length&&!S.current);
   $("queue").innerHTML=q.length?q.map(x=>`<div class="item" draggable="true" data-qid="${x.id}"><div style="min-width:0"><div class="t">${x.don?"💰 ":""}${esc(plQ(x))}</div><div class="m">${cfg.blind?"@???":"@"+esc(x.nick)}${x.comment?" · "+esc(x.comment):""}</div></div><div class="row" style="flex-wrap:nowrap"><button data-don="${x.id}" title="Донат: сыграть сразу после текущего">${x.don?"💰":"$"}</button><button data-go="${x.id}" title="Играть сейчас">▶</button><button data-d="${x.id}" title="Удалить">✕</button><button data-ban="${x.id}" title="В чёрный список">🚫</button></div></div>`).join(""):'<div class="empty">Очередь пуста — добавь заявку из чата.</div>';
-  $("hist").innerHTML=S.history.length?S.history.map(h=>`<div class="item"><div style="min-width:0"><div class="t">${esc(plName(h))}</div><div class="m">@${esc(h.nick)}${h.note?" · "+esc(h.note):""}${h.tags&&h.tags.length?" · "+esc(h.tags.join(", ")):""}${h.vn?" · 💬 "+h.vavg:""}${h.pl?" · ♥":""}${h.skipped?" · пропущен":""}</div></div><div class="sc" style="color:${h.rating?col(h.rating):"var(--mut)"}">${h.rating??"–"}</div></div>`).join(""):'<div class="empty">Пока пусто.</div>';
+  $("hist").innerHTML=S.history.length?S.history.map(h=>`<div class="item hi" data-hid="${h.id}" title="Нажми, чтобы править оценку, настроение и плейлист"><div style="min-width:0"><div class="t">${esc(plName(h))}</div><div class="m">@${esc(h.nick)}${h.note?" · "+esc(h.note):""}${h.tags&&h.tags.length?" · "+esc(h.tags.join(", ")):""}${h.vn?" · 💬 "+h.vavg:""}${h.pl?" · ♥":""}${h.skipped?" · пропущен":""}</div></div><div class="sc" style="color:${h.rating?col(h.rating):"var(--mut)"}">${h.rating??"–"}</div></div>`).join(""):'<div class="empty">Пока пусто.</div>';
   const all=[S.current,...S.history].filter(x=>x),r=all.filter(x=>x.rating);
   renderStats();$("stats").innerHTML=`Треков: <b>${all.length}</b> · Средняя оценка: <b>${r.length?(r.reduce((a,x)=>a+x.rating,0)/r.length).toFixed(1):"–"}</b>`;
 }
@@ -849,7 +864,7 @@ function add(){const t=$("f-t").value.trim();if(!t)return;if(CO.role==="guest"){
   if(don){it.don=true;S.queue.splice(S.queue.filter(q=>q.don).length,0,it)}else S.queue.push(it);
   clr();toast(don?"💰 Донат-трек: сыграет сразу после текущего"+(S.current&&!S.current.rating?" и его оценки":""):"Добавлено в очередь")}
 const archGet=()=>{try{const a=JSON.parse(ls.get("kohb_arch")||"[]");return Array.isArray(a)?a:[]}catch(e){return[]}};
-function archSave(){if(CO.role==="guest")return;const t=[S.current,...S.history].filter(x=>x&&x.rating).map(x=>({n:plName(x),r:x.rating,nick:x.nick||"аноним",tg:x.tags||[],v:x.vavg||null}));if(!t.length)return;
+function archSave(){if(CO.role==="guest")return;const t=[S.current,...S.history].filter(x=>x&&x.rating).map(x=>({n:plName(x),r:x.rating,nick:x.nick||"аноним",tg:x.tags||[],v:x.vavg||null}));if(!t.length){if(S.evId)ls.set("kohb_arch",JSON.stringify(archGet().filter(e=>e.id!==S.evId)));return}
   if(!S.evId)S.evId=Date.now();const a=archGet().filter(e=>e.id!==S.evId);a.push({id:S.evId,d:S.evId,t});ls.set("kohb_arch",JSON.stringify(a.slice(-60)))}
 function finish(sk){if(sk)undoMk();if(S.current)S.history.unshift({...S.current,skipped:!!sk});S.current=null;archSave()}
 function start(item){undoMk(item);finish();votes={};endPick=null;if(brk.on){brk={on:false,until:0};brkUi()}S.current={...item,rating:null,note:"",pl:false,t0:Date.now()};snd("jingle");S.current.name=plRaw(S.current);save();show()}
@@ -875,7 +890,7 @@ document.addEventListener("keydown",e=>{
   if(a&&/INPUT|TEXTAREA/.test(a.tagName)&&a.type!=="range"){if(e.key==="Enter"&&a.id.startsWith("f-"))add();return}
   if(e.ctrlKey||e.metaKey||e.altKey)return;
   const k=e.key.toLowerCase();
-  if(k==="n")next();else if(k==="s")skip();else if(k==="p")toPl();else if(k==="o")openTrack();
+  if(k==="n")next();else if(k==="s")skip();else if(k==="p")toPl();else if(k==="u")unrate();else if(k==="o")openTrack();
   else if(k===" "){e.preventDefault();$("pp").click()}
   else if(k==="m")$("mute").click();
   else if(k==="arrowup"){e.preventDefault();setVol(vol+5)}else if(k==="arrowdown"){e.preventDefault();setVol(vol-5)}
@@ -982,7 +997,7 @@ function onChat(tags,login,msg){
 /* settings UI */
 $("tgrid").innerHTML=THEMES.map(([k,n,g])=>`<button class="tc" data-t="${k}"><div class="pv" style="background:${g}"></div><span>${n}</span></button>`).join("");
 $("tgrid").onclick=e=>{const b=e.target.closest(".tc");if(b)setTheme(b.dataset.t)};
-[["c-coname","coName","s"],["c-autolink","autoLink","b"],["c-pubon","pubOn","b"],["c-pubguess","pubGuess","b"],["c-pubpause","pubPause","b"],["c-pubmsg","pubMsg","s"],["c-pubfx","pubFx","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-pubtw","pubTw","b"],["c-chatdock","chatDock","b"],["c-pubmirror","pubMirror","s"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
+[["c-coname","coName","s"],["c-autolink","autoLink","b"],["c-pubon","pubOn","b"],["c-pubguess","pubGuess","b"],["c-pubpause","pubPause","b"],["c-pubmsg","pubMsg","s"],["c-pubfx","pubFx","b"],["c-pubq","pubQ","b"],["c-pubmod","pubMod","b"],["c-pubtw","pubTw","b"],["c-chatdock","chatDock","b"],["c-devtg","devTg","s"],["c-pubmirror","pubMirror","s"],["c-fxtab","fxTab","b"],["c-fxreq","fxReq","b"],["c-fxauto","fxAuto","b"],["c-fxup","fxUp","b"],["c-fxfind","fxFind","b"],["c-fxundo","fxUndo","b"],["c-cofx","coFx","b"],["c-cosnd","coSnd","b"],["c-cochat","coChat","b"],["c-copp","coPp","b"],["c-conx","coNx","b"],["c-coqu","coQu","b"],["c-coad","coAd","b"],["c-comod","coMod","b"],["c-cobadge","coBadge","b"],["c-corshow","coRShow","b"],["c-chan","chan","s"],["c-bot","bot","b"],["c-cmds","cmds","s"],["c-maxq","maxq","n"],["c-cd","cd","n"],["c-maxmin","maxMin","n"],["c-lenskip","lenSkip","b"],["c-compact","compact","b"],["c-lite","lite","b"],["c-ovchat","ovChat","b"],["c-churl","chatUrl","s"],["c-chx","chX","n"],["c-chy","chY","n"],["c-chw","chW","n"],["c-chh","chH","n"],["c-ovfx","ovFx","b"],["c-ovlogo","ovLogo","b"],["c-accent","accent","s"],["c-scale","scale","n"],["c-hs","hideStats","b"],["c-hh","hideHist","b"],["c-hk","hideKbd","b"],["c-don","donWord","s"],["c-tags","tagList","s"],["c-scrw","scrW","n"],["c-scra","scrAudio","b"],["c-mode","mode","s"],["c-clean","clean","b"],["c-copy","copy","s"],["c-fxbg","fxBg","b"],["c-fxb","fxBurst","b"],["c-ovq","ovq","b"],["c-sndv","sndVol","n"],["c-snd","snd","s"],["c-blind","blind","b"],["c-bann","banNicks","s"],["c-banw","banWords","s"],["c-conf","conf","b"]].forEach(([id,k,ty])=>{
   const el=$(id);if(ty==="b")el.checked=!!cfg[k];else el.value=cfg[k];
   el.onchange=()=>{cfg[k]=ty==="b"?el.checked:ty==="n"?+el.value:el.value.trim();if(k==="chan"){cfg.chan=chanName(el.value);el.value=cfg.chan}cfgSave();applyCfg();bcast();
     if(k==="chan"||k==="bot")twConnect();if(k==="blind"){renderNow(false);renderLists()}
@@ -1015,7 +1030,7 @@ $("d-imp").onclick=()=>$("d-file").click();
 $("d-file").onchange=async e=>{try{const j=JSON.parse(await e.target.files[0].text());if(j.S){S=fixS(j.S);save()}if(Array.isArray(j.arch)&&j.arch.length)ls.set("kohb_arch",JSON.stringify(j.arch.slice(-60)));if(j.cfg){const{room:_r,coKey:_k,coOpen:_o,pubCode:_pc,...jc}=j.cfg;Object.assign(cfg,jc);cfgSave();location.reload();return}show();toast("Импортировано ✓")}catch(x){toast("Не удалось прочитать файл")}};
 /* v26: название по ссылке через сервер (/api/meta), если oEmbed из браузера не ответил */
 const MAINO="https://xkohbfm.vercel.app",DEFCH="xk0hb";
-const APPV="v27";
+const APPV="v28";
 async function metaApi(u){const bases=[""];try{if(MAINO&&location.origin!==MAINO)bases.push(MAINO)}catch(e){}
   for(const b of bases){if(!b&&!/^https?:$/.test(location.protocol))continue;try{const ctl=new AbortController(),tm=setTimeout(()=>ctl.abort(),6000),r=await fetch(b+"/api/meta?url="+encodeURIComponent(u),{signal:ctl.signal});clearTimeout(tm);if(!r.ok)continue;const j=await r.json();if(j&&j.ok&&j.title)return j}catch(e){}}return null}
 /* oEmbed: название и обложка для Spotify / SoundCloud */
@@ -1428,7 +1443,7 @@ function pubStart(){
 function pubWatch(){try{if(!cfg.pubOn)return;if(!pub||pub.destroyed)return pubStart();if(pub.disconnected){try{pub.reconnect()}catch(e){}setTimeout(()=>{if(cfg.pubOn&&pub&&pub.disconnected)pubStart()},6000)}}catch(e){}}
 setInterval(pubWatch,15000);document.addEventListener("visibilitychange",()=>{if(!document.hidden)pubWatch()});
 function siteLive(){let b="";try{b=brk.on?brk.kind:""}catch(e){}return!!cfg.pubLive&&b!=="end"}
-function siteHello(){return{t:"hello",name:cfg.chan||"",rules:{cd:cfg.cd,maxq:cfg.maxq,mod:!!cfg.pubMod},showQ:cfg.pubQ!==false,ch:cfg.chan||DEFCH,tw:cfg.pubTw!==false,live:siteLive(),alt:{m:location.origin,r:pubMir()}}}
+function siteHello(){return{t:"hello",name:cfg.chan||"",rules:{cd:cfg.cd,maxq:cfg.maxq,mod:!!cfg.pubMod},showQ:cfg.pubQ!==false,ch:cfg.chan||DEFCH,tw:cfg.pubTw!==false,live:siteLive(),alt:{m:location.origin,r:pubMir()},dtg:devTgClean()}}
 function siteHelloAll(){pubConns=pubConns.filter(c=>c.open);pubConns.forEach(c=>{try{c.send(siteHello())}catch(e){}})}
 function siteReset(){siteG={id:"",map:{}};pubConns=pubConns.filter(c=>c.open);pubConns.forEach(c=>{try{c.send({t:"reset"})}catch(e){}});sitePush()}
 function siteState(){const c=S.current,bl=cfg.blind,nk=x=>bl?"???":x.nick;let b="";try{b=brk.on?brk.kind:""}catch(e){}
@@ -1449,6 +1464,7 @@ function siteReq(c,m){
   if(m.t==="fx"){if(cfg.pubFx===false)return;const now=Date.now();c._fx=(c._fx||[]).filter(t=>now-t<10000);if(c._fx.length>=8)return;const e=String(m.e||"");if(!["🔥","👏","😂","❤️","💀","🎧","😮","🎉"].includes(e))return;c._fx.push(now);rxAdd(e,nm(m.nick)||"зритель");return}
   if(m.t==="like"){if(cfg.pubFx===false||!S.current||String(S.current.id)!==String(m.id))return;c._lk=c._lk||{};if(c._lk[m.id])return;c._lk[m.id]=1;S.current.lk=(S.current.lk||0)+1;rxAdd("❤️",nm(m.nick)||"зритель");sitePush();return}
   if(m.t==="guess"){if(cfg.pubGuess===false||!S.current||String(S.current.id)!==String(m.id)||S.current.rating)return;const g=Math.round(+m.g);if(!(g>=1&&g<=10))return;if(siteG.id!==String(m.id))siteG={id:String(m.id),map:{}};siteG.map[c.peer||("c"+pubConns.indexOf(c))]=g;sitePush();return}
+  if(m.t==="fb"){const now=Date.now();if(c._fb&&now-c._fb<15000)return;c._fb=now;const x=String(m.x||"").replace(/[\u0000-\u001f]/g," ").trim().slice(0,600);if(x.length<5)return;const k=["idea","bug","other"].includes(m.k)?m.k:"other";let d="";if(m.tech&&typeof m.tech==="object"){d=[m.tech.v,String(m.tech.ua||"").slice(0,30),Array.isArray(m.tech.err)&&m.tech.err.length?"ошибок: "+m.tech.err.length:""].filter(Boolean).join(" · ").slice(0,120)}fbAdd({k,x,nick:nm(m.nick)||"",t:Date.now(),d});return}
   if(m.t!=="req")return;
   const ack=o=>{try{c.send({t:"ack",rid:m.rid,...o})}catch(e){}};
   if(!cfg.pubOn)return ack({ok:false,why:"Приём заказов сейчас выключен"});
@@ -1521,9 +1537,48 @@ function liveUi(){const b=$("live");if(!b)return;const on=!!cfg.pubLive;if(on&&!
 $("live").onclick=()=>{cfg.pubLive=!cfg.pubLive;cfg.pubLiveT=cfg.pubLive?Date.now():0;cfgSave();liveUi();sitePush();siteHelloAll();toast(cfg.pubLive?"🔴 Зрители видят: ты в эфире":"⚪ Зрители видят: ты не в эфире")};
 setInterval(()=>{if(cfg.pubLive&&!document.hidden)liveUi()},1000);liveUi();
 /* v27: чат Twitch слева от плеера */
+const cdMode=()=>document.documentElement.dataset.mode==="light"?"l":"d";
+function cdSet(w,sv){w=Math.max(260,Math.min(560,Math.round(+w||380)));document.documentElement.style.setProperty("--cdw",w+"px");cfg.chatW=w;const r=$("c-chatw");if(r)r.value=w;if(sv)cfgSave()}
 function dockUi(){const d=$("chatdock");if(!d)return;const ch=String(cfg.chan||DEFCH||"").trim(),ok=cfg.chatDock!==false&&/^\w{3,25}$/.test(ch)&&/^https?:$/.test(location.protocol);
-  document.body.classList.toggle("cdock",ok);d.hidden=!ok;const w=$("cd-w"),k=ok?ch:"";if(w.dataset.k===k)return;w.dataset.k=k;if(!ok){w.innerHTML="";return}
-  w.innerHTML='<iframe src="https://www.twitch.tv/embed/'+encodeURIComponent(ch)+'/chat?parent='+encodeURIComponent(location.hostname)+'&darkpopout" title="Чат Twitch" loading="lazy"></iframe>';$("cd-pop").href="https://www.twitch.tv/popout/"+encodeURIComponent(ch)+"/chat?popout="}
+  cdSet(cfg.chatW,false);document.body.classList.toggle("cdock",ok);d.hidden=!ok;const w=$("cd-w"),k=ok?ch+"|"+cdMode():"";if(w.dataset.k===k)return;w.dataset.k=k;if(!ok){w.innerHTML="";return}
+  w.innerHTML='<iframe src="https://www.twitch.tv/embed/'+encodeURIComponent(ch)+'/chat?parent='+encodeURIComponent(location.hostname)+(cdMode()==="d"?"&darkpopout":"")+'" title="Чат Twitch" loading="lazy"></iframe>';$("cd-pop").href="https://www.twitch.tv/popout/"+encodeURIComponent(ch)+"/chat?popout="}
+(function(){const h=$("cd-rs");if(!h)return;let on=false;h.addEventListener("pointerdown",e=>{on=true;document.body.classList.add("cdrag");try{h.setPointerCapture(e.pointerId)}catch(x){}e.preventDefault()});
+  h.addEventListener("pointermove",e=>{if(on)cdSet(e.clientX-10,false)});const up=()=>{if(!on)return;on=false;document.body.classList.remove("cdrag");cfgSave()};h.addEventListener("pointerup",up);h.addEventListener("pointercancel",up)})();
+try{new MutationObserver(()=>dockUi()).observe(document.documentElement,{attributes:true,attributeFilter:["data-mode"]})}catch(e){}
+$("c-chatw").addEventListener("input",e=>cdSet(e.target.value,true));
+/* v28: снять оценку */
+function unrUi(){const b=$("unrate");if(b)b.hidden=!(S.current&&S.current.rating)}
+function unrate(){const c=S.current;if(!c||!c.rating)return;if(CO.role==="guest"){toast("Это делает хозяин комнаты");return}
+  c.rating=null;save();archSave();renderNow(false);renderLists();bcast();sitePush();toast("↺ Оценка снята: зрители снова могут голосовать и угадывать")}
+$("unrate").onclick=unrate;
+/* v28: правка трека из истории */
+var EDI=null;
+const edH=()=>S.history.find(x=>String(x.id)===String(EDI));
+function edUi(){const h=edH();if(!h){$("edm").classList.remove("open");return}
+  $("ed-s").textContent=plName(h)+" · @"+(h.nick||"аноним");
+  $("ed-rate").innerHTML=[1,2,3,4,5,6,7,8,9,10].map(n=>`<button data-er="${n}" class="${h.rating===n?"sel":""}" style="${h.rating===n?"background:"+col(n)+";color:#111":"color:"+col(n)}">${n}</button>`).join("");
+  $("ed-tags").innerHTML=TAGS.map(([e,t])=>`<button class="tg${(h.tags||[]).includes(t)?" on":""}" data-et="${esc(t)}">${e?`<i>${esc(e)}</i>`:""}${esc(t)}</button>`).join("");
+  $("ed-note").value=h.note||"";$("ed-pl").textContent=h.pl?"♥ В плейлисте":"♡ В плейлист";$("ed-pl").classList.toggle("on",!!h.pl);$("ed-un").style.display=h.rating?"":"none"}
+function edSave(){save();archSave();renderLists();sitePush();bcast()}
+function openEd(id){if(CO.role==="guest"){toast("Это делает хозяин комнаты");return}EDI=id;if(!edH())return;$("edm").classList.add("open");edUi()}
+$("hist").addEventListener("click",e=>{const it=e.target.closest("[data-hid]");if(it)openEd(it.dataset.hid)});
+$("edm").addEventListener("click",e=>{const h=edH();if(e.target.id==="edm"){$("edm").classList.remove("open");return}if(!h)return;const r=e.target.closest("[data-er]"),t=e.target.closest("[data-et]");
+  if(r){h.rating=+r.dataset.er;h.skipped=false;edSave();edUi();return}
+  if(t){const a=h.tags||(h.tags=[]),k=a.indexOf(t.dataset.et);if(k>-1)a.splice(k,1);else a.push(t.dataset.et);edSave();edUi()}});
+$("ed-note").oninput=e=>{const h=edH();if(h){h.note=e.target.value;save();renderLists()}};
+$("ed-pl").onclick=()=>{const h=edH();if(!h)return;h.pl=!h.pl;edSave();edUi();if(h.pl)try{enrichPl()}catch(e){}};
+$("ed-un").onclick=()=>{const h=edH();if(!h)return;h.rating=null;edSave();edUi()};
+$("ed-ok").onclick=$("ed-x").onclick=()=>$("edm").classList.remove("open");
+/* v28: идеи и ошибки от зрителей */
+const FBK=KEY.replace(/_fm_v1$/,"")+"_fb";
+const fbGet=()=>{try{const a=JSON.parse(ls.get(FBK)||"[]");return Array.isArray(a)?a:[]}catch(e){return[]}};
+const FBN={idea:"💡 Идея",bug:"🐞 Ошибка",other:"💬 Сообщение"};
+function fbUi(){const a=fbGet(),n=$("fb-n"),l=$("fb-list");if(n)n.textContent=a.length?"· "+a.length:"";if(!l)return;
+  l.innerHTML=a.length?a.map(x=>`<div class="item"><div style="min-width:0"><div class="t">${esc(x.x)}</div><div class="m">${FBN[x.k]||FBN.other} · ${esc(x.nick||"аноним")} · ${new Date(x.t).toLocaleString("ru-RU",{day:"2-digit",month:"2-digit",hour:"2-digit",minute:"2-digit"})}${x.d?" · "+esc(x.d):""}</div></div></div>`).join(""):'<div class="empty">Пока ничего нет. Кнопка 💡 есть на странице зрителей.</div>'}
+function fbAdd(it){const a=fbGet();a.unshift(it);ls.set(FBK,JSON.stringify(a.slice(0,80)));fbUi();toast((FBN[it.k]||FBN.other)+" от зрителя: "+it.x.slice(0,50))}
+const devTgClean=()=>{const t=String(cfg.devTg||"").trim().replace(/^@/,"");return/^\w{4,32}$/.test(t)?t:""};
+$("fb-copy").onclick=async()=>{const t=fbGet().map(x=>"["+(FBN[x.k]||"")+"] "+x.x+" ("+(x.nick||"аноним")+(x.d?", "+x.d:"")+")").join("\n\n");if(!t)return toast("Пока пусто");try{await navigator.clipboard.writeText(t);toast("Скопировано: пришли это разработчику ✓")}catch(e){toast("Не удалось скопировать")}};
+$("fb-clr").onclick=()=>{if(fbGet().length&&confirm("Очистить список идей и ошибок?")){ls.set(FBK,"[]");fbUi()}};fbUi();
 $("cd-x").onclick=()=>{cfg.chatDock=false;cfgSave();$("c-chatdock").checked=false;dockUi()};$("c-chatdock").addEventListener("change",dockUi);$("c-chan").addEventListener("change",dockUi);dockUi();
 /* v27: диагностика связи */
 const dgT=(p,ms)=>Promise.race([p,new Promise(r=>setTimeout(()=>r("таймаут"),ms))]);
