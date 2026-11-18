@@ -591,7 +591,10 @@ details.sg[open] summary{border-bottom:1px solid var(--ln);margin-bottom:6px}
 .tw-c{margin-top:10px;height:420px;border-radius:10px;overflow:hidden;background:#0e0e10}.tw-c iframe{width:100%;height:100%;border:0}
 .rq-alt{margin:6px auto 0;max-width:640px;text-align:center;font-size:12px;color:var(--mut)}.rq-alt a{color:var(--ac)}
 </style>
-<script>window.__errs=[];addEventListener("error",function(e){try{window.__errs.push(String(e.message||"").slice(0,120)+" @"+(e.lineno||""));if(window.__errs.length>8)window.__errs.shift()}catch(x){}});addEventListener("unhandledrejection",function(e){try{window.__errs.push("promise: "+String(e.reason&&e.reason.message||e.reason||"").slice(0,120));if(window.__errs.length>8)window.__errs.shift()}catch(x){}})</script>
+<script>window.__errs=[];(function(){var E=window.__errs;function add(s){try{s=String(s).slice(0,140);if(E.length&&E[E.length-1]===s)return;E.push(s);if(E.length>8)E.shift()}catch(x){}}
+function bn(u){return String(u||"").split("?")[0].split("/").pop()}
+addEventListener("error",function(e){try{var t=e.target;if(t&&t!==window&&(t.src||t.href)){add("не загрузился: "+bn(t.src||t.href));return}add(String(e.message||"").slice(0,100)+" @"+bn(e.filename)+":"+(e.lineno||"")+":"+(e.colno||""))}catch(x){}},true);
+addEventListener("unhandledrejection",function(e){add("promise: "+String(e.reason&&e.reason.message||e.reason||"").slice(0,110))})})()</script>
 <script src="peerjs.min.js"></script>
 <script>window.Peer||document.write('<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"><\/script>')</script>
 <script>window.Peer||document.write('<script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"><\/script>');window.Peer||document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.5.4/peerjs.min.js"><\/script>')</script>
@@ -731,7 +734,7 @@ function diag(k,extra){const n=$("note");const t=MSG[k]||"";$("note-t").innerHTM
 const code=(new URLSearchParams(location.search).get("r")||ls.get(SLUG+"_rq_code")||"").trim();
 if(code)ls.set(SLUG+"_rq_code",code);
 let peer=null,conn=null,rules={cd:30,maxq:3},showQ=true,online=false,got=false,lastSt=null,lastMsg=0,tries=0,retryT=null,connT=null,hiT=null,outbox=null;const pend={};
-var liveF,twCh="",twOn,altI=null,rawSt=null,devTg="",APPV_R="v28";
+var liveF,twCh="",twOn,altI=null,rawSt=null,devTg="",APPV_R="v28.1";
 function airUi(){const a=$("air"),idle=online&&liveF===false;a.textContent=!online?"● ОФФЛАЙН":idle?"● НЕ В ЭФИРЕ":"● В ЭФИРЕ";a.classList.toggle("live",online&&!idle);a.classList.toggle("idle",idle);a.title=!online?"Панель стримера не на связи. Нажми, чтобы переподключиться":idle?"Стримера нет в эфире, но заказы принимаются":"Стример в эфире"}
 function setOnline(v){online=v;airUi();if(v)diag("ok")}
 function start(){
@@ -808,9 +811,16 @@ try{altUi()}catch(e){}
 var fbT="idea";
 $("fbb").onclick=()=>{$("fb-st").textContent="";$("fbm").classList.add("open")};$("fbx").onclick=()=>$("fbm").classList.remove("open");
 $("fbm").addEventListener("click",e=>{if(e.target.id==="fbm")$("fbm").classList.remove("open");const b=e.target.closest("[data-ft]");if(b){fbT=b.dataset.ft;document.querySelectorAll("#fb-ty button").forEach(x=>x.classList.toggle("on",x===b));$("fb-tech").checked=fbT==="bug"||$("fb-tech").checked}});
+function fbTech(){const n=navigator,u=n.userAgent||"",c=n.connection||{};let br="";
+  for(const k of ["Edg","YaBrowser","OPR","Firefox","FxiOS","CriOS","Chrome","Version"]){const r=u.match(new RegExp(k+"\\/[\\d.]+"));if(r){br=r[0].replace("Version","Safari").replace("Edg/","Edge/").replace("OPR/","Opera/");break}}
+  const os=/Android/.test(u)?"Android":/iPhone|iPad|iPod/.test(u)?"iOS":/Windows/.test(u)?"Windows":/Mac OS X/.test(u)?"macOS":/Linux/.test(u)?"Linux":String(n.platform||"").slice(0,20);
+  return{v:APPV_R,ua:br,os,mob:/Mobi|Android|iPhone|iPad/.test(u),on:!!online,age:lastMsg?Math.round((Date.now()-lastMsg)/1000):-1,tr:tries,
+    host:String(location.host||"").slice(0,60),scr:(screen.width||0)+"x"+(screen.height||0),vp:(innerWidth||0)+"x"+(innerHeight||0),dpr:+(devicePixelRatio||1).toFixed(2),
+    lang:String(n.language||"").slice(0,10),tz:-new Date().getTimezoneOffset()/60,net:String(c.effectiveType||"").slice(0,8),
+    th:String(document.documentElement.getAttribute("data-theme")||"").slice(0,12),up:Math.round(performance.now()/1000),err:(window.__errs||[]).slice(-5)}}
 async function fbSend(){const st=$("fb-st"),t=($("fb-t").value||"").trim();if(t.length<5){st.textContent="Напиши хотя бы пару слов";return}
   if(Date.now()-(+ls.get(SLUG+"_rq_fbt")||0)<30000){st.textContent="Подожди полминуты перед следующим сообщением";return}
-  const nick=($("f-n").value||"").trim().slice(0,25),tech=$("fb-tech").checked?{v:APPV_R,ua:((navigator.userAgent||"").match(/(Edg|YaBrowser|OPR|Chrome|Firefox|Safari)\/[\d.]+/)||[""])[0],os:String(navigator.platform||"").slice(0,20),on:!!online,err:(window.__errs||[]).slice(-5)}:null;
+  const nick=($("f-n").value||"").trim().slice(0,25),tech=$("fb-tech").checked?fbTech():null;
   const msg={t:"fb",k:fbT,x:t.slice(0,600),nick,tech};$("fb-go").disabled=true;st.textContent="Отправляю…";let toS=false,toD=false;
   try{if(online&&conn&&conn.open){conn.send(msg);toS=true}}catch(e){}
   const body=JSON.stringify({slug:SLUG,k:fbT,x:msg.x,nick,tech});
