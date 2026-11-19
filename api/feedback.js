@@ -41,10 +41,31 @@ module.exports = async (req, res) => {
   const slug = clean(b.slug, 20) || "?", nick = clean(b.nick, 25);
   let tech = "";
   if (b.tech && typeof b.tech === "object") {
-    const t = b.tech;
-    tech = ["v" + clean(String(t.v || "").replace(/^v/, ""), 8), clean(t.ua, 40), clean(t.os, 20), t.on === false ? "панель офлайн" : "", Array.isArray(t.err) && t.err.length ? "ошибки: " + t.err.slice(-5).map(e => clean(e, 120)).join(" | ") : ""].filter(Boolean).join(" · ").slice(0, 500);
+    const t = b.tech, L = [];
+    const num = v => (typeof v === "number" && isFinite(v) ? v : null);
+    const dim = v => (/^\d{1,5}x\d{1,5}$/.test(String(v)) ? String(v) : "");
+    const ver = clean(String(t.v || "").replace(/^v/, ""), 8);
+    const tz = num(t.tz), dpr = num(t.dpr);
+    const add = (ic, arr) => { const j = arr.filter(Boolean).join(" · "); if (j) L.push(ic + " " + j); };
+    add("📦", [ver ? "v" + ver : "", clean(t.ua, 40), clean(t.os, 20) + (t.mob ? " (телефон)" : ""),
+      dim(t.scr) ? "экран " + dim(t.scr) : "", dim(t.vp) ? "окно " + dim(t.vp) + (dpr && dpr !== 1 ? " ×" + dpr : "") : "",
+      clean(t.lang, 10), tz !== null ? "UTC" + (tz >= 0 ? "+" : "") + tz : ""]);
+    const up = num(t.up);
+    add("🌐", [clean(t.host, 60), clean(t.net, 8) ? "сеть " + clean(t.net, 8) : "", clean(t.th, 12) ? "тема " + clean(t.th, 12) : "", up !== null ? "на странице " + up + " с" : ""]);
+    if (typeof t.on === "boolean") {
+      const age = num(t.age), tr = num(t.tr);
+      let p;
+      if (t.on) p = "онлайн" + (age !== null && age >= 0 ? " (последнее сообщение " + age + " с назад" + (age > 15 ? ", связь могла зависнуть" : "") + ")" : "");
+      else p = "ОФЛАЙН, заказы и сообщения до ведущего не доходят" + (age === -1 ? " (связи не было с открытия страницы)" : age !== null && age >= 0 ? " (последнее сообщение " + age + " с назад)" : "") + (tr ? ", попыток переподключения: " + tr : "");
+      L.push("📡 Панель: " + p);
+    }
+    if (Array.isArray(t.err)) {
+      const e = t.err.slice(-5).map(x => clean(x, 140)).filter(Boolean);
+      L.push(e.length ? "⚠️ Ошибки на странице (" + e.length + "):\n" + e.map(x => " • " + x).join("\n") : "✅ Ошибок на странице нет");
+    }
+    tech = L.join("\n").slice(0, 1100);
   }
-  const text = `${KINDS[b.k] || KINDS.other} · ${slug}${nick ? " · " + nick : ""}\n\n${x}${tech ? "\n\n[" + tech + "]" : ""}`;
+  const text = `${KINDS[b.k] || KINDS.other} · ${slug}${nick ? " · " + nick : ""}\n\n${x}${tech ? "\n\n" + tech : ""}`;
   const jobs = [];
   if (token && chat) jobs.push(post(`https://api.telegram.org/bot${token}/sendMessage`, { chat_id: chat, text: text.slice(0, 3800), disable_web_page_preview: true }));
   if (hook) jobs.push(post(hook, { content: text.slice(0, 1900) }));
